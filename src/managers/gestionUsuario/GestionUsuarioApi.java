@@ -1,10 +1,36 @@
 package managers.gestionUsuario;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GestionUsuarioApi {
     
     private static GestionUsuarioLib lib;
+
+    /**
+     * logearUsuario
+     * 
+     * 
+     * @return
+     */
+
+    public static String loguearUsuario(String usuarioIntento, String claveIntento){
+        if (claveIntento.trim().equals("") || usuarioIntento.trim().equals("")) {
+            return retornarError(-3);
+        }
+        int resultado = -1000;
+        try{
+            resultado = GestionUsuarioLib.intentarIngresar(usuarioIntento, claveIntento);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionUsuarioApi.class.getName()).log(Level.SEVERE, null, ex);
+            return retornarError(-1);
+        }
+        if(resultado == 0){
+            return "OK";
+        }
+        return retornarError(resultado);
+    }
 
     /**
      * crearUsuario
@@ -127,7 +153,13 @@ public class GestionUsuarioApi {
             case -2:
                 mensajeError = "No existe un usuario con es id";
                 break;
+            case -3:
+                mensajeError = "Campo vacios";
+            case -4:
+                mensajeError = "Credenciales incorrectas";
+                break;
             default:
+                mensajeError = "Error inesperado "+codigo;
                 break;
         }
         return mensajeError;
