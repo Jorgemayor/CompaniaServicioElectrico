@@ -10,9 +10,9 @@ public class Conexion {
 
     public static Connection conectar() throws SQLException {
 		
-        String url = "";
-        String usuario = "";
-        String contrasena = "";
+        String url = "jdbc:postgresql://tuffi.db.elephantsql.com:5432/wjhxmbiu";
+        String usuario = "wjhxmbiu";
+        String contrasena = "7HJhNQVnQYd8pAG75HNuMisqgvXT4vZV";
         
         conexion = DriverManager.getConnection(url, usuario, contrasena);
         if (conexion != null) {
