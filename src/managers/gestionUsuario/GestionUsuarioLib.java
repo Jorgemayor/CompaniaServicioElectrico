@@ -24,7 +24,9 @@ public class GestionUsuarioLib {
 		if (respuesta.next()) {
                 String encrypted = AESEncryptor.encrypt(KEY, IV, intentoClave);
                 System.out.println(encrypted);
-				if(respuesta.getString("contrasena").equals(encrypted)){
+                if(!respuesta.getBoolean("habilitado")){
+                    correcto = -5;
+                }else if(respuesta.getString("contrasena").equals(encrypted)){
                     correcto = 0;
                     Principal.arrancarVentanaPrincipal(new Usuario(respuesta.getInt("id"), intentoUsuario, respuesta.getInt("id_rol")));
                 }else{
