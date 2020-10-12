@@ -1,6 +1,9 @@
 package control;
 
 import vista.Login;
+
+import javax.swing.JFrame;
+
 import vista.Inicio;
 
 public class Principal {
@@ -10,6 +13,10 @@ public class Principal {
     }
 
     public static void arrancarVentanaPrincipal(Usuario usuario){
-        new Inicio();
+        Inicio tp = new Inicio();
+        tp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        tp.setSize(600,400);
+        tp.setVisible(true);
+
     }
 }
