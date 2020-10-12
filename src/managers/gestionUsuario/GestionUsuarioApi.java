@@ -158,6 +158,9 @@ public class GestionUsuarioApi {
             case -4:
                 mensajeError = "Credenciales incorrectas";
                 break;
+            case -5:
+                mensajeError = "Usuario desactivado";
+                break;
             default:
                 mensajeError = "Error inesperado "+codigo;
                 break;
