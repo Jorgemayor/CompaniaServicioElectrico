@@ -3,16 +3,40 @@ package vista;
 import java.awt.*;
 import javax.swing.*;
 
+
 public class Inicio extends JFrame {
 
-    public Inicio(){
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JLabel textLabel = new JLabel("holap", SwingConstants.CENTER);
-        textLabel.setPreferredSize(new Dimension(300, 100));
-        getContentPane().add(textLabel, BorderLayout.CENTER);
-        setLocationRelativeTo(null);
-        pack(); 
-        setVisible(true);
+    Color bgColor = new Color(232, 234, 246);
+    // Para crear una nueva pestaña
+    JPanel crearUsuarioPanel = new JPanel();
+    JPanel nuevaTabPanel = new JPanel();
+    JPanel[] paneles = { crearUsuarioPanel, nuevaTabPanel };
+
+    JLabel agregarUsuario = new JLabel("Agregar usuraio");
+    JLabel nuevoPanel = new JLabel("Nuevo panel");
+
+    JTabbedPane tabbedPane = new JTabbedPane();
+
+    ImageIcon img = new ImageIcon("src/assets/icono.png");
+
+    public Inicio() {
+
+        for (int i = 0; i < paneles.length; i++)
+            {
+             paneles[i].setBackground(bgColor);
+            }
+        crearUsuarioPanel.add(agregarUsuario);
+        nuevaTabPanel.add(nuevoPanel);
+
+
+        tabbedPane.add("Agregar usuario", crearUsuarioPanel);
+        tabbedPane.add("Nueva Tab", nuevaTabPanel);
+        add(tabbedPane);
+        setIconImage(img.getImage());
+        setTitle("Electricaribe");
+
+        }
+
     }
 
-}
+
