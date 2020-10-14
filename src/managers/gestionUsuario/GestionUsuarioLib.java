@@ -66,17 +66,30 @@ public class GestionUsuarioLib {
     }
     
     /**
-     * inhabilitarUsuarios
+     * cambiarEstadoUsuarios
      * 
      * Función encargada de inhabilitar un usuario.
      * 
      * @param id_usuario identificador del usuario a inhabilitar.
      * 
-     * @return booleano indicando si se inhabilitó (true) o no (false).
+     * @return booleano indicando el nuevo estado del usuario.
+     * 
+     * @throws SQLException
      */
-    public String inhabilitarUsuarios(int id_usuario) {
-
+    public String cambiarEstadoUsuario(int idUsuario) throws SQLException {
+        Connection conexion = Conexion.conectar();
+        String consultaSQL = "SELECT habilitado FROM usuario WHERE id=?";
+        PreparedStatement consultaEstado = conexion.prepareStatement(consultaSQL);
+        consultaEstado.setInt(1, idUsuario);
+        ResultSet estadoActual = consultaEstado.executeQuery();
+        if(estadoActual.next()){
+            String actualizacionSQL = "UPDATE usuario SET habilitado=? WHERE id=?";
+            PreparedStatement actualizarEstado = conexion.prepareStatement(actualizacionSQL);
+            actualizarEstado.setBoolean(1, !estadoActual.getBoolean("habilitado"));
+            actualizarEstado.setInt(2, idUsuario);
+            actualizarEstado.executeQuery();
+        }
+        Conexion.cerrar();
         return "";
     }
-
 }
