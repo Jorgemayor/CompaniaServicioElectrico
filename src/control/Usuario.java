@@ -1,6 +1,7 @@
 package src.control;
 
 public class Usuario {
+
     private String usuario;
     private int id;
     private int idRol;
@@ -8,9 +9,11 @@ public class Usuario {
     public int getId(){
         return id;
     }
+
     public int getRol(){
         return idRol;
     }
+
     public String getNombreUsuario(){
         return usuario;
     }
