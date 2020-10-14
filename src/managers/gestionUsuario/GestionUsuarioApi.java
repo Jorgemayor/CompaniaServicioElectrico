@@ -1,4 +1,4 @@
-package managers.gestionUsuario;
+package src.managers.gestionUsuario;
 
 import java.sql.SQLException;
 import java.util.logging.Level;

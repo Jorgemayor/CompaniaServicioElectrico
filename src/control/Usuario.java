@@ -1,4 +1,4 @@
-package control;
+package src.control;
 
 public class Usuario {
     private String usuario;

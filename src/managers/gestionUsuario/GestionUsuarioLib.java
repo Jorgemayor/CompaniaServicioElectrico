@@ -1,12 +1,12 @@
-package managers.gestionUsuario;
+package src.managers.gestionUsuario;
 
 import java.sql.*;
-import control.Principal;
-import control.Usuario;
+import src.control.Principal;
+import src.control.Usuario;
 
 import org.sebastian.utils.AESEncryptor;
 
-import control.Conexion;
+import src.control.Conexion;
 
 public class GestionUsuarioLib {
   
