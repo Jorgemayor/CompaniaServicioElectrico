@@ -44,11 +44,11 @@ public class Login extends JFrame {
 
 	public Login() {
 		try {
-			BufferedImage i = ImageIO.read(new File(getClass().getResource("/assets/icono.png").toURI()));
+			BufferedImage i = ImageIO.read(new File(getClass().getResource("/src/assets/icono.png").toURI()));
 			setIconImage(i);
 			setTitle("Electricaribe");
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			BufferedImage bf = ImageIO.read(new File(getClass().getResource("/assets/login.png").toURI()));
+			BufferedImage bf = ImageIO.read(new File(getClass().getResource("/src/assets/login.png").toURI()));
 			setContentPane(new bg(bf));
 			initComponents();
 			getRootPane().setDefaultButton(BIngresar);
