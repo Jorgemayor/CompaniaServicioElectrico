@@ -14,5 +14,4 @@ public class Inicio extends JFrame {
         pack(); 
         setVisible(true);
     }
-
 }
