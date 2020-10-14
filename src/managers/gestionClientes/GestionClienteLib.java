@@ -1,4 +1,4 @@
-package managers.gestionClientes;
+package src.managers.gestionClientes;
 
 public class GestionClienteLib {
     

@@ -1,4 +1,4 @@
-package vista;
+package src.vista;
 
 import java.awt.*;
 import javax.swing.*;
@@ -14,5 +14,4 @@ public class Inicio extends JFrame {
         pack(); 
         setVisible(true);
     }
-
 }

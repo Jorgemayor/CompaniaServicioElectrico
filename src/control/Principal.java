@@ -1,7 +1,7 @@
-package control;
+package src.control;
 
-import vista.Login;
-import vista.Inicio;
+import src.vista.Login;
+import src.vista.Inicio;
 
 public class Principal {
     public static void main(String[] args){

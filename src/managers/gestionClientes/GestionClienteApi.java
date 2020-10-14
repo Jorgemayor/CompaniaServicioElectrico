@@ -1,8 +1,8 @@
-package managers.gestionClientes;
+package src.managers.gestionClientes;
 
 public class GestionClienteApi {
     
-    private static GestionClienteLib lib;
+    private static GestionClienteLib lib = new GestionClienteLib();
 
 
 }
