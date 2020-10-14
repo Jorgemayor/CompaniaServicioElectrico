@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 public class GestionUsuarioApi {
     
-    private static GestionUsuarioLib lib;
+    private static GestionUsuarioLib lib = new GestionUsuarioLib();
 
     /**
      * logearUsuario
@@ -102,33 +102,31 @@ public class GestionUsuarioApi {
     }
     
     /**
-     * inhabilitarUsuarios
+     * cambiarEstadorUsuarios
      * 
-     * Función encargada validar los datos para inhabilitar un usuario.
+     * Función encargada validar los datos para cambiar el estado de un usuario.
      * 
      * @see lib.inhabilitarUsuarios()
      * 
-     * @param idUsuario identificador del usuario a inhabilitar.
+     * @param idUsuario identificador del usuario al que se le cambiará el estado
      * 
-     * @return string indicando si el usuario se inhabilitó (true) o no (false).
+     * @return string indicando el nuevo estado del usuario (true) o no (false).
      */
-    public static String inhabilitarUsuarios(int idUsuario) {
-
+    public static String cambiarEstadoUsuario(int idUsuario) {
         try {
             if(idUsuario < 0) {
                 throw new Exception("-2");
             } else {
-                lib.inhabilitarUsuarios(idUsuario);
+                lib.cambiarEstadoUsuario(idUsuario);
             }
         } catch(SQLException excepcion) {
-
+            System.out.print(excepcion.getMessage());
             return retornarError(-1);
 
         } catch(Exception excepcion) {
-
+            System.out.println(excepcion.getMessage());
             return retornarError(-2);
         }
-
         return "";
     }
 
