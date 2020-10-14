@@ -21,9 +21,9 @@ public class GestionUsuarioApi {
         }
         int resultado = -1000;
         try{
-            resultado = GestionUsuarioLib.intentarIngresar(usuarioIntento, claveIntento);
+            resultado = lib.intentarIngresar(usuarioIntento, claveIntento);
         } catch (SQLException ex) {
-            Logger.getLogger(GestionUsuarioApi.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GestionUsuarioLib.class.getName()).log(Level.SEVERE, null, ex);
             return retornarError(-1);
         }
         if(resultado == 0){

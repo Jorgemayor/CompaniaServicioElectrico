@@ -14,7 +14,7 @@ public class GestionUsuarioLib {
     private static final String KEY = "gn2byqYnYFlJMzG5";
     private static final String IV = "HFNvUwjB1KiOKtJI";
 
-    public static int intentarIngresar(String intentoUsuario, String intentoClave) throws SQLException{
+    public int intentarIngresar(String intentoUsuario, String intentoClave) throws SQLException{
         PreparedStatement consulta;
         int correcto = -4; // arrancar suponiendo que las credenciales son incorrectas, solo se cambia si sí coinciden
         Connection conexion = Conexion.conectar();
