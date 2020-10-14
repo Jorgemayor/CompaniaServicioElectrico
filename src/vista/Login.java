@@ -129,7 +129,7 @@ public class Login extends JFrame {
                         .addComponent(BCerrar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
-        
+
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.CENTER)
             .addGroup(layout.createSequentialGroup()
@@ -189,4 +189,3 @@ public class Login extends JFrame {
         });
     }
 }
-
