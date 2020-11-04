@@ -1,17 +1,17 @@
 package src.vista;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.BorderLayout;
 
-public class Inicio extends JFrame {
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
+public class Inicio extends Container {
 
     public Inicio(){
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JLabel textLabel = new JLabel("holap", SwingConstants.CENTER);
         textLabel.setPreferredSize(new Dimension(300, 100));
-        getContentPane().add(textLabel, BorderLayout.CENTER);
-        setLocationRelativeTo(null);
-        pack(); 
-        setVisible(true);
+        this.add(textLabel, BorderLayout.CENTER);
     }
 }
