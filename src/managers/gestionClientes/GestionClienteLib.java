@@ -9,4 +9,13 @@ public class GestionClienteLib {
 
         return "";
     }
+    public String obtenerCliente(){
+        return "";
+    }
+    public String actualizarCliente(){
+        return "";
+    }
+    public String cambiarEstadoCliente(){
+        return "";
+    }
 }
