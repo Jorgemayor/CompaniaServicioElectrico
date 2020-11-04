@@ -11,5 +11,6 @@ public class Principal {
 
     public static void arrancarVentanaPrincipal(Usuario usuario){
         new VentanaPrincipal();
+        //usuario.generarPdf();
     }
 }
