@@ -1,15 +1,15 @@
-package src.managers.gestionClientes;
+package src.managers.gestionActivos;
 
 import java.sql.SQLException;
 
-public class GestionClienteApi {
+public class GestionActivosApi {
     
-    private static GestionClienteLib lib = new GestionClienteLib();
+    private static GestionActivosLib lib = new GestionActivosLib();
 
-    public static String obtenerClientes(){
+    public static String obtenerActivos(){
         String resultado = "";
         try {
-            resultado = lib.obtenerClientes();
+            resultado = lib.obtenerActivos();
         } catch(SQLException excepcion) {
 
             return retornarError("-1");
@@ -17,21 +17,20 @@ public class GestionClienteApi {
 
         return resultado;
     }
-    public static String agregarCliente(String tipoIdentificacion, int identificacion, String nombre, String direccion, int ciudad){
-
+    public static String registrarActivo(String numeroSerie, String nombre, int ciudad, String estado){
         String resultado = "";
 
         try {
-            if(tipoIdentificacion.trim().equals("")) {
+            if(numeroSerie.trim().equals("")) {
                 throw new Exception("-2");
             } else if(nombre.trim().equals("")) {
                 throw new Exception("-6");
-            } else if(direccion.trim().equals("")) {
+            } else if(estado.trim().equals("")) {
                 throw new Exception("-3");
             } else if(ciudad < 0) {
                 throw new Exception("-4");
             } else {
-                resultado = lib.agregarCliente(tipoIdentificacion, identificacion, nombre, direccion, ciudad);
+                resultado = lib.registrarActivo(numeroSerie, nombre,ciudad,estado);
             }
 
             if(!resultado.equals("0")) {
@@ -44,19 +43,17 @@ public class GestionClienteApi {
         }
         return resultado;
     }
-
-
-    public static boolean actualizarCliente(int idCliente){
-        return true;
+    public static String actualizarActivo(){
+        return "";
     }
-    public static String cambiarEstadoCliente(int idCliente){
+    public static String cambiarEstadoActivo(int idActivo){
         String resultado = "";
 
         try {
-            if(idCliente < 0) {
+            if(idActivo < 0) {
                 throw new Exception("-5");
             } else {
-                resultado = lib.cambiarEstadoCliente(idCliente);
+                resultado = lib.cambiarEstadoActivo(idActivo);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");
@@ -82,18 +79,18 @@ public class GestionClienteApi {
                 mensajeError += "Error al conectarse a la base de datos}";
                 break;
             case -2:
-                mensajeError += "El Tipo de Identificaicón no puede ser vacio}";
+                mensajeError += "El numero de serie no puede ser vacio}";
                 break;
             case -3:
-                mensajeError += "La Direccion no puede ser vacio}";
+                mensajeError += "El Estado no puede ser vacio}";
             case -4:
                 mensajeError += "Ciudad invalida}";
                 break;
             case -5:
-                mensajeError += "No existe un Cliente con ese ID}";
+                mensajeError += "No existe un Actibo con ese ID}";
                 break;
             case -6:
-                mensajeError += "Nombre del cliente no puede ser vació}";
+                mensajeError += "Nombre del Activo no puede ser vació}";
                 break;
             default:
                 mensajeError += "El código de error " + codigo + " no ha sido identificado}";
@@ -101,6 +98,4 @@ public class GestionClienteApi {
         }
         return mensajeError;
     }
-
-
 }
