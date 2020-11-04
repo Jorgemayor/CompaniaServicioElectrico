@@ -1,7 +1,7 @@
 package src.control;
 
 import src.vista.Login;
-import src.vista.Inicio;
+import src.vista.VentanaPrincipal;
 
 public class Principal {
     public static void main(String[] args){
@@ -10,6 +10,6 @@ public class Principal {
     }
 
     public static void arrancarVentanaPrincipal(Usuario usuario){
-        new Inicio();
+        new VentanaPrincipal();
     }
 }
