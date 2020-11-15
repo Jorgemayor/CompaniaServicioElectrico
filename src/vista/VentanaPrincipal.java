@@ -11,8 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import java.awt.image.BufferedImage;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -32,15 +31,17 @@ public class VentanaPrincipal extends JFrame {
     private static final Color COLOR_BOTON_PRESIONADO = new Color(173,174,226);
     private static final Color COLOR_FONDO = new Color(232,234,246);
 
-    public VentanaPrincipal() {
+    public VentanaPrincipal(int rol) {
 
-        iniciarComponentes();
+        iniciarComponentes(rol);
 
     }
 
-    private void iniciarComponentes() {
+    private void iniciarComponentes(int rol) {
 
+        
         this.setBackground(COLOR_FONDO);
+        
         /**
          * Contenedor principal
          */
@@ -71,24 +72,16 @@ public class VentanaPrincipal extends JFrame {
         contenedorPrincipal.add(contenedorMenu);
 
         /**
+         * Contenedor ventana dinámica
+         */
+        contenedorVentanas = new Inicio();
+        contenedorVentanas.setLayout(new BoxLayout(contenedorVentanas, BoxLayout.X_AXIS));
+        contenedorVentanas.setPreferredSize(DIMENSIONES_CONTENEDOR_VENTANA);
+        contenedorPrincipal.add(contenedorVentanas);
+
+        /**
          * Botones menú
          */
-        JButton bFacturas = new JButton("Facturas");
-        bFacturas.setBorderPainted(false);
-        bFacturas.setBackground(COLOR_BOTON);
-        bFacturas.setFocusable(false);
-        JButton bPagos = new JButton("Pagos");
-        bPagos.setBorderPainted(false);
-        bPagos.setBackground(COLOR_BOTON);
-        bPagos.setFocusable(false);
-        JButton bClientes = new JButton("Clientes");
-        bClientes.setBorderPainted(false);
-        bClientes.setBackground(COLOR_BOTON);
-        bClientes.setFocusable(false);
-        JButton bReportes = new JButton("Reportes");
-        bReportes.setBorderPainted(false);
-        bReportes.setBackground(COLOR_BOTON);
-        bReportes.setFocusable(false);
         JButton bUsuarios = new JButton("Usuarios");
         bUsuarios.setBorderPainted(false);
         bUsuarios.setBackground(COLOR_BOTON);
@@ -97,12 +90,45 @@ public class VentanaPrincipal extends JFrame {
         bActivos.setBorderPainted(false);
         bActivos.setBackground(COLOR_BOTON);
         bActivos.setFocusable(false);
-        contenedorMenu.add(bFacturas);
-        contenedorMenu.add(bPagos);
-        contenedorMenu.add(bClientes);
-        contenedorMenu.add(bReportes);
-        contenedorMenu.add(bUsuarios);
-        contenedorMenu.add(bActivos);
+        JButton bConfiguracion = new JButton("Configuración");
+        bConfiguracion.setBorderPainted(false);
+        bConfiguracion.setBackground(COLOR_BOTON);
+        bConfiguracion.setFocusable(false);
+        JButton bFacturas = new JButton("Facturas");
+        bFacturas.setBorderPainted(false);
+        bFacturas.setBackground(COLOR_BOTON);
+        bFacturas.setFocusable(false);
+        JButton bPagos = new JButton("Pagos");
+        bPagos.setBorderPainted(false);
+        bPagos.setBackground(COLOR_BOTON);
+        bPagos.setFocusable(false);
+        JButton bReportes = new JButton("Reportes");
+        bReportes.setBorderPainted(false);
+        bReportes.setBackground(COLOR_BOTON);
+        bReportes.setFocusable(false);
+        JButton bClientes = new JButton("Clientes");
+        bClientes.setBorderPainted(false);
+        bClientes.setBackground(COLOR_BOTON);
+        bClientes.setFocusable(false);
+
+        switch (rol) {
+            case 1: //admin
+                contenedorMenu.add(bUsuarios);
+                contenedorMenu.add(bActivos);
+                contenedorMenu.add(bConfiguracion);
+                break;
+
+            case 2: //gerente
+                contenedorMenu.add(bReportes);
+                break;
+
+            case 3: //operador
+            contenedorMenu.add(bFacturas);
+            contenedorMenu.add(bPagos);
+            contenedorMenu.add(bClientes);
+            break;
+        }
+        
 
         /**
          * Eventos de botones del menú
@@ -115,9 +141,10 @@ public class VentanaPrincipal extends JFrame {
                 bFacturas.setBackground(COLOR_BOTON);
                 bPagos.setBackground(COLOR_BOTON);
                 bClientes.setBackground(COLOR_BOTON);
-                bReportes.setBackground(COLOR_BOTON);
                 bUsuarios.setBackground(COLOR_BOTON);
                 bActivos.setBackground(COLOR_BOTON);
+                bConfiguracion.setBackground(COLOR_BOTON);
+                bReportes.setBackground(COLOR_BOTON);
                 if(e.getSource().equals(bFacturas)){
                     contenedorVentanas = new Facturas();
                     bFacturas.setBackground(COLOR_BOTON_PRESIONADO);
@@ -130,10 +157,6 @@ public class VentanaPrincipal extends JFrame {
                     bClientes.setBackground(COLOR_BOTON_PRESIONADO);
                     contenedorVentanas = new Clientes();
                 }
-                else if(e.getSource().equals(bReportes)){
-                    bReportes.setBackground(COLOR_BOTON_PRESIONADO);
-                    contenedorVentanas = new Reportes();
-                }
                 else if(e.getSource().equals(bUsuarios)){
                     bUsuarios.setBackground(COLOR_BOTON_PRESIONADO);
                     contenedorVentanas = new Usuarios();
@@ -141,6 +164,14 @@ public class VentanaPrincipal extends JFrame {
                 else if(e.getSource().equals(bActivos)){
                     bActivos.setBackground(COLOR_BOTON_PRESIONADO);
                     contenedorVentanas = new Activos();
+                }
+                else if(e.getSource().equals(bConfiguracion)){
+                    bConfiguracion.setBackground(COLOR_BOTON_PRESIONADO);
+                    contenedorVentanas = new Configuracion();
+                }
+                else if(e.getSource().equals(bReportes)){
+                    bReportes.setBackground(COLOR_BOTON_PRESIONADO);
+                    contenedorVentanas = new Reportes();
                 }
                 contenedorVentanas.setLayout(new BoxLayout(contenedorVentanas, BoxLayout.X_AXIS));
                 contenedorPrincipal.add(contenedorVentanas);
@@ -151,17 +182,10 @@ public class VentanaPrincipal extends JFrame {
         bFacturas.addActionListener(escuchaBoton);
         bPagos.addActionListener(escuchaBoton);
         bClientes.addActionListener(escuchaBoton);
-        bReportes.addActionListener(escuchaBoton);
         bUsuarios.addActionListener(escuchaBoton);
         bActivos.addActionListener(escuchaBoton);
-
-        /**
-         * Contenedor ventana dinámica
-         */
-        contenedorVentanas = new Inicio();
-        contenedorVentanas.setLayout(new BoxLayout(contenedorVentanas, BoxLayout.X_AXIS));
-        contenedorVentanas.setPreferredSize(DIMENSIONES_CONTENEDOR_VENTANA);
-        contenedorPrincipal.add(contenedorVentanas);
+        bConfiguracion.addActionListener(escuchaBoton);
+        bReportes.addActionListener(escuchaBoton);
 
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
