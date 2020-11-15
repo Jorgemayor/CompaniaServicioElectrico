@@ -189,7 +189,7 @@ public class GestionUsuarioApi {
                 mensajeError += "Contraseña no puede ser vacía}";
                 break;
             case -8:
-                mensajeError += "Nombre de usuario en uso}";
+                mensajeError += "Nombre de usuario en uso, usa uno diferente}";
                 break;
             default:
                 mensajeError += "El código de error " + codigo + " no ha sido identificado}";
