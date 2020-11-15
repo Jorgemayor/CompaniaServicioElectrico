@@ -10,7 +10,7 @@ public class Principal {
     }
 
     public static void arrancarVentanaPrincipal(Usuario usuario){
-        new VentanaPrincipal();
+        new VentanaPrincipal(usuario.getRol());
         //usuario.generarPdf();
     }
 }
