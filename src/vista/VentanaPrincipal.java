@@ -11,7 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.image.BufferedImage;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -24,38 +25,37 @@ public class VentanaPrincipal extends JFrame {
     private BoxLayout esquemaMenu;
     private BoxLayout esquemaLogo;
 
-    private static final Dimension DIMENSIONES_CONTENEDOR_LOGO = new Dimension(700, 120);
-    private static final Dimension DIMENSIONES_CONTENEDOR_MENU = new Dimension(700, 70);
-    private static final Dimension DIMENSIONES_CONTENEDOR_VENTANA = new Dimension(700, 300);
+    private static final Dimension DIMENSIONES_VENTANA = new Dimension(1280, 720);
+    private static final Dimension DIMENSIONES_CONTENEDOR_LOGO = new Dimension(1280, 120);
+    private static final Dimension DIMENSIONES_CONTENEDOR_MENU = new Dimension(1280, 70);
+    private static final Dimension DIMENSIONES_CONTENEDOR_VENTANA = new Dimension(1280, 530);
     private static final Color COLOR_BOTON = new Color(197,202,233);
     private static final Color COLOR_BOTON_PRESIONADO = new Color(173,174,226);
     private static final Color COLOR_FONDO = new Color(232,234,246);
 
     public VentanaPrincipal(int rol) {
-
+        this.setPreferredSize(DIMENSIONES_VENTANA);
+        this.setBackground(COLOR_FONDO);
+        this.setUndecorated(true);
         iniciarComponentes(rol);
-
     }
 
-    private void iniciarComponentes(int rol) {
-
-        
-        this.setBackground(COLOR_FONDO);
-        
+    private void iniciarComponentes(int rol) {        
         /**
          * Contenedor principal
          */
         contenedorPrincipal = new Container();
-        esquemaPrincipal = new BoxLayout(contenedorPrincipal, BoxLayout.PAGE_AXIS);
+        esquemaPrincipal = new BoxLayout(contenedorPrincipal, BoxLayout.Y_AXIS);
         contenedorPrincipal.setLayout(esquemaPrincipal);
 
         /**
          * Contenedor logo
          */
-        contenedorLogo = new Container();
+        contenedorLogo = new JPanel();
         esquemaLogo = new BoxLayout(contenedorLogo, BoxLayout.X_AXIS);
         contenedorLogo.setLayout(esquemaLogo);
         contenedorLogo.setPreferredSize(DIMENSIONES_CONTENEDOR_LOGO);
+        contenedorLogo.setBackground(Color.BLUE);
         JLabel iconLabel = new JLabel();
         iconLabel.setIcon(new ImageIcon("src/assets/logo.png"));
         iconLabel.setVisible(true);
@@ -110,22 +110,29 @@ public class VentanaPrincipal extends JFrame {
         bClientes.setBorderPainted(false);
         bClientes.setBackground(COLOR_BOTON);
         bClientes.setFocusable(false);
+        JButton bSalir = new JButton("Salir");
+        bSalir.setBorderPainted(false);
+        bSalir.setBackground(COLOR_BOTON);
+        bSalir.setFocusable(false);
 
         switch (rol) {
             case 1: //admin
                 contenedorMenu.add(bUsuarios);
                 contenedorMenu.add(bActivos);
                 contenedorMenu.add(bConfiguracion);
+                contenedorMenu.add(bSalir);
                 break;
 
             case 2: //gerente
                 contenedorMenu.add(bReportes);
+                contenedorMenu.add(bSalir);
                 break;
 
             case 3: //operador
             contenedorMenu.add(bFacturas);
             contenedorMenu.add(bPagos);
             contenedorMenu.add(bClientes);
+            contenedorMenu.add(bSalir);
             break;
         }
         
@@ -137,14 +144,24 @@ public class VentanaPrincipal extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                contenedorPrincipal.remove(contenedorVentanas);
-                bFacturas.setBackground(COLOR_BOTON);
-                bPagos.setBackground(COLOR_BOTON);
-                bClientes.setBackground(COLOR_BOTON);
-                bUsuarios.setBackground(COLOR_BOTON);
-                bActivos.setBackground(COLOR_BOTON);
-                bConfiguracion.setBackground(COLOR_BOTON);
-                bReportes.setBackground(COLOR_BOTON);
+                if(e.getSource().equals(bSalir)){
+                    int salir = JOptionPane.showConfirmDialog(null, "Realmente desea salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if(salir==JOptionPane.YES_OPTION)
+                    {
+                        System.exit(0);
+                    }
+                }
+                else{
+                    contenedorPrincipal.remove(contenedorVentanas);
+                    bFacturas.setBackground(COLOR_BOTON);
+                    bPagos.setBackground(COLOR_BOTON);
+                    bClientes.setBackground(COLOR_BOTON);
+                    bUsuarios.setBackground(COLOR_BOTON);
+                    bActivos.setBackground(COLOR_BOTON);
+                    bConfiguracion.setBackground(COLOR_BOTON);
+                    bReportes.setBackground(COLOR_BOTON);
+                    bSalir.setBackground(COLOR_BOTON);
+                }
                 if(e.getSource().equals(bFacturas)){
                     contenedorVentanas = new Facturas();
                     bFacturas.setBackground(COLOR_BOTON_PRESIONADO);
@@ -186,14 +203,15 @@ public class VentanaPrincipal extends JFrame {
         bActivos.addActionListener(escuchaBoton);
         bConfiguracion.addActionListener(escuchaBoton);
         bReportes.addActionListener(escuchaBoton);
+        bSalir.addActionListener(escuchaBoton);
 
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Compañia de servicio eléctrico");
         this.setContentPane(contenedorPrincipal);
-		this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
-		this.pack();
+        this.pack();
+        this.setLocationRelativeTo(null);
     }
 }
