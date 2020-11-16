@@ -3,6 +3,7 @@ package src.vista;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,6 +24,7 @@ public class CrearUsuario extends Container {
     private JButton enviar = new JButton("Enviar");
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
+    private static final Color COLOR_FONDO = new Color(232,234,246);
 
     public CrearUsuario(){
         iniciarComponentes();
@@ -31,7 +33,7 @@ public class CrearUsuario extends Container {
     private void iniciarComponentes() {
         contenido.setLayout(null);
         contenido.setVisible(true);
-        contenido.setOpaque(false);
+        contenido.setBackground(COLOR_FONDO);
 
         //Titulo
         titulo.setFont(FUENTE_TITULO);
@@ -42,26 +44,26 @@ public class CrearUsuario extends Container {
         //Formulario
         usuario.setFont(FUENTE_ETIQUETAS);
         usuario.setVisible(true);
-        usuario.setBounds(150, 150, 200, 30);
+        usuario.setBounds(500, 150, 200, 30);
         contenido.add(usuario);
         usuarioCampo.setVisible(true);
-        usuarioCampo.setBounds(330, 150, 200, 30);
+        usuarioCampo.setBounds(600, 150, 200, 30);
         contenido.add(usuarioCampo);
 
         contrasena.setFont(FUENTE_ETIQUETAS);
         contrasena.setVisible(true);
-        contrasena.setBounds(790, 150, 150, 30);
+        contrasena.setBounds(460, 250, 150, 30);
         contenido.add(contrasena);
         contrasenaCampo.setVisible(true);
-        contrasenaCampo.setBounds(910, 150, 200, 30);
+        contrasenaCampo.setBounds(600, 250, 200, 30);
         contenido.add(contrasenaCampo);
 
         rol.setFont(FUENTE_ETIQUETAS);
         rol.setVisible(true);
-        rol.setBounds(150, 300, 150, 30);
+        rol.setBounds(545, 350, 150, 30);
         contenido.add(rol);
         rolList.setVisible(true);
-        rolList.setBounds(330, 300, 200, 30);
+        rolList.setBounds(600, 350, 200, 30);
         contenido.add(rolList);
         
         enviar.setFont(FUENTE_ETIQUETAS);

@@ -3,6 +3,7 @@ package src.vista;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,7 +14,7 @@ import javax.swing.JTextField;
 public class ConsultarCliente extends Container {
 
     private JPanel contenido = new JPanel();
-    private JLabel titulo = new JLabel("Consultar Cliente");
+    private JLabel titulo = new JLabel("Consultar Clientes");
     private JLabel identificacion = new JLabel("Identificación");
     private JTextField identificacionCampo = new JTextField();
     private JButton buscar = new JButton("Buscar");
@@ -21,6 +22,7 @@ public class ConsultarCliente extends Container {
     private JTable datos = new JTable();
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
+    private static final Color COLOR_FONDO = new Color(232,234,246);
 
     public ConsultarCliente(){
         iniciarComponentes();
@@ -29,7 +31,7 @@ public class ConsultarCliente extends Container {
     private void iniciarComponentes() {
         contenido.setLayout(null);
         contenido.setVisible(true);
-        contenido.setOpaque(false);
+        contenido.setBackground(COLOR_FONDO);
 
         //Titulo
         titulo.setFont(FUENTE_TITULO);
