@@ -180,7 +180,6 @@ public class VentanaPrincipal extends JFrame {
                 }
                 else if(e.getSource().equals(bActivos)){
                     bActivos.setBackground(COLOR_BOTON_PRESIONADO);
-                    contenedorVentanas = new Activos();
                 }
                 else if(e.getSource().equals(bConfiguracion)){
                     bConfiguracion.setBackground(COLOR_BOTON_PRESIONADO);
