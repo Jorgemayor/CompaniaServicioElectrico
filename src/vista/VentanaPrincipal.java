@@ -11,10 +11,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class VentanaPrincipal extends JFrame {
+
+    private static final Dimension DIMENSIONES_VENTANA = new Dimension(1280, 720);
+    private static final Dimension DIMENSIONES_CONTENEDOR_LOGO = new Dimension(1280, 120);
+    private static final Dimension DIMENSIONES_CONTENEDOR_MENU = new Dimension(1280, 25);
+    private static final Dimension DIMENSIONES_CONTENEDOR_VENTANA = new Dimension(1280, 575);
+    private static final Color COLOR_BOTON = new Color(197,202,233);
+    private static final Color COLOR_BOTON_PRESIONADO = new Color(173,174,226);
+    private static final Color COLOR_FONDO = new Color(232,234,246);
 
     private Container contenedorPrincipal;
     private Container contenedorVentanas;
@@ -25,13 +36,32 @@ public class VentanaPrincipal extends JFrame {
     private BoxLayout esquemaMenu;
     private BoxLayout esquemaLogo;
 
-    private static final Dimension DIMENSIONES_VENTANA = new Dimension(1280, 720);
-    private static final Dimension DIMENSIONES_CONTENEDOR_LOGO = new Dimension(1280, 120);
-    private static final Dimension DIMENSIONES_CONTENEDOR_MENU = new Dimension(1280, 25);
-    private static final Dimension DIMENSIONES_CONTENEDOR_VENTANA = new Dimension(1280, 575);
-    private static final Color COLOR_BOTON = new Color(197,202,233);
-    private static final Color COLOR_BOTON_PRESIONADO = new Color(173,174,226);
-    private static final Color COLOR_FONDO = new Color(232,234,246);
+    private Escucha escucha;
+
+    private JLabel iconLabel;
+
+    private JMenuBar menuDesplegable;
+    private JMenu inicio;
+    private JMenu menuUsuarios;
+    private JMenu menuClientes;
+    private JMenu menuPagos;
+    private JMenu menuFacturas;
+    private JMenu menuReportes;
+    private JMenu menuActivos;
+    private JMenu menuConfiguracion;
+    private JMenu salir;
+
+    private JMenuItem accionActualizarUsuario;
+    private JMenuItem accionModificarUsuario;
+    private JMenuItem accionDeshabilitarUsuario;
+
+    private JMenuItem accionActualizarCliente;
+    private JMenuItem accionModificarCliente;
+    private JMenuItem accionDeshabilitarCliente;
+
+    private JMenuItem accionActualizarActivo;
+    private JMenuItem accionModificarActivo;
+    private JMenuItem accionDeshabilitarActivo;
 
     public VentanaPrincipal(int rol) {
         this.setPreferredSize(DIMENSIONES_VENTANA);
@@ -56,7 +86,9 @@ public class VentanaPrincipal extends JFrame {
         contenedorLogo.setLayout(esquemaLogo);
         contenedorLogo.setPreferredSize(DIMENSIONES_CONTENEDOR_LOGO);
         contenedorLogo.setBackground(Color.BLUE);
-        JLabel iconLabel = new JLabel();
+
+        // Logo
+        iconLabel = new JLabel();
         iconLabel.setIcon(new ImageIcon("src/assets/logo.png"));
         iconLabel.setVisible(true);
         contenedorLogo.add(iconLabel, BoxLayout.X_AXIS);
@@ -79,131 +111,80 @@ public class VentanaPrincipal extends JFrame {
         contenedorVentanas.setPreferredSize(DIMENSIONES_CONTENEDOR_VENTANA);
         contenedorPrincipal.add(contenedorVentanas);
 
+        escucha = new Escucha();
+
         /**
-         * Botones menú
+         * Menú desplegable
          */
-        JButton bUsuarios = new JButton("Usuarios");
-        bUsuarios.setBorderPainted(false);
-        bUsuarios.setBackground(COLOR_BOTON);
-        bUsuarios.setFocusable(false);
-        JButton bActivos = new JButton("Activos");
-        bActivos.setBorderPainted(false);
-        bActivos.setBackground(COLOR_BOTON);
-        bActivos.setFocusable(false);
-        JButton bConfiguracion = new JButton("Configuración");
-        bConfiguracion.setBorderPainted(false);
-        bConfiguracion.setBackground(COLOR_BOTON);
-        bConfiguracion.setFocusable(false);
-        JButton bFacturas = new JButton("Facturas");
-        bFacturas.setBorderPainted(false);
-        bFacturas.setBackground(COLOR_BOTON);
-        bFacturas.setFocusable(false);
-        JButton bPagos = new JButton("Pagos");
-        bPagos.setBorderPainted(false);
-        bPagos.setBackground(COLOR_BOTON);
-        bPagos.setFocusable(false);
-        JButton bReportes = new JButton("Reportes");
-        bReportes.setBorderPainted(false);
-        bReportes.setBackground(COLOR_BOTON);
-        bReportes.setFocusable(false);
-        JButton bClientes = new JButton("Clientes");
-        bClientes.setBorderPainted(false);
-        bClientes.setBackground(COLOR_BOTON);
-        bClientes.setFocusable(false);
-        JButton bSalir = new JButton("Salir");
-        bSalir.setBorderPainted(false);
-        bSalir.setBackground(COLOR_BOTON);
-        bSalir.setFocusable(false);
+        menuDesplegable = new JMenuBar();
+        inicio = new JMenu("Inicio");
+        menuDesplegable.add(inicio);
+
+        menuUsuarios = new JMenu("Usuarios");
+        accionActualizarUsuario = new JMenuItem("Actualizar usuarios");
+        accionModificarUsuario = new JMenuItem("Modificar usuarios");
+        accionDeshabilitarUsuario = new JMenuItem("Deshabilitar usuarios");
+        accionActualizarUsuario.addActionListener(escucha);
+        accionModificarUsuario.addActionListener(escucha);
+        accionDeshabilitarUsuario.addActionListener(escucha);
+        menuUsuarios.add(accionActualizarUsuario);
+        menuUsuarios.add(accionModificarUsuario);
+        menuUsuarios.add(accionDeshabilitarUsuario);
+        
+        menuClientes = new JMenu("Clientes");
+        accionActualizarCliente = new JMenuItem("Actualizar clientes");
+        accionModificarCliente = new JMenuItem("Modificar clientes");
+        accionDeshabilitarCliente = new JMenuItem("Deshabilitar clientes");
+        accionActualizarCliente.addActionListener(escucha);
+        accionModificarCliente.addActionListener(escucha);
+        accionDeshabilitarCliente.addActionListener(escucha);
+        menuClientes.add(accionActualizarCliente);
+        menuClientes.add(accionModificarCliente);
+        menuClientes.add(accionDeshabilitarCliente);
+
+        menuPagos = new JMenu("Pagos");
+        
+        menuFacturas = new JMenu("Facturas");
+        
+        menuReportes = new JMenu("Reportes");
+
+        menuActivos = new JMenu("Activos");
+        accionActualizarActivo = new JMenuItem("Actualizar activos");
+        accionModificarActivo = new JMenuItem("Modificar activos");
+        accionDeshabilitarActivo = new JMenuItem("Deshabilitar activos");
+        accionActualizarActivo.addActionListener(escucha);
+        accionModificarActivo.addActionListener(escucha);
+        accionDeshabilitarActivo.addActionListener(escucha);
+        menuActivos.add(accionActualizarActivo);
+        menuActivos.add(accionModificarActivo);
+        menuActivos.add(accionDeshabilitarActivo);
+
+        menuConfiguracion = new JMenu("Configuración");
+
+        salir = new JMenu("Salir");
 
         switch (rol) {
             case 1: //admin
-                contenedorMenu.add(bUsuarios);
-                contenedorMenu.add(bActivos);
-                contenedorMenu.add(bConfiguracion);
-                contenedorMenu.add(bSalir);
+                menuDesplegable.add(menuUsuarios);
+                menuDesplegable.add(menuActivos);
+                menuDesplegable.add(menuConfiguracion);
+                menuDesplegable.add(salir);
                 break;
 
             case 2: //gerente
-                contenedorMenu.add(bReportes);
-                contenedorMenu.add(bSalir);
+                menuDesplegable.add(menuReportes);
+                menuDesplegable.add(salir);
                 break;
 
             case 3: //operador
-            contenedorMenu.add(bFacturas);
-            contenedorMenu.add(bPagos);
-            contenedorMenu.add(bClientes);
-            contenedorMenu.add(bSalir);
+                menuDesplegable.add(menuFacturas);
+                menuDesplegable.add(menuPagos);
+                menuDesplegable.add(menuClientes);
+                menuDesplegable.add(salir);
             break;
         }
-        
 
-        /**
-         * Eventos de botones del menú
-         */
-        ActionListener escuchaBoton = new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(e.getSource().equals(bSalir)){
-                    int salir = JOptionPane.showConfirmDialog(null, "Realmente desea salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    if(salir==JOptionPane.YES_OPTION)
-                    {
-                        System.exit(0);
-                    }
-                }
-                else{
-                    contenedorPrincipal.remove(contenedorVentanas);
-                    bFacturas.setBackground(COLOR_BOTON);
-                    bPagos.setBackground(COLOR_BOTON);
-                    bClientes.setBackground(COLOR_BOTON);
-                    bUsuarios.setBackground(COLOR_BOTON);
-                    bActivos.setBackground(COLOR_BOTON);
-                    bConfiguracion.setBackground(COLOR_BOTON);
-                    bReportes.setBackground(COLOR_BOTON);
-                    bSalir.setBackground(COLOR_BOTON);
-                }
-                if(e.getSource().equals(bFacturas)){
-                    contenedorVentanas = new Facturas();
-                    bFacturas.setBackground(COLOR_BOTON_PRESIONADO);
-                }
-                else if(e.getSource().equals(bPagos)){
-                    bPagos.setBackground(COLOR_BOTON_PRESIONADO);
-                    contenedorVentanas = new Pagos();
-                }
-                else if(e.getSource().equals(bClientes)){
-                    bClientes.setBackground(COLOR_BOTON_PRESIONADO);
-                    contenedorVentanas = new Clientes();
-                }
-                else if(e.getSource().equals(bUsuarios)){
-                    bUsuarios.setBackground(COLOR_BOTON_PRESIONADO);
-                    contenedorVentanas = new Usuarios();
-                }
-                else if(e.getSource().equals(bActivos)){
-                    bActivos.setBackground(COLOR_BOTON_PRESIONADO);
-                }
-                else if(e.getSource().equals(bConfiguracion)){
-                    bConfiguracion.setBackground(COLOR_BOTON_PRESIONADO);
-                    contenedorVentanas = new Configuracion();
-                }
-                else if(e.getSource().equals(bReportes)){
-                    bReportes.setBackground(COLOR_BOTON_PRESIONADO);
-                    contenedorVentanas = new Reportes();
-                }
-                contenedorVentanas.setLayout(new BoxLayout(contenedorVentanas, BoxLayout.X_AXIS));
-                contenedorPrincipal.add(contenedorVentanas);
-                contenedorPrincipal.validate();
-                contenedorPrincipal.repaint();
-            }
-        };
-        bFacturas.addActionListener(escuchaBoton);
-        bPagos.addActionListener(escuchaBoton);
-        bClientes.addActionListener(escuchaBoton);
-        bUsuarios.addActionListener(escuchaBoton);
-        bActivos.addActionListener(escuchaBoton);
-        bConfiguracion.addActionListener(escuchaBoton);
-        bReportes.addActionListener(escuchaBoton);
-        bSalir.addActionListener(escuchaBoton);
-
+        contenedorMenu.add(menuDesplegable);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Compañia de servicio eléctrico");
@@ -212,5 +193,29 @@ public class VentanaPrincipal extends JFrame {
         this.setVisible(true);
         this.pack();
         this.setLocationRelativeTo(null);
+    }
+
+    private class Escucha implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent evento) {
+
+            JMenuItem itemPresionado = (JMenuItem) evento.getSource();
+
+            if(itemPresionado.equals(salir)) {
+                int respuesta = JOptionPane.showConfirmDialog(null, "Realmente desea salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if(respuesta == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+            else{
+                contenedorPrincipal.remove(contenedorVentanas);
+            }
+
+            contenedorVentanas.setLayout(new BoxLayout(contenedorVentanas, BoxLayout.X_AXIS));
+            contenedorPrincipal.add(contenedorVentanas);
+            contenedorPrincipal.validate();
+            contenedorPrincipal.repaint();
+        }
     }
 }
