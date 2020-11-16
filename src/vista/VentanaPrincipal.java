@@ -38,7 +38,6 @@ public class VentanaPrincipal extends JFrame {
     private JLabel iconLabel;
 
     private JMenuBar menuDesplegable;
-    private JMenuItem inicio;
     private JMenu menuUsuarios;
     private JMenu menuClientes;
     private JMenu menuPagos;
@@ -114,9 +113,6 @@ public class VentanaPrincipal extends JFrame {
          * Menú desplegable
          */
         menuDesplegable = new JMenuBar();
-        inicio = new JMenuItem("Inicio");
-        inicio.addActionListener(escucha);
-        menuDesplegable.add(inicio);
 
         menuUsuarios = new JMenu("Usuarios");
         accionConsultarUsuario = new JMenuItem("Consultar usuarios");
@@ -211,16 +207,20 @@ public class VentanaPrincipal extends JFrame {
                 contenedorPrincipal.remove(contenedorVentanas);
             }
 
-            if(itemPresionado.equals(inicio)){
-                contenedorVentanas = new Inicio();
-            } else if(itemPresionado.equals(accionConsultarActivo)){
+            if(itemPresionado.equals(accionConsultarActivo)){
                 contenedorVentanas = new ConsultarActivos();
+                contenedorVentanas.setLayout(new BoxLayout(contenedorVentanas, BoxLayout.X_AXIS));
+                contenedorVentanas.setPreferredSize(DIMENSIONES_CONTENEDOR_VENTANA);
             }
             else if(itemPresionado.equals(accionModificarActivo)){
                 contenedorVentanas = new ModificarActivos();
+                contenedorVentanas.setLayout(new BoxLayout(contenedorVentanas, BoxLayout.X_AXIS));
+                contenedorVentanas.setPreferredSize(DIMENSIONES_CONTENEDOR_VENTANA);
             }
             else if(itemPresionado.equals(accionDeshabilitarActivo)){
                 contenedorVentanas = new Clientes();
+                contenedorVentanas.setLayout(new BoxLayout(contenedorVentanas, BoxLayout.X_AXIS));
+                contenedorVentanas.setPreferredSize(DIMENSIONES_CONTENEDOR_VENTANA);
             }
             contenedorVentanas.setLayout(new BoxLayout(contenedorVentanas, BoxLayout.X_AXIS));
             contenedorPrincipal.add(contenedorVentanas);
