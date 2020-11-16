@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class CrearActivos extends Container {
+public class CrearActivo extends Container {
 
     private JPanel contenido = new JPanel();
     private JLabel titulo = new JLabel("Crear Activos");
@@ -26,7 +26,7 @@ public class CrearActivos extends Container {
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
 
-    public CrearActivos(){
+    public CrearActivo(){
         iniciarComponentes();
     }
     

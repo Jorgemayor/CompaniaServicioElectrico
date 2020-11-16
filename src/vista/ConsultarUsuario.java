@@ -7,10 +7,10 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-public class Usuarios extends Container {
-
-    public Usuarios(){
-        JLabel textLabel = new JLabel("Usuarios", SwingConstants.CENTER);
+public class ConsultarUsuario extends Container {
+    
+    public ConsultarUsuario(){
+        JLabel textLabel = new JLabel("CrearUsuario", SwingConstants.CENTER);
         textLabel.setVisible(true);
         textLabel.setPreferredSize(new Dimension(300, 100));
         this.add(textLabel, BorderLayout.CENTER);
