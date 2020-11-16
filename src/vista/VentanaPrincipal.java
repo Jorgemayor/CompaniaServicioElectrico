@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -23,8 +22,6 @@ public class VentanaPrincipal extends JFrame {
     private static final Dimension DIMENSIONES_CONTENEDOR_LOGO = new Dimension(1280, 120);
     private static final Dimension DIMENSIONES_CONTENEDOR_MENU = new Dimension(1280, 25);
     private static final Dimension DIMENSIONES_CONTENEDOR_VENTANA = new Dimension(1280, 575);
-    private static final Color COLOR_BOTON = new Color(197,202,233);
-    private static final Color COLOR_BOTON_PRESIONADO = new Color(173,174,226);
     private static final Color COLOR_FONDO = new Color(232,234,246);
 
     private Container contenedorPrincipal;
@@ -51,15 +48,15 @@ public class VentanaPrincipal extends JFrame {
     private JMenu menuConfiguracion;
     private JMenu salir;
 
-    private JMenuItem accionActualizarUsuario;
+    private JMenuItem accionConsultarUsuario;
     private JMenuItem accionModificarUsuario;
     private JMenuItem accionDeshabilitarUsuario;
 
-    private JMenuItem accionActualizarCliente;
+    private JMenuItem accionConsultarCliente;
     private JMenuItem accionModificarCliente;
     private JMenuItem accionDeshabilitarCliente;
 
-    private JMenuItem accionActualizarActivo;
+    private JMenuItem accionConsultarActivo;
     private JMenuItem accionModificarActivo;
     private JMenuItem accionDeshabilitarActivo;
 
@@ -121,24 +118,24 @@ public class VentanaPrincipal extends JFrame {
         menuDesplegable.add(inicio);
 
         menuUsuarios = new JMenu("Usuarios");
-        accionActualizarUsuario = new JMenuItem("Actualizar usuarios");
+        accionConsultarUsuario = new JMenuItem("Consultar usuarios");
         accionModificarUsuario = new JMenuItem("Modificar usuarios");
         accionDeshabilitarUsuario = new JMenuItem("Deshabilitar usuarios");
-        accionActualizarUsuario.addActionListener(escucha);
+        accionConsultarUsuario.addActionListener(escucha);
         accionModificarUsuario.addActionListener(escucha);
         accionDeshabilitarUsuario.addActionListener(escucha);
-        menuUsuarios.add(accionActualizarUsuario);
+        menuUsuarios.add(accionConsultarUsuario);
         menuUsuarios.add(accionModificarUsuario);
         menuUsuarios.add(accionDeshabilitarUsuario);
         
         menuClientes = new JMenu("Clientes");
-        accionActualizarCliente = new JMenuItem("Actualizar clientes");
+        accionConsultarCliente = new JMenuItem("Consultar clientes");
         accionModificarCliente = new JMenuItem("Modificar clientes");
         accionDeshabilitarCliente = new JMenuItem("Deshabilitar clientes");
-        accionActualizarCliente.addActionListener(escucha);
+        accionConsultarCliente.addActionListener(escucha);
         accionModificarCliente.addActionListener(escucha);
         accionDeshabilitarCliente.addActionListener(escucha);
-        menuClientes.add(accionActualizarCliente);
+        menuClientes.add(accionConsultarCliente);
         menuClientes.add(accionModificarCliente);
         menuClientes.add(accionDeshabilitarCliente);
 
@@ -149,13 +146,13 @@ public class VentanaPrincipal extends JFrame {
         menuReportes = new JMenu("Reportes");
 
         menuActivos = new JMenu("Activos");
-        accionActualizarActivo = new JMenuItem("Actualizar activos");
+        accionConsultarActivo = new JMenuItem("Consultar activos");
         accionModificarActivo = new JMenuItem("Modificar activos");
         accionDeshabilitarActivo = new JMenuItem("Deshabilitar activos");
-        accionActualizarActivo.addActionListener(escucha);
+        accionConsultarActivo.addActionListener(escucha);
         accionModificarActivo.addActionListener(escucha);
         accionDeshabilitarActivo.addActionListener(escucha);
-        menuActivos.add(accionActualizarActivo);
+        menuActivos.add(accionConsultarActivo);
         menuActivos.add(accionModificarActivo);
         menuActivos.add(accionDeshabilitarActivo);
 
@@ -212,6 +209,15 @@ public class VentanaPrincipal extends JFrame {
                 contenedorPrincipal.remove(contenedorVentanas);
             }
 
+            if(itemPresionado.equals(accionConsultarActivo)){
+                contenedorVentanas = new ConsultarActivos();
+            }
+            else if(itemPresionado.equals(accionModificarActivo)){
+                contenedorVentanas = new ModificarActivos();
+            }
+            else if(itemPresionado.equals(accionDeshabilitarActivo)){
+                contenedorVentanas = new Clientes();
+            }
             contenedorVentanas.setLayout(new BoxLayout(contenedorVentanas, BoxLayout.X_AXIS));
             contenedorPrincipal.add(contenedorVentanas);
             contenedorPrincipal.validate();
