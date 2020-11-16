@@ -43,8 +43,21 @@ public class GestionActivosApi {
         }
         return resultado;
     }
-    public static String actualizarActivo(){
-        return "";
+    public static String actualizarActivo(int idActivo, String numeroSerie, String nombre, int ciudad){
+        String resultado = "";
+
+        try {
+            if(idActivo < 0) {
+                throw new Exception("-5");
+            } else {
+                resultado = lib.actualizarActivo(idActivo, numeroSerie, nombre,ciudad);
+            }
+        } catch(SQLException excepcion) {
+            return retornarError("-1");
+        } catch(Exception excepcion) {
+            return retornarError(excepcion.getMessage());
+        }
+        return resultado;
     }
     public static String cambiarEstadoActivo(int idActivo){
         String resultado = "";
