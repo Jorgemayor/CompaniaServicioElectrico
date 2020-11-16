@@ -27,8 +27,8 @@ public class VentanaPrincipal extends JFrame {
 
     private static final Dimension DIMENSIONES_VENTANA = new Dimension(1280, 720);
     private static final Dimension DIMENSIONES_CONTENEDOR_LOGO = new Dimension(1280, 120);
-    private static final Dimension DIMENSIONES_CONTENEDOR_MENU = new Dimension(1280, 70);
-    private static final Dimension DIMENSIONES_CONTENEDOR_VENTANA = new Dimension(1280, 530);
+    private static final Dimension DIMENSIONES_CONTENEDOR_MENU = new Dimension(1280, 25);
+    private static final Dimension DIMENSIONES_CONTENEDOR_VENTANA = new Dimension(1280, 575);
     private static final Color COLOR_BOTON = new Color(197,202,233);
     private static final Color COLOR_BOTON_PRESIONADO = new Color(173,174,226);
     private static final Color COLOR_FONDO = new Color(232,234,246);
