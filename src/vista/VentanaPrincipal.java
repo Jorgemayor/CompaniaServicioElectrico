@@ -114,7 +114,7 @@ public class VentanaPrincipal extends JFrame {
          * Menú desplegable
          */
         menuDesplegable = new JMenuBar();
-        inicio = new JMenu("Inicio");
+        inicio = new JMenuItem("Inicio");
         inicio.addActionListener(escucha);
         menuDesplegable.add(inicio);
 
