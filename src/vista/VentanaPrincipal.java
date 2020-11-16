@@ -38,7 +38,7 @@ public class VentanaPrincipal extends JFrame {
     private JLabel iconLabel;
 
     private JMenuBar menuDesplegable;
-    private JMenu inicio;
+    private JMenuItem inicio;
     private JMenu menuUsuarios;
     private JMenu menuClientes;
     private JMenu menuPagos;
@@ -46,7 +46,7 @@ public class VentanaPrincipal extends JFrame {
     private JMenu menuReportes;
     private JMenu menuActivos;
     private JMenu menuConfiguracion;
-    private JMenu salir;
+    private JMenuItem salir;
 
     private JMenuItem accionConsultarUsuario;
     private JMenuItem accionModificarUsuario;
@@ -115,6 +115,7 @@ public class VentanaPrincipal extends JFrame {
          */
         menuDesplegable = new JMenuBar();
         inicio = new JMenu("Inicio");
+        inicio.addActionListener(escucha);
         menuDesplegable.add(inicio);
 
         menuUsuarios = new JMenu("Usuarios");
@@ -158,7 +159,8 @@ public class VentanaPrincipal extends JFrame {
 
         menuConfiguracion = new JMenu("Configuración");
 
-        salir = new JMenu("Salir");
+        salir = new JMenuItem("Salir");
+        salir.addActionListener(escucha);
 
         switch (rol) {
             case 1: //admin
@@ -209,7 +211,9 @@ public class VentanaPrincipal extends JFrame {
                 contenedorPrincipal.remove(contenedorVentanas);
             }
 
-            if(itemPresionado.equals(accionConsultarActivo)){
+            if(itemPresionado.equals(inicio)){
+                contenedorVentanas = new Inicio();
+            } else if(itemPresionado.equals(accionConsultarActivo)){
                 contenedorVentanas = new ConsultarActivos();
             }
             else if(itemPresionado.equals(accionModificarActivo)){
