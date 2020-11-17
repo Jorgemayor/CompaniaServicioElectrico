@@ -3,6 +3,8 @@ package src.vista;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Color;
 
 import javax.swing.JButton;
@@ -11,78 +13,107 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import src.managers.gestionUsuario.GestionUsuarioApi;
+
 public class CrearUsuario extends Container {
 
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
-    private static final Color COLOR_FONDO = new Color(232,234,246);
+    private static final Color COLOR_FONDO = new Color(232, 234, 246);
 
-    private JPanel contenido;
-    private JLabel titulo;
-    private JLabel usuario;
-    private JTextField usuarioCampo;
-    private JLabel contrasena;
-    private JTextField contrasenaCampo;
-    private JLabel rol;
-    private JComboBox rolList;
-    private JButton enviar;
+    private JPanel contenedor;
+    private JLabel etiquetaTitulo;
+    private JLabel etiquetaUsuario;
+    private JTextField campoUsuario;
+    private JLabel etiquetaContrasena;
+    private JTextField campoContrasena;
+    private JLabel etiquetaRol;
+    private JComboBox<String> selectorRol;
+    private JButton botonEnviar;
 
-    public CrearUsuario(){
+    public CrearUsuario() {
         iniciarComponentes();
     }
-    
+
     private void iniciarComponentes() {
 
-        contenido = new JPanel();
-        titulo = new JLabel("Crear Usuario");
-        usuario = new JLabel("Usuario");
-        usuarioCampo = new JTextField();
-        contrasena = new JLabel("Contraseña");
-        contrasenaCampo = new JTextField();
-        rol = new JLabel("Rol");
-        rolList = new JComboBox();
-        enviar = new JButton("Enviar");
+        contenedor = new JPanel();
+        etiquetaTitulo = new JLabel("Crear Usuario");
+        etiquetaUsuario = new JLabel("Usuario");
+        campoUsuario = new JTextField();
+        etiquetaContrasena = new JLabel("Contraseña");
+        campoContrasena = new JTextField();
+        etiquetaRol = new JLabel("Rol");
+        selectorRol = new JComboBox<String>();
+        botonEnviar = new JButton("Enviar");
 
-        contenido.setLayout(null);
-        contenido.setVisible(true);
-        contenido.setBackground(COLOR_FONDO);
+        contenedor.setLayout(null);
+        contenedor.setVisible(true);
+        contenedor.setBackground(COLOR_FONDO);
 
-        //Titulo
-        titulo.setFont(FUENTE_TITULO);
-        titulo.setVisible(true);
-        titulo.setBounds(550, 30, 200, 25);
-        contenido.add(titulo);
+        // Titulo
+        etiquetaTitulo.setFont(FUENTE_TITULO);
+        etiquetaTitulo.setVisible(true);
+        etiquetaTitulo.setBounds(550, 30, 200, 25);
+        contenedor.add(etiquetaTitulo);
 
-        //Formulario
-        usuario.setFont(FUENTE_ETIQUETAS);
-        usuario.setVisible(true);
-        usuario.setBounds(500, 150, 200, 30);
-        contenido.add(usuario);
-        usuarioCampo.setVisible(true);
-        usuarioCampo.setBounds(600, 150, 200, 30);
-        contenido.add(usuarioCampo);
+        // Formulario
 
-        contrasena.setFont(FUENTE_ETIQUETAS);
-        contrasena.setVisible(true);
-        contrasena.setBounds(460, 250, 150, 30);
-        contenido.add(contrasena);
-        contrasenaCampo.setVisible(true);
-        contrasenaCampo.setBounds(600, 250, 200, 30);
-        contenido.add(contrasenaCampo);
+        // Nombre de usuario
+        etiquetaUsuario.setFont(FUENTE_ETIQUETAS);
+        etiquetaUsuario.setVisible(true);
+        etiquetaUsuario.setBounds(500, 150, 200, 30);
+        contenedor.add(etiquetaUsuario);
 
-        rol.setFont(FUENTE_ETIQUETAS);
-        rol.setVisible(true);
-        rol.setBounds(545, 350, 150, 30);
-        contenido.add(rol);
-        rolList.setVisible(true);
-        rolList.setBounds(600, 350, 200, 30);
-        contenido.add(rolList);
-        
-        enviar.setFont(FUENTE_ETIQUETAS);
-        enviar.setVisible(true);
-        enviar.setBounds(550, 450, 200, 30);
-        contenido.add(enviar);
+        campoUsuario.setVisible(true);
+        campoUsuario.setBounds(600, 150, 200, 30);
+        contenedor.add(campoUsuario);
 
-        this.add(contenido, BorderLayout.CENTER);
+        // Contrasena
+        etiquetaContrasena.setFont(FUENTE_ETIQUETAS);
+        etiquetaContrasena.setVisible(true);
+        etiquetaContrasena.setBounds(460, 250, 150, 30);
+        contenedor.add(etiquetaContrasena);
+
+        campoContrasena.setVisible(true);
+        campoContrasena.setBounds(600, 250, 200, 30);
+        contenedor.add(campoContrasena);
+
+        // Rol
+        etiquetaRol.setFont(FUENTE_ETIQUETAS);
+        etiquetaRol.setVisible(true);
+        etiquetaRol.setBounds(545, 350, 150, 30);
+        contenedor.add(etiquetaRol);
+
+        selectorRol.setVisible(true);
+        selectorRol.setBounds(600, 350, 200, 30);
+        selectorRol.addItem("Administrador");
+        selectorRol.addItem("Gerente");
+        selectorRol.addItem("Operador");
+        contenedor.add(selectorRol);
+
+        botonEnviar.setFont(FUENTE_ETIQUETAS);
+        botonEnviar.setVisible(true);
+        botonEnviar.setBounds(550, 450, 200, 30);
+        botonEnviar.addActionListener(new ActionListener() {
+           @Override
+            public void actionPerformed(ActionEvent event) {
+
+                String nombreUsuario = campoUsuario.getText();
+                String contrasena = campoContrasena.getText();
+                String rol = (String)selectorRol.getSelectedItem();
+                int idRol = 0;
+                if(rol.equals("Administrador"))
+                    idRol = 1;
+                else if(rol.equals("Gerente"))
+                    idRol = 2;
+                else if(rol.equals("Operador"))
+                    idRol = 3;
+                String resultado = GestionUsuarioApi.crearUsuario(nombreUsuario, contrasena, idRol);
+                System.out.print(resultado);
+            }
+		});
+        contenedor.add(botonEnviar);
+        this.add(contenedor, BorderLayout.CENTER);
     }
 }

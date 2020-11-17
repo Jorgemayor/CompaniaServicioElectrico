@@ -82,7 +82,7 @@ public class GestionUsuarioApi {
                 throw new Exception("-6");
             } else if(contrasena.trim().equals("")) {
                 throw new Exception("-7");
-            } else if(idRol < 0 && idRol > 2) {
+            } else if(idRol < 1 && idRol > 3) {
                 throw new Exception("-3");
             } else {
                 resultado = lib.crearUsuario(nombre, contrasena, idRol);
@@ -92,6 +92,7 @@ public class GestionUsuarioApi {
                 throw new Exception(resultado);
             }
         } catch(SQLException excepcion) {
+            System.out.println(excepcion.getMessage());
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
