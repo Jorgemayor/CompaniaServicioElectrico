@@ -13,26 +13,39 @@ import javax.swing.JTextField;
 
 public class CrearActivo extends Container {
 
-    private JPanel contenido = new JPanel();
-    private JLabel titulo = new JLabel("Crear Activos");
-    private JLabel numSerie = new JLabel("Número de Serie");
-    private JTextField numSerieCampo = new JTextField();
-    private JLabel nombre = new JLabel("Nombre");
-    private JTextField nombreCampo = new JTextField();
-    private JLabel ciudad = new JLabel("Ciudad");
-    private JComboBox ciudadList = new JComboBox();
-    private JLabel estado = new JLabel("Estado");
-    private JComboBox estadoList = new JComboBox();
-    private JButton enviar = new JButton("Enviar");
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
     private static final Color COLOR_FONDO = new Color(232,234,246);
+
+    private JPanel contenido;
+    private JLabel titulo;
+    private JLabel numSerie;
+    private JTextField numSerieCampo;
+    private JLabel nombre;
+    private JTextField nombreCampo;
+    private JLabel ciudad;
+    private JComboBox ciudadList;
+    private JLabel estado;
+    private JComboBox estadoList;
+    private JButton enviar;
 
     public CrearActivo(){
         iniciarComponentes();
     }
     
     private void iniciarComponentes() {
+
+        contenido = new JPanel();
+        titulo = new JLabel("Crear Activos");
+        numSerie = new JLabel("Número de Serie");
+        numSerieCampo = new JTextField();
+        nombre = new JLabel("Nombre");
+        nombreCampo = new JTextField();
+        ciudad = new JLabel("Ciudad");
+        ciudadList = new JComboBox();
+        estado = new JLabel("Estado");
+        estadoList = new JComboBox();
+        enviar = new JButton("Enviar");
 
         contenido.setLayout(null);
         contenido.setVisible(true);

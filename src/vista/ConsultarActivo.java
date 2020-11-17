@@ -13,22 +13,32 @@ import javax.swing.JTextField;
 
 public class ConsultarActivo extends Container {
 
-    private JPanel contenido = new JPanel();
-    private JLabel titulo = new JLabel("Consultar Activos");
-    private JLabel numSerie = new JLabel("Número de Serie");
-    private JTextField numSerieCampo = new JTextField();
-    private JButton buscar = new JButton("Buscar");
-    private JButton mostrarTodos = new JButton("Mostrar Todos");
-    private JTable datos = new JTable();
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
     private static final Color COLOR_FONDO = new Color(232,234,246);
+
+    private JPanel contenido;
+    private JLabel titulo;
+    private JLabel numSerie;
+    private JTextField numSerieCampo;
+    private JButton buscar;
+    private JButton mostrarTodos;
+    private JTable datos;
 
     public ConsultarActivo(){
         iniciarComponentes();
     }
     
     private void iniciarComponentes() {
+
+        contenido = new JPanel();
+        titulo = new JLabel("Consultar Activos");
+        numSerie = new JLabel("Número de Serie");
+        numSerieCampo = new JTextField();
+        buscar = new JButton("Buscar");
+        mostrarTodos = new JButton("Mostrar Todos");
+        JTable datos = new JTable();
+
         contenido.setLayout(null);
         contenido.setVisible(true);
         contenido.setBackground(COLOR_FONDO);

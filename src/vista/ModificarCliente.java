@@ -13,29 +13,46 @@ import javax.swing.JTextField;
 
 public class ModificarCliente extends Container {
 
-    private JPanel contenido = new JPanel();
-    private JLabel titulo = new JLabel("Modificar Cliente");
-    private JLabel tipoId = new JLabel("Tipo de ID");
-    private JComboBox tipoIdList = new JComboBox();
-    private JLabel identificacion = new JLabel("ID");
-    private JTextField identificacionCampo = new JTextField();
-    private JButton ver = new JButton("ver");
-    private JLabel nombre = new JLabel("Nombre");
-    private JTextField nombreCampo = new JTextField();
-    private JLabel direccion = new JLabel("Dirección");
-    private JTextField direccionCampo = new JTextField();
-    private JLabel ciudad = new JLabel("ciudad");
-    private JComboBox ciudadList = new JComboBox();
-    private JButton enviar = new JButton("Enviar Cambios");
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
     private static final Color COLOR_FONDO = new Color(232,234,246);
+
+    private JPanel contenido;
+    private JLabel titulo;
+    private JLabel tipoId;
+    private JComboBox tipoIdList;
+    private JLabel identificacion;
+    private JTextField identificacionCampo;
+    private JButton ver;
+    private JLabel nombre;
+    private JTextField nombreCampo;
+    private JLabel direccion;
+    private JTextField direccionCampo;
+    private JLabel ciudad;
+    private JComboBox ciudadList;
+    private JButton enviar;
 
     public ModificarCliente(){
         iniciarComponentes();
     }
     
     private void iniciarComponentes() {
+
+        contenido = new JPanel();
+        titulo = new JLabel("Modificar Cliente");
+        tipoId = new JLabel("Tipo de ID");
+        tipoIdList = new JComboBox();
+        identificacion = new JLabel("ID");
+        identificacionCampo = new JTextField();
+        ver = new JButton("ver");
+        nombre = new JLabel("Nombre");
+        nombreCampo = new JTextField();
+        direccion = new JLabel("Dirección");
+        direccionCampo = new JTextField();
+        ciudad = new JLabel("ciudad");
+        ciudadList = new JComboBox();
+        enviar = new JButton("Enviar Cambios");
+
         contenido.setLayout(null);
         contenido.setVisible(true);
         contenido.setBackground(COLOR_FONDO);

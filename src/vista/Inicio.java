@@ -11,11 +11,15 @@ import javax.swing.JLabel;
 
 public class Inicio extends Container {
 
+    private JLabel imagenBienvenida;
+    private ImageIcon laImagen;
+    private Icon imagenAjustada;
+
     public Inicio() {
-        JLabel imagenBienvenida = new JLabel();
+        imagenBienvenida = new JLabel();
         imagenBienvenida.setSize(new Dimension(1280, 575));
-        ImageIcon laImagen = new ImageIcon("src/assets/inicio.png");
-        Icon imagenAjustada = new ImageIcon(laImagen.getImage().getScaledInstance(imagenBienvenida.getWidth(),imagenBienvenida.getHeight(),Image.SCALE_DEFAULT));
+        laImagen = new ImageIcon("src/assets/inicio.png");
+        imagenAjustada = new ImageIcon(laImagen.getImage().getScaledInstance(imagenBienvenida.getWidth(),imagenBienvenida.getHeight(),Image.SCALE_DEFAULT));
         imagenBienvenida.setIcon(imagenAjustada);
         imagenBienvenida.setVisible(true);
         this.add(imagenBienvenida, BorderLayout.CENTER);
