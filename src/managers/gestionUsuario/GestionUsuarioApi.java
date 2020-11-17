@@ -1,4 +1,4 @@
-package managers.gestionUsuario;
+package src.managers.gestionUsuario;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 public class GestionUsuarioApi {
     
-    private static GestionUsuarioLib lib;
+    private static GestionUsuarioLib lib = new GestionUsuarioLib();
 
     /**
      * logearUsuario
@@ -15,21 +15,27 @@ public class GestionUsuarioApi {
      * @return
      */
 
-    public static String loguearUsuario(String usuarioIntento, String claveIntento){
-        if (claveIntento.trim().equals("") || usuarioIntento.trim().equals("")) {
-            return retornarError(-3);
+    public static String loguearUsuario(String usuarioIntento, String claveIntento) {
+
+        String resultado = "-99";
+
+        if(claveIntento.trim().equals("")) {
+            return retornarError("-7");
+        } else if(usuarioIntento.trim().equals("")) {
+            return retornarError("-6");
         }
-        int resultado = -1000;
-        try{
-            resultado = GestionUsuarioLib.intentarIngresar(usuarioIntento, claveIntento);
-        } catch (SQLException ex) {
-            Logger.getLogger(GestionUsuarioApi.class.getName()).log(Level.SEVERE, null, ex);
-            return retornarError(-1);
+        
+        try {
+            resultado = lib.ingresar(usuarioIntento, claveIntento);
+        } catch (SQLException excepcion) {
+            Logger.getLogger(GestionUsuarioLib.class.getName()).log(Level.SEVERE, null, excepcion);
+            return retornarError("-1");
         }
-        if(resultado == 0){
+
+        if(resultado.equals("0")) {
             return "OK";
         }
-        return retornarError(resultado);
+        return retornarError("-99");
     }
 
     /**
@@ -49,7 +55,7 @@ public class GestionUsuarioApi {
             resultado = lib.obtenerUsuarios();
         } catch(SQLException excepcion) {
 
-            return retornarError(-1);
+            return retornarError("-1");
         }
 
         return resultado;
@@ -71,22 +77,30 @@ public class GestionUsuarioApi {
 
         String resultado = "";
 
-        if(nombre == "") {
-            
-        } else if(contrasena == "") {
+        try {
+            if(nombre.trim().equals("")) {
+                throw new Exception("-6");
+            } else if(contrasena.trim().equals("")) {
+                throw new Exception("-7");
+            } else if(idRol < 0 && idRol > 2) {
+                throw new Exception("-3");
+            } else {
+                resultado = lib.crearUsuario(nombre, contrasena, idRol);
+            }
 
-        } else if(idRol < 0 && idRol > 2) {
-
-        } else {
-
-            resultado = lib.crearUsuario(nombre, contrasena, idRol);
+            if(!resultado.equals("0")) {
+                throw new Exception(resultado);
+            }
+        } catch(SQLException excepcion) {
+            return retornarError("-1");
+        } catch(Exception excepcion) {
+            return retornarError(excepcion.getMessage());
         }
-
         return resultado;
     }
 
     /**
-     * actualizarUsuarios
+     * actualizarUsuario
      * 
      * Función encargada de validar los datos para 
      * actualizar un usuario.
@@ -96,40 +110,38 @@ public class GestionUsuarioApi {
      * @return booleano indicando si el usuario se actualizó (true)
      * o no (false).
      */
-    public static boolean actualizarUsuarios(int idUsuario) {
+    public static boolean actualizarUsuario(int idUsuario) {
 
         return true;
     }
     
     /**
-     * inhabilitarUsuarios
+     * cambiarEstadoUsuario
      * 
-     * Función encargada validar los datos para inhabilitar un usuario.
+     * Función encargada validar los datos para cambiar el estado de un usuario.
      * 
      * @see lib.inhabilitarUsuarios()
      * 
-     * @param idUsuario identificador del usuario a inhabilitar.
+     * @param idUsuario identificador del usuario al que se le cambiará el estado
      * 
-     * @return string indicando si el usuario se inhabilitó (true) o no (false).
+     * @return string indicando el resultado del cambio de estado.
      */
-    public static String inhabilitarUsuarios(int idUsuario) {
+    public static String cambiarEstadoUsuario(int idUsuario) {
+
+        String resultado = "";
 
         try {
             if(idUsuario < 0) {
                 throw new Exception("-2");
             } else {
-                lib.inhabilitarUsuarios(idUsuario);
+                resultado = lib.cambiarEstadoUsuario(idUsuario);
             }
         } catch(SQLException excepcion) {
-
-            return retornarError(-1);
-
+            return retornarError("-1");
         } catch(Exception excepcion) {
-
-            return retornarError(-2);
+            return retornarError(excepcion.getMessage());
         }
-
-        return "";
+        return resultado;
     }
 
     /**
@@ -140,29 +152,47 @@ public class GestionUsuarioApi {
      * 
      * @param codigo código especificando el error ocurrido.
      * 
-     * @return JSON con las características del error.
+     * @return String con las características del error.
      */
-    private static String retornarError(int codigo) {
+    private static String retornarError(String codigoExcepcion) {
 
-        String mensajeError = "";
+        String mensajeError = "{ \"code\": ";
+        int codigo;
+        
+        try {
+            codigo = Integer.parseInt(codigoExcepcion);
+        } catch (NumberFormatException excepcion) {
+            return "Error inesperado: " + codigoExcepcion;
+        }
+
+        mensajeError += codigoExcepcion + ",  \"mensaje\": ";
 
         switch(codigo) {
             case -1:
-                mensajeError = "Error al conectarse a la base de datos";
+                mensajeError += "Error al conectarse a la base de datos}";
                 break;
             case -2:
-                mensajeError = "No existe un usuario con es id";
+                mensajeError += "No existe un usuario con es id}";
                 break;
             case -3:
-                mensajeError = "Campo vacios";
+                mensajeError += "Rol inválido}";
             case -4:
-                mensajeError = "Credenciales incorrectas";
+                mensajeError += "Credenciales incorrectas}";
                 break;
             case -5:
-                mensajeError = "Usuario desactivado";
+                mensajeError += "Usuario desactivado}";
+                break;
+            case -6:
+                mensajeError += "Nombre de usuario no puede ser vació}";
+                break;
+            case -7:
+                mensajeError += "Contraseña no puede ser vacía}";
+                break;
+            case -8:
+                mensajeError += "Nombre de usuario en uso}";
                 break;
             default:
-                mensajeError = "Error inesperado "+codigo;
+                mensajeError += "El código de error " + codigo + " no ha sido identificado}";
                 break;
         }
         return mensajeError;

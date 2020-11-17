@@ -1,12 +1,12 @@
-package managers.gestionUsuario;
+package src.managers.gestionUsuario;
 
 import java.sql.*;
-import control.Principal;
-import control.Usuario;
+import src.control.Principal;
+import src.control.Usuario;
 
 import org.sebastian.utils.AESEncryptor;
 
-import control.Conexion;
+import src.control.Conexion;
 
 public class GestionUsuarioLib {
   
@@ -14,69 +14,108 @@ public class GestionUsuarioLib {
     private static final String KEY = "gn2byqYnYFlJMzG5";
     private static final String IV = "HFNvUwjB1KiOKtJI";
 
-    public static int intentarIngresar(String intentoUsuario, String intentoClave) throws SQLException{
+    public String ingresar(String intentoUsuario, String intentoClave) throws SQLException {
         PreparedStatement consulta;
-        int correcto = -4; // arrancar suponiendo que las credenciales son incorrectas, solo se cambia si sí coinciden
+        String resultado = "-4"; // arrancar suponiendo que las credenciales son incorrectas, solo se cambia si sí coinciden
         Connection conexion = Conexion.conectar();
+
         consulta = conexion.prepareStatement("SELECT id, contrasena, id_rol, habilitado FROM usuario WHERE usuario = ?");
         consulta.setString(1, intentoUsuario);
         ResultSet respuesta = consulta.executeQuery();
-		if (respuesta.next()) {
-                String encrypted = AESEncryptor.encrypt(KEY, IV, intentoClave);
-                System.out.println(encrypted);
-                if(!respuesta.getBoolean("habilitado")){
-                    correcto = -5;
-                }else if(respuesta.getString("contrasena").equals(encrypted)){
-                    correcto = 0;
-                    Principal.arrancarVentanaPrincipal(new Usuario(respuesta.getInt("id"), intentoUsuario, respuesta.getInt("id_rol")));
-                }else{
-                    correcto = -4;
-                }
-			}else{
-                return -4; // error de credenciales
+
+		if(respuesta.next()) {
+            String encrypted = AESEncryptor.encrypt(KEY, IV, intentoClave);
+            System.out.println(encrypted);
+
+            if(!respuesta.getBoolean("habilitado")){
+                resultado = "-5";
+            } else if(respuesta.getString("contrasena").equals(encrypted)) {
+                resultado = "0";
+                Principal.arrancarVentanaPrincipal(new Usuario(respuesta.getInt("id"), intentoUsuario, respuesta.getInt("id_rol")));
+            } else {
+                resultado = "-4";
             }
+		} else {
+            return "-4"; // error de credenciales
+        }
+
         conexion.close();
-		return correcto;
+		return resultado;
     }
 
     public String obtenerUsuarios() throws SQLException {
 
         Connection conexion = Conexion.conectar();
 
-        String consultaSQL = "SELECT * FROM usuario WHERE habilitado = true;";
+        String consultaSQL = "SELECT * FROM usuario WHERE habilitado = ?";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
+        consulta.setBoolean(1, true);
         ResultSet respuesta = consulta.executeQuery();
 
-        Conexion.cerrar();
+        conexion.close();
 
         return respuesta.toString();
     }
 
-    public String crearUsuario(String nombre, String contrasena, int id_rol) {
+    public String crearUsuario(String nombre, String contrasena, int idRol) throws SQLException {
 
-        //Insercion
+        Connection conexion = Conexion.conectar();
+        String respuesta = "";
 
-        return "";
+        String consultaSQL = "SELECT * FROM usuario WHERE habilitado = ?";
+        PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
+        consulta.setString(1, nombre);
+        ResultSet resultadoConsulta = consulta.executeQuery();
+
+        if(resultadoConsulta.next()) {
+            respuesta = "-8";
+        } else {
+            String insercionSQL = "INSERT INTO usuario(nombre=?,contrasena=?,id_rol=?)";
+            PreparedStatement insercion = conexion.prepareStatement(insercionSQL);
+            insercion.setString(1, nombre);
+            insercion.setString(2, contrasena);
+            insercion.setInt(3, idRol);
+            insercion.executeQuery();
+
+            respuesta = "0";
+        }
+
+        conexion.close();
+        return respuesta;
     }
 
-    public String actualizarUsuarios(int id_usuario) {
+    public String actualizarUsuario(int id_usuario) {
 
         return "";
     }
     
     /**
-     * inhabilitarUsuarios
+     * cambiarEstadoUsuarios
      * 
      * Función encargada de inhabilitar un usuario.
      * 
      * @param id_usuario identificador del usuario a inhabilitar.
      * 
-     * @return booleano indicando si se inhabilitó (true) o no (false).
+     * @return booleano indicando el nuevo estado del usuario.
+     * 
+     * @throws SQLException
      */
-    public String inhabilitarUsuarios(int id_usuario) {
-
-        return "";
+    public String cambiarEstadoUsuario(int idUsuario) throws SQLException {
+        Connection conexion = Conexion.conectar();
+        String consultaSQL = "SELECT habilitado FROM usuario WHERE id = ?";
+        PreparedStatement consultaEstado = conexion.prepareStatement(consultaSQL);
+        consultaEstado.setInt(1, idUsuario);
+        ResultSet estadoActual = consultaEstado.executeQuery();
+        
+        if(estadoActual.next()) {
+            String actualizacionSQL = "UPDATE usuario SET habilitado = ? WHERE id = ?";
+            PreparedStatement actualizarEstado = conexion.prepareStatement(actualizacionSQL);
+            actualizarEstado.setBoolean(1, !estadoActual.getBoolean("habilitado"));
+            actualizarEstado.setInt(2, idUsuario);
+            actualizarEstado.executeQuery();
+        }
+        conexion.close();
+        return "{\"code\": 0, \"result\": " + "true" +"}";
     }
-
 }

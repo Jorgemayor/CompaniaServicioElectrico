@@ -1,4 +1,4 @@
-package vista;
+package src.vista;
 
 import java.awt.*;
 import javax.swing.*;
@@ -12,7 +12,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
 
-import managers.gestionUsuario.GestionUsuarioApi;
+import src.managers.gestionUsuario.GestionUsuarioApi;
+
 /**
  *
  * @author sebastian
@@ -43,11 +44,11 @@ public class Login extends JFrame {
 
 	public Login() {
 		try {
-			BufferedImage i = ImageIO.read(new File(getClass().getResource("/assets/icono.png").toURI()));
+			BufferedImage i = ImageIO.read(new File(getClass().getResource("/src/assets/icono.png").toURI()));
 			setIconImage(i);
 			setTitle("Electricaribe");
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			BufferedImage bf = ImageIO.read(new File(getClass().getResource("/assets/login.png").toURI()));
+			BufferedImage bf = ImageIO.read(new File(getClass().getResource("/src/assets/login.png").toURI()));
 			setContentPane(new bg(bf));
 			initComponents();
 			getRootPane().setDefaultButton(BIngresar);
@@ -128,6 +129,7 @@ public class Login extends JFrame {
                         .addComponent(BCerrar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
+
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.CENTER)
             .addGroup(layout.createSequentialGroup()
@@ -149,42 +151,41 @@ public class Login extends JFrame {
     }
 
     private void attachListeners(){
-            BCerrar.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent me) {
-                    dispatchEvent(new WindowEvent(Login.this, WindowEvent.WINDOW_CLOSING));
-                    System.exit(0);
-                }
-    
-                @Override
-                public void mousePressed(MouseEvent me) {
-                }
-    
-                @Override
-                public void mouseReleased(MouseEvent me) {
-                }
-    
-                @Override
-                public void mouseEntered(MouseEvent me) {
-                }
-    
-                @Override
-                public void mouseExited(MouseEvent me) {
-                }
-            });
-            BIngresar.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    String resultado = GestionUsuarioApi.loguearUsuario(Login.this.TFUsuario.getText(), Login.this.TFContrasena.getText());
-                    if(resultado.equals("OK")){
-                        Login.this.dispatchEvent(new WindowEvent(Login.this, WindowEvent.WINDOW_CLOSING));
-                    }else{
-                        Login.this.LAviso.setText(resultado);
-                        Login.this.LAviso.setVisible(true);
-                    }
-                }
-            });
-        }
-    
-    }
+        BCerrar.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                dispatchEvent(new WindowEvent(Login.this, WindowEvent.WINDOW_CLOSING));
+                System.exit(0);
+            }
 
+            @Override
+            public void mousePressed(MouseEvent me) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent me) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent me) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent me) {
+            }
+        });
+
+        BIngresar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String resultado = GestionUsuarioApi.loguearUsuario(Login.this.TFUsuario.getText(), Login.this.TFContrasena.getText());
+                if(resultado.equals("OK")){
+                    Login.this.dispatchEvent(new WindowEvent(Login.this, WindowEvent.WINDOW_CLOSING));
+                }else{
+                    Login.this.LAviso.setText(resultado);
+                    Login.this.LAviso.setVisible(true);
+                }
+            }
+        });
+    }
+}

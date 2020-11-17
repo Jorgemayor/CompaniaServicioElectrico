@@ -1,10 +1,7 @@
-package control;
+package src.control;
 
-import vista.Login;
-
-import javax.swing.JFrame;
-
-import vista.Inicio;
+import src.vista.Login;
+import src.vista.VentanaPrincipal;
 
 public class Principal {
     public static void main(String[] args){
@@ -13,10 +10,7 @@ public class Principal {
     }
 
     public static void arrancarVentanaPrincipal(Usuario usuario){
-        Inicio tp = new Inicio();
-        tp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        tp.setSize(600,400);
-        tp.setVisible(true);
-
+        new VentanaPrincipal(usuario.getRol());
+        //usuario.generarPdf();
     }
 }

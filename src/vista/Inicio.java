@@ -1,42 +1,27 @@
-package vista;
+package src.vista;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.BorderLayout;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
-public class Inicio extends JFrame {
+public class Inicio extends Container {
 
-    Color bgColor = new Color(232, 234, 246);
-    // Para crear una nueva pestaña
-    JPanel crearUsuarioPanel = new JPanel();
-    JPanel nuevaTabPanel = new JPanel();
-    JPanel[] paneles = { crearUsuarioPanel, nuevaTabPanel };
-
-    JLabel agregarUsuario = new JLabel("Agregar usuraio");
-    JLabel nuevoPanel = new JLabel("Nuevo panel");
-
-    JTabbedPane tabbedPane = new JTabbedPane();
-
-    ImageIcon img = new ImageIcon("src/assets/icono.png");
+    private JLabel imagenBienvenida;
+    private ImageIcon laImagen;
+    private Icon imagenAjustada;
 
     public Inicio() {
-
-        for (int i = 0; i < paneles.length; i++)
-            {
-             paneles[i].setBackground(bgColor);
-            }
-        crearUsuarioPanel.add(agregarUsuario);
-        nuevaTabPanel.add(nuevoPanel);
-
-
-        tabbedPane.add("Agregar usuario", crearUsuarioPanel);
-        tabbedPane.add("Nueva Tab", nuevaTabPanel);
-        add(tabbedPane);
-        setIconImage(img.getImage());
-        setTitle("Electricaribe");
-
-        }
-
+        imagenBienvenida = new JLabel();
+        imagenBienvenida.setSize(new Dimension(1280, 575));
+        laImagen = new ImageIcon("src/assets/inicio.png");
+        imagenAjustada = new ImageIcon(laImagen.getImage().getScaledInstance(imagenBienvenida.getWidth(),imagenBienvenida.getHeight(),Image.SCALE_DEFAULT));
+        imagenBienvenida.setIcon(imagenAjustada);
+        imagenBienvenida.setVisible(true);
+        this.add(imagenBienvenida, BorderLayout.CENTER);
     }
-
-
+}

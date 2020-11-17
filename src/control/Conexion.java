@@ -1,4 +1,4 @@
-package control;
+package src.control;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,12 +20,4 @@ public class Conexion {
         }
 		return conexion;
     }
-    
-    public static void cerrar() {
-		try {
-			conexion.close();
-		} catch (SQLException ex) {
-			System.out.println("No se pudo cerrar normalmente la conexión con la base de datos");
-		}
-	}
 }
