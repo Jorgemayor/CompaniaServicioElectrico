@@ -13,24 +13,36 @@ import javax.swing.JTextField;
 
 public class CrearUsuario extends Container {
 
-    private JPanel contenido = new JPanel();
-    private JLabel titulo = new JLabel("Crear Usuario");
-    private JLabel usuario = new JLabel("Usuario");
-    private JTextField usuarioCampo = new JTextField();
-    private JLabel contrasena = new JLabel("Contraseña");
-    private JTextField contrasenaCampo = new JTextField();
-    private JLabel rol = new JLabel("Rol");
-    private JComboBox rolList = new JComboBox();
-    private JButton enviar = new JButton("Enviar");
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
     private static final Color COLOR_FONDO = new Color(232,234,246);
+
+    private JPanel contenido;
+    private JLabel titulo;
+    private JLabel usuario;
+    private JTextField usuarioCampo;
+    private JLabel contrasena;
+    private JTextField contrasenaCampo;
+    private JLabel rol;
+    private JComboBox rolList;
+    private JButton enviar;
 
     public CrearUsuario(){
         iniciarComponentes();
     }
     
     private void iniciarComponentes() {
+
+        contenido = new JPanel();
+        titulo = new JLabel("Crear Usuario");
+        usuario = new JLabel("Usuario");
+        usuarioCampo = new JTextField();
+        contrasena = new JLabel("Contraseña");
+        contrasenaCampo = new JTextField();
+        rol = new JLabel("Rol");
+        rolList = new JComboBox();
+        enviar = new JButton("Enviar");
+
         contenido.setLayout(null);
         contenido.setVisible(true);
         contenido.setBackground(COLOR_FONDO);

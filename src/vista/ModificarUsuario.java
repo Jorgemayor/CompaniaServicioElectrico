@@ -13,25 +13,38 @@ import javax.swing.JTextField;
 
 public class ModificarUsuario extends Container {
 
-    private JPanel contenido = new JPanel();
-    private JLabel titulo = new JLabel("Modificar Usuario");
-    private JLabel usuario = new JLabel("Usuario");
-    private JTextField usuarioCampo = new JTextField();
-    private JButton ver = new JButton("ver");
-    private JLabel contrasena = new JLabel("Contraseña");
-    private JTextField contrasenaCampo = new JTextField();
-    private JLabel rol = new JLabel("Rol");
-    private JComboBox rolList = new JComboBox();
-    private JButton enviar = new JButton("Enviar Cambios");
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
     private static final Color COLOR_FONDO = new Color(232,234,246);
+
+    private JPanel contenido;
+    private JLabel titulo;
+    private JLabel usuario;
+    private JTextField usuarioCampo;
+    private JButton ver;
+    private JLabel contrasena;
+    private JTextField contrasenaCampo;
+    private JLabel rol;
+    private JComboBox rolList;
+    private JButton enviar;
 
     public ModificarUsuario(){
         iniciarComponentes();
     }
     
     private void iniciarComponentes() {
+
+        contenido = new JPanel();
+        titulo = new JLabel("Modificar Usuario");
+        usuario = new JLabel("Usuario");
+        usuarioCampo = new JTextField();
+        ver = new JButton("ver");
+        contrasena = new JLabel("Contraseña");
+        contrasenaCampo = new JTextField();
+        rol = new JLabel("Rol");
+        rolList = new JComboBox();
+        enviar = new JButton("Enviar Cambios");
+
         contenido.setLayout(null);
         contenido.setVisible(true);
         contenido.setBackground(COLOR_FONDO);

@@ -12,23 +12,33 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class ConsultarUsuario extends Container {
-    
-    private JPanel contenido = new JPanel();
-    private JLabel titulo = new JLabel("Consultar Usuarios");
-    private JLabel usuario = new JLabel("Nombre usuario");
-    private JTextField usuarioCampo = new JTextField();
-    private JButton buscar = new JButton("Buscar");
-    private JButton mostrarTodos = new JButton("Mostrar Todos");
-    private JTable datos = new JTable();
+ 
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
     private static final Color COLOR_FONDO = new Color(232,234,246);
+
+    private JPanel contenido;
+    private JLabel titulo;
+    private JLabel usuario;
+    private JTextField usuarioCampo;
+    private JButton buscar;
+    private JButton mostrarTodos;
+    private JTable datos;
 
     public ConsultarUsuario(){
         iniciarComponentes();
     }
     
     private void iniciarComponentes() {
+
+        contenido = new JPanel();
+        titulo = new JLabel("Consultar Usuarios");
+        usuario = new JLabel("Nombre usuario");
+        usuarioCampo = new JTextField();
+        buscar = new JButton("Buscar");
+        mostrarTodos = new JButton("Mostrar Todos");
+        datos = new JTable();
+
         contenido.setLayout(null);
         contenido.setVisible(true);
         contenido.setBackground(COLOR_FONDO);

@@ -13,27 +13,42 @@ import javax.swing.JTextField;
 
 public class ModificarActivo extends Container {
 
-    private JPanel contenido = new JPanel();
-    private JLabel titulo = new JLabel("Modificar Activos");
-    private JLabel numSerie = new JLabel("Número de Serie");
-    private JTextField numSerieCampo = new JTextField();
-    private JButton ver = new JButton("ver");
-    private JLabel nombre = new JLabel("Nombre");
-    private JTextField nombreCampo = new JTextField();
-    private JLabel ciudad = new JLabel("Ciudad");
-    JComboBox ciudadList = new JComboBox();
-    JLabel estado = new JLabel("Estado");
-    JComboBox estadoList = new JComboBox();
-    JButton enviar = new JButton("Enviar Cambios");
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
     private static final Color COLOR_FONDO = new Color(232,234,246);
+
+    private JPanel contenido;
+    private JLabel titulo;
+    private JLabel numSerie;
+    private JTextField numSerieCampo;
+    private JButton ver;
+    private JLabel nombre;
+    private JTextField nombreCampo;
+    private JLabel ciudad;
+    private JComboBox ciudadList;
+    private JLabel estado;
+    private JComboBox estadoList;
+    private JButton enviar;
 
     public ModificarActivo(){
         iniciarComponentes();
     }
     
     private void iniciarComponentes() {
+
+        contenido = new JPanel();
+        titulo = new JLabel("Modificar Activos");
+        numSerie = new JLabel("Número de Serie");
+        numSerieCampo = new JTextField();
+        ver = new JButton("ver");
+        nombre = new JLabel("Nombre");
+        nombreCampo = new JTextField();
+        ciudad = new JLabel("Ciudad");
+        ciudadList = new JComboBox();
+        estado = new JLabel("Estado");
+        estadoList = new JComboBox();
+        enviar = new JButton("Enviar Cambios");
+
         contenido.setLayout(null);
         contenido.setVisible(true);
         contenido.setBackground(COLOR_FONDO);

@@ -14,30 +14,48 @@ import javax.swing.JToggleButton;
 
 public class DeshabilitarCliente extends Container {
 
-    private JPanel contenido = new JPanel();
-    private JLabel titulo = new JLabel("Deshabilitar Cliente");
-    private JLabel tipoId = new JLabel("Tipo de ID");
-    private JComboBox tipoIdList = new JComboBox();
-    private JLabel identificacion = new JLabel("ID");
-    private JTextField identificacionCampo = new JTextField();
-    private JButton ver = new JButton("ver");
-    private JLabel nombre = new JLabel("Nombre:");
-    private JLabel elNombre = new JLabel("Carlos Mauricio Tovar Parra");
-    private JLabel direccion = new JLabel("Dirección:");
-    private JLabel laDireccion = new JLabel("Calle 33F #24B-39 Sta. Mónica Popular");
-    private JLabel ciudad = new JLabel("Ciudad:");
-    private JLabel laCiudad = new JLabel("Santiago de Cali");
-    private JToggleButton estado = new JToggleButton("Hablitar/Deshabilitar");
-    private JButton enviar = new JButton("Enviar Cambios");
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
     private static final Color COLOR_FONDO = new Color(232,234,246);
+
+    private JPanel contenido;
+    private JLabel titulo;
+    private JLabel tipoId;
+    private JComboBox tipoIdList;
+    private JLabel identificacion;
+    private JTextField identificacionCampo;
+    private JButton ver;
+    private JLabel nombre;
+    private JLabel elNombre;
+    private JLabel direccion;
+    private JLabel laDireccion;
+    private JLabel ciudad;
+    private JLabel laCiudad;
+    private JToggleButton estado;
+    private JButton enviar;
 
     public DeshabilitarCliente(){
         iniciarComponentes();
     }
     
     private <ActionListener> void iniciarComponentes() {
+
+        contenido = new JPanel();
+        titulo = new JLabel("Deshabilitar Cliente");
+        tipoId = new JLabel("Tipo de ID");
+        tipoIdList = new JComboBox();
+        identificacion = new JLabel("ID");
+        identificacionCampo = new JTextField();
+        ver = new JButton("ver");
+        nombre = new JLabel("Nombre:");
+        elNombre = new JLabel("Carlos Mauricio Tovar Parra");
+        direccion = new JLabel("Dirección:");
+        laDireccion = new JLabel("Calle 33F #24B-39 Sta. Mónica Popular");
+        ciudad = new JLabel("Ciudad:");
+        laCiudad = new JLabel("Santiago de Cali");
+        estado = new JToggleButton("Hablitar/Deshabilitar");
+        enviar = new JButton("Enviar Cambios");
+
         contenido.setLayout(null);
         contenido.setVisible(true);
         contenido.setBackground(COLOR_FONDO);
