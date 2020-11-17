@@ -22,7 +22,6 @@ public class VentanaPrincipal extends JFrame {
     private static final Dimension DIMENSIONES_CONTENEDOR_LOGO = new Dimension(1280, 120);
     private static final Dimension DIMENSIONES_CONTENEDOR_MENU = new Dimension(1280, 25);
     private static final Dimension DIMENSIONES_CONTENEDOR_VENTANA = new Dimension(1280, 575);
-    private static final Color COLOR_FONDO = new Color(232,234,246);
 
     private Container contenedorPrincipal;
     private Container contenedorVentanas;
@@ -78,7 +77,7 @@ public class VentanaPrincipal extends JFrame {
 
     public VentanaPrincipal(int rol) {
         this.setPreferredSize(DIMENSIONES_VENTANA);
-        this.setBackground(COLOR_FONDO);
+        this.setBackground(Color.WHITE);
         this.setUndecorated(true);
         iniciarComponentes(rol);
     }

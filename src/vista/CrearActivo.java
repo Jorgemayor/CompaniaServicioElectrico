@@ -3,6 +3,7 @@ package src.vista;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,21 +20,24 @@ public class CrearActivo extends Container {
     private JLabel nombre = new JLabel("Nombre");
     private JTextField nombreCampo = new JTextField();
     private JLabel ciudad = new JLabel("Ciudad");
-    JComboBox ciudadList = new JComboBox();
-    JLabel estado = new JLabel("Estado");
-    JComboBox estadoList = new JComboBox();
-    JButton enviar = new JButton("Enviar");
+    private JComboBox ciudadList = new JComboBox();
+    private JLabel estado = new JLabel("Estado");
+    private JComboBox estadoList = new JComboBox();
+    private JButton enviar = new JButton("Enviar");
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
+    private static final Color COLOR_FONDO = new Color(232,234,246);
 
     public CrearActivo(){
         iniciarComponentes();
     }
     
     private void iniciarComponentes() {
+
         contenido.setLayout(null);
         contenido.setVisible(true);
-        contenido.setOpaque(false);
+        contenido.setOpaque(true);
+        contenido.setBackground(COLOR_FONDO);
 
         //Titulo
         titulo.setFont(FUENTE_TITULO);
