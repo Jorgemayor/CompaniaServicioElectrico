@@ -46,7 +46,7 @@ public class ConsultarUsuario extends Container {
         //Titulo
         titulo.setFont(FUENTE_TITULO);
         titulo.setVisible(true);
-        titulo.setBounds(550, 30, 400, 25);
+        titulo.setBounds(510, 30, 400, 25);
         contenido.add(titulo);
 
         //Formulario
