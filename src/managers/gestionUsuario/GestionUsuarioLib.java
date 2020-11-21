@@ -19,7 +19,7 @@ public class GestionUsuarioLib {
         String resultado = "-4"; // arrancar suponiendo que las credenciales son incorrectas, solo se cambia si sí coinciden
         Connection conexion = Conexion.conectar();
 
-        consulta = conexion.prepareStatement("SELECT id, contrasena, id_rol, habilitado FROM usuario WHERE usuario = ?");
+        consulta = conexion.prepareStatement("SELECT id, contrasena, id_rol, habilitado FROM usuario WHERE nombre = ?");
         consulta.setString(1, intentoUsuario);
         ResultSet respuesta = consulta.executeQuery();
 
