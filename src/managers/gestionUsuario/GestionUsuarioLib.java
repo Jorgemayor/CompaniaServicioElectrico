@@ -25,7 +25,6 @@ public class GestionUsuarioLib {
 
 		if(respuesta.next()) {
             String encrypted = AESEncryptor.encrypt(KEY, IV, intentoClave);
-            System.out.println(encrypted);
 
             if(!respuesta.getBoolean("habilitado")){
                 resultado = "-5";
@@ -63,21 +62,23 @@ public class GestionUsuarioLib {
         Connection conexion = Conexion.conectar();
         String respuesta = "";
 
-        String consultaSQL = "SELECT * FROM usuario WHERE habilitado = ?";
+        String consultaSQL = "SELECT * FROM usuario WHERE nombre=? AND habilitado=?";
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setString(1, nombre);
+        consulta.setBoolean(2, true);
         ResultSet resultadoConsulta = consulta.executeQuery();
 
         if(resultadoConsulta.next()) {
             respuesta = "-8";
         } else {
-            String insercionSQL = "INSERT INTO usuario(nombre=?,contrasena=?,id_rol=?)";
+            String contrasenaEncriptada = AESEncryptor.encrypt(KEY, IV, contrasena);
+            String insercionSQL = "INSERT INTO usuario (nombre, contrasena, id_rol) VALUES (?, ?, ?)";
             PreparedStatement insercion = conexion.prepareStatement(insercionSQL);
             insercion.setString(1, nombre);
-            insercion.setString(2, contrasena);
+            insercion.setString(2, contrasenaEncriptada);
             insercion.setInt(3, idRol);
-            insercion.executeQuery();
-
+            insercion.executeUpdate();
+            
             respuesta = "0";
         }
 
