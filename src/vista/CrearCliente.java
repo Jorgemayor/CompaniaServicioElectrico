@@ -3,13 +3,20 @@ package src.vista;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.json.JSONObject;
+
+import src.managers.gestionClientes.GestionClienteApi;
 
 public class CrearCliente extends Container {
 
@@ -17,19 +24,19 @@ public class CrearCliente extends Container {
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
     private static final Color COLOR_FONDO = new Color(232,234,246);
 
-    private JPanel contenido;
-    private JLabel titulo;
-    private JLabel tipoId;
-    private JComboBox tipoIdList;
-    private JLabel identificacion;
-    private JTextField identificacionCampo;
-    private JLabel nombre;
-    private JTextField nombreCampo;
-    private JLabel direccion;
-    private JTextField direccionCampo;
-    private JLabel ciudad;
-    private JComboBox ciudadList;
-    private JButton enviar;
+    private JPanel contenedor;
+    private JLabel etiquetaTitulo;
+    private JLabel etiquetaTipoIdentificacion;
+    private JComboBox selectorTipoIdentificacion;
+    private JLabel etiquetaIdentificacion;
+    private JTextField campoIdentificacion;
+    private JLabel etiquetaNombre;
+    private JTextField campoNombre;
+    private JLabel etiquetaDireccion;
+    private JTextField campoDireccion;
+    private JLabel etiquetaCiudad;
+    private JComboBox selectorCiudad;
+    private JButton botonEnviar;
 
     public CrearCliente(){
         iniciarComponentes();
@@ -37,76 +44,114 @@ public class CrearCliente extends Container {
     
     private void iniciarComponentes() {
 
-        contenido = new JPanel();
-        titulo = new JLabel("Crear Cliente");
-        tipoId = new JLabel("Tipo de ID");
-        tipoIdList = new JComboBox();
-        identificacion = new JLabel("ID");
-        identificacionCampo = new JTextField();
-        nombre = new JLabel("Nombre");
-        nombreCampo = new JTextField();
-        direccion = new JLabel("Dirección");
-        direccionCampo = new JTextField();
-        ciudad = new JLabel("ciudad");
-        ciudadList = new JComboBox();
-        enviar = new JButton("Enviar");
+        contenedor = new JPanel();
+        etiquetaTitulo = new JLabel("Crear Cliente");
+        etiquetaTipoIdentificacion = new JLabel("Tipo de ID");
+        selectorTipoIdentificacion = new JComboBox();
+        etiquetaIdentificacion = new JLabel("ID");
+        campoIdentificacion = new JTextField();
+        etiquetaNombre = new JLabel("Nombre");
+        campoNombre = new JTextField();
+        etiquetaDireccion = new JLabel("Dirección");
+        campoDireccion = new JTextField();
+        etiquetaCiudad = new JLabel("ciudad");
+        selectorCiudad = new JComboBox();
+        botonEnviar = new JButton("Enviar");
 
-        contenido.setLayout(null);
-        contenido.setVisible(true);
-        contenido.setBackground(COLOR_FONDO);
+        contenedor.setLayout(null);
+        contenedor.setVisible(true);
+        contenedor.setBackground(COLOR_FONDO);
 
         //Titulo
-        titulo.setFont(FUENTE_TITULO);
-        titulo.setVisible(true);
-        titulo.setBounds(550, 30, 200, 25);
-        contenido.add(titulo);
+        etiquetaTitulo.setFont(FUENTE_TITULO);
+        etiquetaTitulo.setVisible(true);
+        etiquetaTitulo.setBounds(550, 30, 200, 25);
+        contenedor.add(etiquetaTitulo);
 
         //Formulario
-        tipoId.setFont(FUENTE_ETIQUETAS);
-        tipoId.setVisible(true);
-        tipoId.setBounds(150, 150, 200, 30);
-        contenido.add(tipoId);
-        tipoIdList.setVisible(true);
-        tipoIdList.setBounds(330, 150, 200, 30);
-        contenido.add(tipoIdList);
 
-        identificacion.setFont(FUENTE_ETIQUETAS);
-        identificacion.setVisible(true);
-        identificacion.setBounds(800, 150, 150, 30);
-        contenido.add(identificacion);
-        identificacionCampo.setVisible(true);
-        identificacionCampo.setBounds(890, 150, 200, 30);
-        contenido.add(identificacionCampo);
+        //Tipo de identificación
+        etiquetaTipoIdentificacion.setFont(FUENTE_ETIQUETAS);
+        etiquetaTipoIdentificacion.setVisible(true);
+        etiquetaTipoIdentificacion.setBounds(150, 150, 200, 30);
+        contenedor.add(etiquetaTipoIdentificacion);
 
-        nombre.setFont(FUENTE_ETIQUETAS);
-        nombre.setVisible(true);
-        nombre.setBounds(150, 225, 150, 30);
-        contenido.add(nombre);
-        nombreCampo.setVisible(true);
-        nombreCampo.setBounds(330, 225, 200, 30);
-        contenido.add(nombreCampo);
+        selectorTipoIdentificacion.setVisible(true);
+        selectorTipoIdentificacion.setBounds(330, 150, 200, 30);
+        selectorTipoIdentificacion.addItem("RC");
+        selectorTipoIdentificacion.addItem("TI");
+        selectorTipoIdentificacion.addItem("CC");
+        contenedor.add(selectorTipoIdentificacion);
 
-        direccion.setFont(FUENTE_ETIQUETAS);
-        direccion.setVisible(true);
-        direccion.setBounds(150, 300, 150, 30);
-        contenido.add(direccion);
-        direccionCampo.setVisible(true);
-        direccionCampo.setBounds(330, 300, 200, 30);
-        contenido.add(direccionCampo);
+        //Identificación
+        etiquetaIdentificacion.setFont(FUENTE_ETIQUETAS);
+        etiquetaIdentificacion.setVisible(true);
+        etiquetaIdentificacion.setBounds(800, 150, 150, 30);
+        contenedor.add(etiquetaIdentificacion);
 
-        ciudad.setFont(FUENTE_ETIQUETAS);
-        ciudad.setVisible(true);
-        ciudad.setBounds(800, 225, 150, 30);
-        contenido.add(ciudad);
-        ciudadList.setVisible(true);
-        ciudadList.setBounds(890, 225, 200, 30);
-        contenido.add(ciudadList);
+        campoIdentificacion.setVisible(true);
+        campoIdentificacion.setBounds(890, 150, 200, 30);
+        contenedor.add(campoIdentificacion);
+
+        //Nombre
+        etiquetaNombre.setFont(FUENTE_ETIQUETAS);
+        etiquetaNombre.setVisible(true);
+        etiquetaNombre.setBounds(150, 225, 150, 30);
+        contenedor.add(etiquetaNombre);
+
+        campoNombre.setVisible(true);
+        campoNombre.setBounds(330, 225, 200, 30);
+        contenedor.add(campoNombre);
+
+        //Dirección
+        etiquetaDireccion.setFont(FUENTE_ETIQUETAS);
+        etiquetaDireccion.setVisible(true);
+        etiquetaDireccion.setBounds(150, 300, 150, 30);
+        contenedor.add(etiquetaDireccion);
+
+        campoDireccion.setVisible(true);
+        campoDireccion.setBounds(330, 300, 200, 30);
+        contenedor.add(campoDireccion);
+
+        //Ciudad
+        etiquetaCiudad.setFont(FUENTE_ETIQUETAS);
+        etiquetaCiudad.setVisible(true);
+        etiquetaCiudad.setBounds(800, 225, 150, 30);
+        contenedor.add(etiquetaCiudad);
+
+        selectorCiudad.setVisible(true);
+        selectorCiudad.setBounds(890, 225, 200, 30);
+        contenedor.add(selectorCiudad);
         
-        enviar.setFont(FUENTE_ETIQUETAS);
-        enviar.setVisible(true);
-        enviar.setBounds(550, 450, 200, 30);
-        contenido.add(enviar);
+        botonEnviar.setFont(FUENTE_ETIQUETAS);
+        botonEnviar.setVisible(true);
+        botonEnviar.setBounds(550, 450, 200, 30);
+        botonEnviar.addActionListener(new ActionListener() {
+            @Override
+             public void actionPerformed(ActionEvent event) {
+ 
+                 String tipoIdentificacion = (String)selectorTipoIdentificacion.getSelectedItem();
+                 String textoIdentificacion = (String)campoIdentificacion.getText();
+                 int identificacion = Integer.parseInt(textoIdentificacion);
+                 String nombre = (String)campoNombre.getText();
+                 String direccion = (String)campoDireccion.getText();
+                 String textoCiudad = (String)selectorTipoIdentificacion.getSelectedItem();
+                 int ciudad = 0;
+ 
+                 String resultado = GestionClienteApi.agregarCliente(tipoIdentificacion,identificacion,nombre,direccion,ciudad);
+                 JSONObject jsonResultado = new JSONObject(resultado);
+                 String codigo = jsonResultado.getString("code");
+ 
+                 if (codigo.equals("0")) {
+                     JOptionPane.showMessageDialog(null, "Cliente Creado");
+                 } else {
+                     String mensaje = jsonResultado.getString("mensaje");
+                     JOptionPane.showMessageDialog(null, mensaje);
+                 }
+             }
+         });
+        contenedor.add(botonEnviar);
 
-        this.add(contenido, BorderLayout.CENTER);
+        this.add(contenedor, BorderLayout.CENTER);
     }
 }

@@ -95,6 +95,9 @@ public class GestionClienteApi {
             case -6:
                 mensajeError += "Nombre del cliente no puede ser vació}";
                 break;
+            case -7:
+                mensajeError += "Nombre del cliente en uso, usa uno diferente}";
+                break;
             default:
                 mensajeError += "El código de error " + codigo + " no ha sido identificado}";
                 break;

@@ -21,7 +21,7 @@ public class GestionClienteLib {
         ResultSet resultadoConsulta = consulta.executeQuery();
 
         if(resultadoConsulta.next()) {
-            respuesta = "-8";
+            respuesta = "-7";
         } else {
             String insercionSQL = "INSERT INTO cliente(tipo_identificacion=?,identificacion=?,nombre=?,direccion=?,ciudad=?)";
             PreparedStatement insercion = conexion.prepareStatement(insercionSQL);
