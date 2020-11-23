@@ -27,11 +27,9 @@ public class DeshabilitarCliente extends Container {
     private JButton ver;
     private JLabel nombre;
     private JLabel elNombre;
-    private JLabel direccion;
-    private JLabel laDireccion;
-    private JLabel ciudad;
-    private JLabel laCiudad;
-    private JToggleButton estado;
+    private JLabel estado;
+    private JLabel elEstado;
+    private JToggleButton botonCambio;
     private JButton enviar;
 
     public DeshabilitarCliente(){
@@ -48,12 +46,11 @@ public class DeshabilitarCliente extends Container {
         identificacionCampo = new JTextField();
         ver = new JButton("ver");
         nombre = new JLabel("Nombre:");
-        elNombre = new JLabel("Carlos Mauricio Tovar Parra");
-        direccion = new JLabel("Dirección:");
-        laDireccion = new JLabel("Calle 33F #24B-39 Sta. Mónica Popular");
-        ciudad = new JLabel("Ciudad:");
-        laCiudad = new JLabel("Santiago de Cali");
-        estado = new JToggleButton("Hablitar/Deshabilitar");
+        elNombre = new JLabel();
+
+        estado = new JLabel("Estado:");
+        elEstado = new JLabel("");
+        botonCambio = new JToggleButton("Hablitar/Deshabilitar");
         enviar = new JButton("Enviar Cambios");
 
         contenido.setLayout(null);
@@ -95,26 +92,18 @@ public class DeshabilitarCliente extends Container {
         elNombre.setBounds(300, 225, 200, 30);
         contenido.add(elNombre);
 
-        direccion.setFont(FUENTE_ETIQUETAS);
-        direccion.setVisible(true);
-        direccion.setBounds(150, 300, 150, 30);
-        contenido.add(direccion);
-        laDireccion.setVisible(true);
-        laDireccion.setBounds(300, 300, 200, 30);
-        contenido.add(laDireccion);
-
-        ciudad.setFont(FUENTE_ETIQUETAS);
-        ciudad.setVisible(true);
-        ciudad.setBounds(800, 225, 150, 30);
-        contenido.add(ciudad);
-        laCiudad.setVisible(true);
-        laCiudad.setBounds(890, 225, 220, 30);
-        contenido.add(laCiudad);
-
         estado.setFont(FUENTE_ETIQUETAS);
         estado.setVisible(true);
-        estado.setBounds(800, 300, 250, 30);
+        estado.setBounds(800, 225, 150, 30);
         contenido.add(estado);
+        elEstado.setVisible(true);
+        elEstado.setBounds(890, 225, 220, 30);
+        contenido.add(elEstado);
+
+        botonCambio.setFont(FUENTE_ETIQUETAS);
+        botonCambio.setVisible(true);
+        botonCambio.setBounds(800, 300, 250, 30);
+        contenido.add(botonCambio);
         
         enviar.setFont(FUENTE_ETIQUETAS);
         enviar.setVisible(true);
