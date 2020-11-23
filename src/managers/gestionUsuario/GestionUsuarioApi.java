@@ -184,7 +184,7 @@ public class GestionUsuarioApi {
                 mensajeError += "Usuario desactivado}";
                 break;
             case -6:
-                mensajeError += "Nombre de usuario no puede ser vació}";
+                mensajeError += "Nombre de usuario no puede ser vacio}";
                 break;
             case -7:
                 mensajeError += "Contraseña no puede ser vacía}";
