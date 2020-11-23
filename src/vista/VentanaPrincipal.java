@@ -210,6 +210,17 @@ public class VentanaPrincipal extends JFrame {
         menuSalir.add(accionSalir);
 
         switch (rol) {
+            case 0: //sistemas
+                menuDesplegable.add(menuUsuarios);
+                menuDesplegable.add(menuClientes);
+                menuDesplegable.add(menuActivos);
+                menuDesplegable.add(menuFacturas);
+                menuDesplegable.add(menuPagos);
+                menuDesplegable.add(menuReportes);
+                menuDesplegable.add(menuConfiguracion);
+                menuDesplegable.add(menuSalir);
+                break;
+
             case 1: //admin
                 menuDesplegable.add(menuUsuarios);
                 menuDesplegable.add(menuActivos);
@@ -223,13 +234,12 @@ public class VentanaPrincipal extends JFrame {
                 break;
 
             case 3: //operador
+                menuDesplegable.add(menuClientes);
                 menuDesplegable.add(menuFacturas);
                 menuDesplegable.add(menuPagos);
-                menuDesplegable.add(menuClientes);
                 menuDesplegable.add(menuSalir);
-            break;
+                break;
         }
-
         contenedorMenu.add(menuDesplegable);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
