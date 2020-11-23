@@ -10,6 +10,7 @@ import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -110,7 +111,12 @@ public class CrearUsuario extends Container {
                 else if(rol.equals("Operador"))
                     idRol = 3;
                 String resultado = GestionUsuarioApi.crearUsuario(nombreUsuario, contrasena, idRol);
-                System.out.print(resultado);
+                if(resultado!="0"){
+                    JOptionPane.showMessageDialog(null, resultado);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Usuario Creado");
+                }
             }
 		});
         contenedor.add(botonEnviar);
