@@ -14,9 +14,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import src.managers.gestionClientes.GestionClienteApi;
+import src.managers.gestionCiudad.GestionCiudadApi;
 
 public class CrearCliente extends Container {
 
@@ -27,7 +29,7 @@ public class CrearCliente extends Container {
     private JPanel contenedor;
     private JLabel etiquetaTitulo;
     private JLabel etiquetaTipoIdentificacion;
-    private JComboBox selectorTipoIdentificacion;
+    private JComboBox<String> selectorTipoIdentificacion;
     private JLabel etiquetaIdentificacion;
     private JTextField campoIdentificacion;
     private JLabel etiquetaNombre;
@@ -35,7 +37,7 @@ public class CrearCliente extends Container {
     private JLabel etiquetaDireccion;
     private JTextField campoDireccion;
     private JLabel etiquetaCiudad;
-    private JComboBox selectorCiudad;
+    private JComboBox<String> selectorCiudad;
     private JButton botonEnviar;
 
     public CrearCliente(){
@@ -47,7 +49,7 @@ public class CrearCliente extends Container {
         contenedor = new JPanel();
         etiquetaTitulo = new JLabel("Crear Cliente");
         etiquetaTipoIdentificacion = new JLabel("Tipo de ID");
-        selectorTipoIdentificacion = new JComboBox();
+        selectorTipoIdentificacion = new JComboBox<String>();
         etiquetaIdentificacion = new JLabel("ID");
         campoIdentificacion = new JTextField();
         etiquetaNombre = new JLabel("Nombre");
@@ -55,7 +57,7 @@ public class CrearCliente extends Container {
         etiquetaDireccion = new JLabel("Dirección");
         campoDireccion = new JTextField();
         etiquetaCiudad = new JLabel("ciudad");
-        selectorCiudad = new JComboBox();
+        selectorCiudad = new JComboBox<String>();
         botonEnviar = new JButton("Enviar");
 
         contenedor.setLayout(null);
@@ -69,6 +71,8 @@ public class CrearCliente extends Container {
         contenedor.add(etiquetaTitulo);
 
         //Formulario
+
+
 
         //Tipo de identificación
         etiquetaTipoIdentificacion.setFont(FUENTE_ETIQUETAS);
@@ -118,7 +122,11 @@ public class CrearCliente extends Container {
         etiquetaCiudad.setVisible(true);
         etiquetaCiudad.setBounds(800, 225, 150, 30);
         contenedor.add(etiquetaCiudad);
-
+        JSONObject ciudades = new JSONObject(GestionCiudadApi.obtenerCiudades());
+        JSONArray arregloCiudades = ciudades.getJSONArray("nombre");
+        for(int i = 0; i<arregloCiudades.length(); i++){
+            selectorCiudad.addItem(arregloCiudades.getString(i));
+        }
         selectorCiudad.setVisible(true);
         selectorCiudad.setBounds(890, 225, 200, 30);
         contenedor.add(selectorCiudad);

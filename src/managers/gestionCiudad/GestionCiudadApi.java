@@ -1,15 +1,15 @@
 package src.managers.gestionCiudad;
 import java.sql.SQLException;
 
-public class gestionCiudadApi {
-    private static gestionCiudadLib lib = new gestionCiudadLib();
+public class GestionCiudadApi {
+    private static GestionCiudadLib lib = new GestionCiudadLib();
     
-    public static String obtenerCiudad(){
+    public static String obtenerCiudades(){
         String resultado  = "";
         try {
             resultado = lib.obtenerCiudades();
         } catch(SQLException excepcion) {
-            return retornarError("-1");
+            return excepcion.getMessage();
         }
         return resultado;
 
@@ -30,9 +30,6 @@ public class gestionCiudadApi {
         switch(codigo) {
             case -1:
                 mensajeError += "Error al conectarse a la base de datos}";
-                break;
-            case -2:
-                mensajeError += "La ciudad no existe}";
                 break;
             default:
                 mensajeError += "El código de error " + codigo + " no ha sido identificado}";
