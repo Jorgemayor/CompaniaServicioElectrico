@@ -1,8 +1,8 @@
 package src.managers.gestionCiudad;
 import java.sql.SQLException;
 
-public class gestionCiudadApi {
-    private static gestionCiudadLib lib = new gestionCiudadLib();
+public class GestionCiudadApi {
+    private static GestionCiudadLib lib = new GestionCiudadLib();
     
     public static String obtenerCiudades(){
         String resultado  = "";

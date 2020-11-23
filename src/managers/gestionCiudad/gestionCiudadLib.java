@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import src.control.Conexion;
 
-public class gestionCiudadLib {
+public class GestionCiudadLib {
 
 	public String obtenerCiudades() throws SQLException {
                 Connection conexion = Conexion.conectar();

@@ -11,6 +11,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import src.managers.gestionClientes.GestionClienteApi;
+import src.managers.gestionCiudad.GestionCiudadApi;
+
 public class CrearCliente extends Container {
 
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
@@ -100,13 +106,17 @@ public class CrearCliente extends Container {
         contenido.add(ciudad);
         ciudadList.setVisible(true);
         ciudadList.setBounds(890, 225, 200, 30);
+        JSONObject ciudades = new JSONObject(GestionCiudadApi.obtenerCiudades());
+        JSONArray arregloCiudades = ciudades.getJSONArray("nombre");
+        for(int i = 0; i<arregloCiudades.length(); i++){
+            ciudadList.addItem(arregloCiudades.getString(i));
+        }
         contenido.add(ciudadList);
         
         enviar.setFont(FUENTE_ETIQUETAS);
         enviar.setVisible(true);
         enviar.setBounds(550, 450, 200, 30);
         contenido.add(enviar);
-
         this.add(contenido, BorderLayout.CENTER);
     }
 }
