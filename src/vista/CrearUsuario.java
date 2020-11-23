@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.json.JSONObject;
+
 import src.managers.gestionUsuario.GestionUsuarioApi;
 
 public class CrearUsuario extends Container {
@@ -104,18 +106,23 @@ public class CrearUsuario extends Container {
                 String contrasena = campoContrasena.getText();
                 String rol = (String)selectorRol.getSelectedItem();
                 int idRol = 0;
+                
                 if(rol.equals("Administrador"))
                     idRol = 1;
                 else if(rol.equals("Gerente"))
                     idRol = 2;
                 else if(rol.equals("Operador"))
                     idRol = 3;
+
                 String resultado = GestionUsuarioApi.crearUsuario(nombreUsuario, contrasena, idRol);
-                if(resultado!="0"){
-                    JOptionPane.showMessageDialog(null, resultado);
-                }
-                else{
+                JSONObject jsonResultado = new JSONObject(resultado);
+                String codigo = jsonResultado.getString("code");
+
+                if (codigo.equals("0")) {
                     JOptionPane.showMessageDialog(null, "Usuario Creado");
+                } else {
+                    String mensaje = jsonResultado.getString("mensaje");
+                    JOptionPane.showMessageDialog(null, mensaje);
                 }
             }
 		});
