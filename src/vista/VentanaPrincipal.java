@@ -254,7 +254,12 @@ public class VentanaPrincipal extends JFrame {
                     System.exit(0);
                 }
             } else if(itemPresionado.equals(accionCerrarSesion)) {
-                System.out.print("Cerrando sesión");
+                int respuesta = JOptionPane.showConfirmDialog(null, "Realmente desea cerrar sesión?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if(respuesta == JOptionPane.YES_OPTION) {
+                    Login login = new Login();
+                    login.setVisible(true);
+                    dispose();   
+                }
             } else {
                 contenedorPrincipal.remove(contenedorVentanas);
             }

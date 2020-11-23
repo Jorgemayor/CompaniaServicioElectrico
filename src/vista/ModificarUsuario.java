@@ -52,7 +52,7 @@ public class ModificarUsuario extends Container {
         //Titulo
         titulo.setFont(FUENTE_TITULO);
         titulo.setVisible(true);
-        titulo.setBounds(550, 30, 300, 25);
+        titulo.setBounds(510, 30, 300, 25);
         contenido.add(titulo);
 
         //Formulario
