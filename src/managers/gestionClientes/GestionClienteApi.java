@@ -2,6 +2,8 @@ package src.managers.gestionClientes;
 
 import java.sql.SQLException;
 
+import org.json.JSONObject;
+
 public class GestionClienteApi {
     
     private static GestionClienteLib lib = new GestionClienteLib();
@@ -19,7 +21,8 @@ public class GestionClienteApi {
     }
     public static String agregarCliente(String tipoIdentificacion, int identificacion, String nombre, String direccion, int ciudad){
 
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
 
         try {
             if(tipoIdentificacion.trim().equals("")) {
@@ -31,18 +34,19 @@ public class GestionClienteApi {
             } else if(ciudad < 0) {
                 throw new Exception("-4");
             } else {
-                resultado = lib.agregarCliente(tipoIdentificacion, identificacion, nombre, direccion, ciudad);
+                codigo = lib.agregarCliente(tipoIdentificacion, identificacion, nombre, direccion, ciudad);
             }
 
             if(!resultado.equals("0")) {
-                throw new Exception(resultado);
+                throw new Exception(codigo);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
         }
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
 
 
@@ -66,40 +70,42 @@ public class GestionClienteApi {
         return resultado;
     }
     public static String retornarError(String codigoExcepcion){
-        String mensajeError = "{ \"code\": ";
+        JSONObject mensajeError = new JSONObject();
+        mensajeError.put("code", codigoExcepcion);
+       
         int codigo;
-        
         try {
             codigo = Integer.parseInt(codigoExcepcion);
         } catch (NumberFormatException excepcion) {
-            return "Error inesperado: " + codigoExcepcion;
+            codigo = -99;
         }
-
-        mensajeError += codigoExcepcion + ",  \"mensaje\": ";
 
         switch(codigo) {
             case -1:
-                mensajeError += "Error al conectarse a la base de datos}";
+                mensajeError.put("mensaje", "Error al conectarse a la base de datos");
                 break;
             case -2:
-                mensajeError += "El Tipo de Identificaicón no puede ser vacio}";
+                mensajeError.put("mensaje", "El Tipo de Identificaicón no puede ser vacio");
                 break;
             case -3:
-                mensajeError += "La Direccion no puede ser vacio}";
+                mensajeError.put("mensaje", "La Direccion no puede ser vacio");
             case -4:
-                mensajeError += "Ciudad invalida}";
+                mensajeError.put("mensaje", "Ciudad invalida");
                 break;
             case -5:
-                mensajeError += "No existe un Cliente con ese ID}";
+                mensajeError.put("mensaje", "No existe un Cliente con ese ID");
                 break;
             case -6:
-                mensajeError += "Nombre del cliente no puede ser vació}";
+                mensajeError.put("mensaje", "Nombre del cliente no puede ser vació");
+                break;
+            case -7:
+                mensajeError.put("mensaje", "Nombre del cliente en uso, usa uno diferente");
                 break;
             default:
-                mensajeError += "El código de error " + codigo + " no ha sido identificado}";
+                mensajeError.put("mensaje", "El código de error " + codigo + " no ha sido identificado");
                 break;
         }
-        return mensajeError;
+        return mensajeError.toString();
     }
 
 

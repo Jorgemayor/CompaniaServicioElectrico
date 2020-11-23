@@ -21,16 +21,16 @@ public class GestionClienteLib {
         ResultSet resultadoConsulta = consulta.executeQuery();
 
         if(resultadoConsulta.next()) {
-            respuesta = "-8";
+            respuesta = "-7";
         } else {
-            String insercionSQL = "INSERT INTO cliente(tipo_identificacion=?,identificacion=?,nombre=?,direccion=?,ciudad=?)";
+            String insercionSQL = "INSERT INTO cliente(tipo_identificacion,identificacion,nombre,direccion,ciudad) VALUES(?,?,?,?,?)";
             PreparedStatement insercion = conexion.prepareStatement(insercionSQL);
             insercion.setString(1, tipoIdentificacion);
             insercion.setInt(2, identificacion);
             insercion.setString(3, nombre);
             insercion.setString(4, direccion);
             insercion.setInt(5, ciudad);
-            insercion.executeQuery();
+            insercion.executeUpdate();
 
             respuesta = "0";
         }
