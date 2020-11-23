@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.json.JSONObject;
+
 import src.managers.gestionUsuario.GestionUsuarioApi;
 
 public class CrearUsuario extends Container {
@@ -109,8 +111,18 @@ public class CrearUsuario extends Container {
                     idRol = 2;
                 else if(rol.equals("Operador"))
                     idRol = 3;
+
                 String resultado = GestionUsuarioApi.crearUsuario(nombreUsuario, contrasena, idRol);
                 System.out.print(resultado);
+
+                JSONObject jsonObject = new JSONObject(resultado);
+                String codigo = jsonObject.getString("code");
+
+                if (codigo.equals("0")) {
+                    System.out.println("Sin errores");
+                } else {
+                    System.out.println("Error!");
+                }
             }
 		});
         contenedor.add(botonEnviar);

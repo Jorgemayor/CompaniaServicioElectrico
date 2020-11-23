@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.json.JSONObject;
+
 public class GestionUsuarioApi {
     
     private static GestionUsuarioLib lib = new GestionUsuarioLib();
@@ -75,7 +77,8 @@ public class GestionUsuarioApi {
      */
     public static String crearUsuario(String nombre, String contrasena, int idRol) {
 
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
 
         try {
             if(nombre.trim().equals("")) {
@@ -85,11 +88,11 @@ public class GestionUsuarioApi {
             } else if(idRol < 1 && idRol > 3) {
                 throw new Exception("-3");
             } else {
-                resultado = lib.crearUsuario(nombre, contrasena, idRol);
+                codigo = lib.crearUsuario(nombre, contrasena, idRol);
             }
 
-            if(!resultado.equals("0")) {
-                throw new Exception(resultado);
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
             }
         } catch(SQLException excepcion) {
             System.out.println(excepcion.getMessage());
@@ -97,7 +100,9 @@ public class GestionUsuarioApi {
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
         }
-        return resultado;
+
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
 
     /**
@@ -151,51 +156,52 @@ public class GestionUsuarioApi {
      * Función encargada de recibir un código determinando
      * el error que ocurrió.
      * 
-     * @param codigo código especificando el error ocurrido.
+     * @param codigoExcepcion código especificando el error ocurrido.
      * 
-     * @return String con las características del error.
+     * @return String en formato JSON con las características del error.
      */
     private static String retornarError(String codigoExcepcion) {
 
-        String mensajeError = "{ \"code\": ";
+        JSONObject mensajeError = new JSONObject();
+
+        mensajeError.put("code", codigoExcepcion);
+
         int codigo;
-        
         try {
             codigo = Integer.parseInt(codigoExcepcion);
         } catch (NumberFormatException excepcion) {
-            return "Error inesperado: " + codigoExcepcion;
+            codigo = -99;
         }
-
-        mensajeError += codigoExcepcion + ",  \"mensaje\": ";
 
         switch(codigo) {
             case -1:
-                mensajeError += "Error al conectarse a la base de datos}";
+                mensajeError.put("mensaje", "Error al conectarse a la base de datos");
                 break;
             case -2:
-                mensajeError += "No existe un usuario con es id}";
+                mensajeError.put("mensaje", "No existe un usuario con es id");
                 break;
             case -3:
-                mensajeError += "Rol inválido}";
+                mensajeError.put("mensaje", "Rol inválido");
+                break;
             case -4:
-                mensajeError += "Credenciales incorrectas}";
+                mensajeError.put("mensaje", "Credenciales incorrectas");
                 break;
             case -5:
-                mensajeError += "Usuario desactivado}";
+                mensajeError.put("mensaje", "Usuario desactivado");
                 break;
             case -6:
-                mensajeError += "Nombre de usuario no puede ser vació}";
+                mensajeError.put("mensaje", "El nombre de usuario no puede estar vacio");
                 break;
             case -7:
-                mensajeError += "Contraseña no puede ser vacía}";
+                mensajeError.put("mensaje", "La contraseña no puede estar vacía");
                 break;
             case -8:
-                mensajeError += "Nombre de usuario en uso}";
+                mensajeError.put("mensaje", "Nombre de usuario en uso");
                 break;
             default:
-                mensajeError += "El código de error " + codigo + " no ha sido identificado}";
+                mensajeError.put("mensaje", "El código de error " + codigo + " no ha sido identificado");
                 break;
         }
-        return mensajeError;
+        return mensajeError.toString();
     }
 }
