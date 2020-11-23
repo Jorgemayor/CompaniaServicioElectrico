@@ -22,7 +22,6 @@ public class VentanaPrincipal extends JFrame {
     private static final Dimension DIMENSIONES_CONTENEDOR_LOGO = new Dimension(1280, 120);
     private static final Dimension DIMENSIONES_CONTENEDOR_MENU = new Dimension(1280, 25);
     private static final Dimension DIMENSIONES_CONTENEDOR_VENTANA = new Dimension(1280, 575);
-    private static final Color COLOR_FONDO = new Color(232,234,246);
 
     private Container contenedorPrincipal;
     private Container contenedorVentanas;
@@ -78,7 +77,7 @@ public class VentanaPrincipal extends JFrame {
 
     public VentanaPrincipal(int rol) {
         this.setPreferredSize(DIMENSIONES_VENTANA);
-        this.setBackground(COLOR_FONDO);
+        this.setBackground(Color.WHITE);
         this.setUndecorated(true);
         iniciarComponentes(rol);
     }
@@ -255,7 +254,12 @@ public class VentanaPrincipal extends JFrame {
                     System.exit(0);
                 }
             } else if(itemPresionado.equals(accionCerrarSesion)) {
-                System.out.print("Cerrando sesión");
+                int respuesta = JOptionPane.showConfirmDialog(null, "Realmente desea cerrar sesión?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if(respuesta == JOptionPane.YES_OPTION) {
+                    Login login = new Login();
+                    login.setVisible(true);
+                    dispose();   
+                }
             } else {
                 contenedorPrincipal.remove(contenedorVentanas);
             }
