@@ -163,7 +163,6 @@ public class GestionUsuarioApi {
     private static String retornarError(String codigoExcepcion) {
 
         JSONObject mensajeError = new JSONObject();
-
         mensajeError.put("code", codigoExcepcion);
 
         int codigo;

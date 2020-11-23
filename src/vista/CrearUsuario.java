@@ -10,6 +10,7 @@ import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -105,6 +106,7 @@ public class CrearUsuario extends Container {
                 String contrasena = campoContrasena.getText();
                 String rol = (String)selectorRol.getSelectedItem();
                 int idRol = 0;
+                
                 if(rol.equals("Administrador"))
                     idRol = 1;
                 else if(rol.equals("Gerente"))
@@ -113,15 +115,14 @@ public class CrearUsuario extends Container {
                     idRol = 3;
 
                 String resultado = GestionUsuarioApi.crearUsuario(nombreUsuario, contrasena, idRol);
-                System.out.print(resultado);
-
-                JSONObject jsonObject = new JSONObject(resultado);
-                String codigo = jsonObject.getString("code");
+                JSONObject jsonResultado = new JSONObject(resultado);
+                String codigo = jsonResultado.getString("code");
 
                 if (codigo.equals("0")) {
-                    System.out.println("Sin errores");
+                    JOptionPane.showMessageDialog(null, "Usuario Creado");
                 } else {
-                    System.out.println("Error!");
+                    String mensaje = jsonResultado.getString("mensaje");
+                    JOptionPane.showMessageDialog(null, mensaje);
                 }
             }
 		});
