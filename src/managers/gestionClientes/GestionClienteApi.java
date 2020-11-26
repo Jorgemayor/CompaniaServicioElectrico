@@ -37,10 +37,11 @@ public class GestionClienteApi {
                 codigo = lib.agregarCliente(tipoIdentificacion, identificacion, nombre, direccion, ciudad);
             }
 
-            if(!resultado.equals("0")) {
+            if(!codigo.equals("0")) {
                 throw new Exception(codigo);
             }
         } catch(SQLException excepcion) {
+            System.out.println(excepcion.getMessage());
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
@@ -99,7 +100,7 @@ public class GestionClienteApi {
                 mensajeError.put("mensaje", "Nombre del cliente no puede ser vació");
                 break;
             case -7:
-                mensajeError.put("mensaje", "Nombre del cliente en uso, usa uno diferente");
+                mensajeError.put("mensaje", "La identificación suministrada está en uso, usa uno diferente");
                 break;
             default:
                 mensajeError.put("mensaje", "El código de error " + codigo + " no ha sido identificado");
