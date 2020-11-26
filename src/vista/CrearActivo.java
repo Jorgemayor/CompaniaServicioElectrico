@@ -3,13 +3,23 @@ package src.vista;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import src.managers.gestionClientes.GestionClienteApi;
+import src.managers.gestionActivos.GestionActivosApi;
+import src.managers.gestionCiudad.GestionCiudadApi;
 
 public class CrearActivo extends Container {
 
@@ -17,17 +27,17 @@ public class CrearActivo extends Container {
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
     private static final Color COLOR_FONDO = new Color(232,234,246);
 
-    private JPanel contenido;
-    private JLabel titulo;
-    private JLabel numSerie;
-    private JTextField numSerieCampo;
-    private JLabel nombre;
-    private JTextField nombreCampo;
-    private JLabel ciudad;
-    private JComboBox ciudadList;
-    private JLabel estado;
-    private JComboBox estadoList;
-    private JButton enviar;
+    private JPanel contenedor;
+    private JLabel etiquetaTitulo;
+    private JLabel EtiquetaNumSerie;
+    private JTextField campoNumSerie;
+    private JLabel etiquetaNombre;
+    private JTextField campoNombre;
+    private JLabel etiquetaCiudad;
+    private JComboBox<String> selectorCiudad;
+    private JLabel etiquetaEstado;
+    private JComboBox<String> selectorEstado;
+    private JButton botonEnviar;
 
     public CrearActivo(){
         iniciarComponentes();
@@ -35,67 +45,97 @@ public class CrearActivo extends Container {
     
     private void iniciarComponentes() {
 
-        contenido = new JPanel();
-        titulo = new JLabel("Crear Activos");
-        numSerie = new JLabel("Número de Serie");
-        numSerieCampo = new JTextField();
-        nombre = new JLabel("Nombre");
-        nombreCampo = new JTextField();
-        ciudad = new JLabel("Ciudad");
-        ciudadList = new JComboBox();
-        estado = new JLabel("Estado");
-        estadoList = new JComboBox();
-        enviar = new JButton("Enviar");
+        contenedor = new JPanel();
+        etiquetaTitulo = new JLabel("Crear Activos");
+        EtiquetaNumSerie = new JLabel("Número de Serie");
+        campoNumSerie = new JTextField();
+        etiquetaNombre = new JLabel("Nombre");
+        campoNombre = new JTextField();
+        etiquetaCiudad = new JLabel("Ciudad");
+        selectorCiudad = new JComboBox();
+        etiquetaEstado = new JLabel("Estado");
+        selectorEstado = new JComboBox();
+        botonEnviar = new JButton("Enviar");
 
-        contenido.setLayout(null);
-        contenido.setVisible(true);
-        contenido.setOpaque(true);
-        contenido.setBackground(COLOR_FONDO);
+        contenedor.setLayout(null);
+        contenedor.setVisible(true);
+        contenedor.setOpaque(true);
+        contenedor.setBackground(COLOR_FONDO);
 
         //Titulo
-        titulo.setFont(FUENTE_TITULO);
-        titulo.setVisible(true);
-        titulo.setBounds(550, 30, 200, 25);
-        contenido.add(titulo);
+        etiquetaTitulo.setFont(FUENTE_TITULO);
+        etiquetaTitulo.setVisible(true);
+        etiquetaTitulo.setBounds(550, 30, 200, 25);
+        contenedor.add(etiquetaTitulo);
 
         //Formulario
-        numSerie.setFont(FUENTE_ETIQUETAS);
-        numSerie.setVisible(true);
-        numSerie.setBounds(150, 150, 200, 30);
-        contenido.add(numSerie);
-        numSerieCampo.setVisible(true);
-        numSerieCampo.setBounds(330, 150, 200, 30);
-        contenido.add(numSerieCampo);
+        EtiquetaNumSerie.setFont(FUENTE_ETIQUETAS);
+        EtiquetaNumSerie.setVisible(true);
+        EtiquetaNumSerie.setBounds(150, 150, 200, 30);
+        contenedor.add(EtiquetaNumSerie);
+        campoNumSerie.setVisible(true);
+        campoNumSerie.setBounds(330, 150, 200, 30);
+        contenedor.add(campoNumSerie);
 
-        nombre.setFont(FUENTE_ETIQUETAS);
-        nombre.setVisible(true);
-        nombre.setBounds(800, 150, 150, 30);
-        contenido.add(nombre);
-        nombreCampo.setVisible(true);
-        nombreCampo.setBounds(890, 150, 200, 30);
-        contenido.add(nombreCampo);
+        etiquetaNombre.setFont(FUENTE_ETIQUETAS);
+        etiquetaNombre.setVisible(true);
+        etiquetaNombre.setBounds(800, 150, 150, 30);
+        contenedor.add(etiquetaNombre);
+        campoNombre.setVisible(true);
+        campoNombre.setBounds(890, 150, 200, 30);
+        contenedor.add(campoNombre);
 
-        ciudad.setFont(FUENTE_ETIQUETAS);
-        ciudad.setVisible(true);
-        ciudad.setBounds(150, 300, 150, 30);
-        contenido.add(ciudad);
-        ciudadList.setVisible(true);
-        ciudadList.setBounds(330, 300, 200, 30);
-        contenido.add(ciudadList);
+        etiquetaCiudad.setFont(FUENTE_ETIQUETAS);
+        etiquetaCiudad.setVisible(true);
+        etiquetaCiudad.setBounds(150, 300, 150, 30);
+        contenedor.add(etiquetaCiudad);
+        JSONObject ciudades = new JSONObject(GestionCiudadApi.obtenerCiudades());
+        JSONArray arregloCiudades = ciudades.getJSONArray("nombre");
+        for(int i = 0; i<arregloCiudades.length(); i++){
+            selectorCiudad.addItem(arregloCiudades.getString(i));
+        }
+        selectorCiudad.setVisible(true);
+        selectorCiudad.setBounds(330, 300, 200, 30);
+        contenedor.add(selectorCiudad);
 
-        estado.setFont(FUENTE_ETIQUETAS);
-        estado.setVisible(true);
-        estado.setBounds(800, 300, 150, 30);
-        contenido.add(estado);
-        estadoList.setVisible(true);
-        estadoList.setBounds(890, 300, 200, 30);
-        contenido.add(estadoList);
+        etiquetaEstado.setFont(FUENTE_ETIQUETAS);
+        etiquetaEstado.setVisible(true);
+        etiquetaEstado.setBounds(800, 300, 150, 30);
+        contenedor.add(etiquetaEstado);
+        selectorEstado.setVisible(true);
+        selectorEstado.setBounds(890, 300, 200, 30);
+        selectorEstado.addItem("Buen estado");
+        selectorEstado.addItem("Dañado");
+        selectorEstado.addItem("En reparación");
+        contenedor.add(selectorEstado);
         
-        enviar.setFont(FUENTE_ETIQUETAS);
-        enviar.setVisible(true);
-        enviar.setBounds(550, 450, 200, 30);
-        contenido.add(enviar);
+        botonEnviar.setFont(FUENTE_ETIQUETAS);
+        botonEnviar.setVisible(true);
+        botonEnviar.setBounds(550, 450, 200, 30);
+        botonEnviar.addActionListener(new ActionListener() {
+            @Override
+             public void actionPerformed(ActionEvent event) {
+ 
+                 String numSerie = (String)campoNumSerie.getText();
+                 String nombre = (String)campoNombre.getText();
+                 String textoCiudad = (String)selectorCiudad.getSelectedItem();
+                 int ciudad = 1;
+                 String estado = (String)selectorEstado.getSelectedItem();
+ 
+                 String resultado = GestionActivosApi.registrarActivo(numSerie, nombre, ciudad, estado);
+                 JSONObject jsonResultado = new JSONObject(resultado);
+                 String codigo = jsonResultado.getString("code");
+ 
+                 if (codigo.equals("0")) {
+                     JOptionPane.showMessageDialog(null, "Activo Creado");
+                 } else {
+                     String mensaje = jsonResultado.getString("mensaje");
+                     JOptionPane.showMessageDialog(null, mensaje);
+                 }
+             }
+         });
+        contenedor.add(botonEnviar);
 
-        this.add(contenido, BorderLayout.CENTER);
+        this.add(contenedor, BorderLayout.CENTER);
     }        
 }
