@@ -26,21 +26,27 @@ public class GestionActivosLib {
         Connection conexion = Conexion.conectar();
         String respuesta = "";
 
-        String consultaSQL = "SELECT * FROM activo WHERE habilitado = ?";
+        String consultaSQL = "SELECT COUNT(numero_serie) as conteo FROM activo WHERE numero_serie=? AND habilitado = ?";
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
-        consulta.setString(1, nombre);
+        consulta.setString(1, numeroSerie);
+        consulta.setBoolean(2,true);
         ResultSet resultadoConsulta = consulta.executeQuery();
+        resultadoConsulta.next();
+        String textoResultadoConsulta = resultadoConsulta.getString("conteo");
+        int enteroResultadoConsulta = Integer.parseInt(textoResultadoConsulta);
+        System.out.println(enteroResultadoConsulta);
 
-        if(resultadoConsulta.next()) {
+        if(enteroResultadoConsulta>0) {
             respuesta = "-7";
         } else {
-            String insercionSQL = "INSERT INTO activo(numero_serie=?,nombre=?,ciudad=?,estado=?)";
+            String insercionSQL = "INSERT INTO activo(numero_serie,nombre,id_ciudad,estado,habilitado) VALUES(?,?,?,?,?)";
             PreparedStatement insercion = conexion.prepareStatement(insercionSQL);
             insercion.setString(1, numeroSerie);
             insercion.setString(2, nombre);
             insercion.setInt(3, ciudad);
             insercion.setString(4, estado);
-            insercion.executeQuery();
+            insercion.setBoolean(5, true);
+            insercion.executeUpdate();
 
             respuesta = "0";
         }

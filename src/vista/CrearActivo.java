@@ -3,13 +3,23 @@ package src.vista;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import src.managers.gestionClientes.GestionClienteApi;
+import src.managers.gestionActivos.GestionActivosApi;
+import src.managers.gestionCiudad.GestionCiudadApi;
 
 public class CrearActivo extends Container {
 
@@ -24,9 +34,9 @@ public class CrearActivo extends Container {
     private JLabel etiquetaNombre;
     private JTextField campoNombre;
     private JLabel etiquetaCiudad;
-    private JComboBox selectorCiudad;
+    private JComboBox<String> selectorCiudad;
     private JLabel etiquetaEstado;
-    private JComboBox selectorEstado;
+    private JComboBox<String> selectorEstado;
     private JButton botonEnviar;
 
     public CrearActivo(){
@@ -79,6 +89,11 @@ public class CrearActivo extends Container {
         etiquetaCiudad.setVisible(true);
         etiquetaCiudad.setBounds(150, 300, 150, 30);
         contenedor.add(etiquetaCiudad);
+        JSONObject ciudades = new JSONObject(GestionCiudadApi.obtenerCiudades());
+        JSONArray arregloCiudades = ciudades.getJSONArray("nombre");
+        for(int i = 0; i<arregloCiudades.length(); i++){
+            selectorCiudad.addItem(arregloCiudades.getString(i));
+        }
         selectorCiudad.setVisible(true);
         selectorCiudad.setBounds(330, 300, 200, 30);
         contenedor.add(selectorCiudad);
@@ -89,11 +104,36 @@ public class CrearActivo extends Container {
         contenedor.add(etiquetaEstado);
         selectorEstado.setVisible(true);
         selectorEstado.setBounds(890, 300, 200, 30);
+        selectorEstado.addItem("Buen estado");
+        selectorEstado.addItem("Dañado");
+        selectorEstado.addItem("En reparación");
         contenedor.add(selectorEstado);
         
         botonEnviar.setFont(FUENTE_ETIQUETAS);
         botonEnviar.setVisible(true);
         botonEnviar.setBounds(550, 450, 200, 30);
+        botonEnviar.addActionListener(new ActionListener() {
+            @Override
+             public void actionPerformed(ActionEvent event) {
+ 
+                 String numSerie = (String)campoNumSerie.getText();
+                 String nombre = (String)campoNombre.getText();
+                 String textoCiudad = (String)selectorCiudad.getSelectedItem();
+                 int ciudad = 1;
+                 String estado = (String)selectorEstado.getSelectedItem();
+ 
+                 String resultado = GestionActivosApi.registrarActivo(numSerie, nombre, ciudad, estado);
+                 JSONObject jsonResultado = new JSONObject(resultado);
+                 String codigo = jsonResultado.getString("code");
+ 
+                 if (codigo.equals("0")) {
+                     JOptionPane.showMessageDialog(null, "Activo Creado");
+                 } else {
+                     String mensaje = jsonResultado.getString("mensaje");
+                     JOptionPane.showMessageDialog(null, mensaje);
+                 }
+             }
+         });
         contenedor.add(botonEnviar);
 
         this.add(contenedor, BorderLayout.CENTER);
