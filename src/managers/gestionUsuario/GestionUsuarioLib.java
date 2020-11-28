@@ -79,6 +79,7 @@ public class GestionUsuarioLib {
                 { 
                     resultado.append("id", respuesta.getString(1));
                     resultado.append("nombre", respuesta.getString(2));
+                    resultado.append("contraseña", respuesta.getString(3));
                     resultado.append("rol", respuesta.getString(4));
                     resultado.append("habilitado", respuesta.getBoolean(5));
                 }
