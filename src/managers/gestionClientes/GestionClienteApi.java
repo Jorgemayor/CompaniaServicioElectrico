@@ -9,15 +9,18 @@ public class GestionClienteApi {
     private static GestionClienteLib lib = new GestionClienteLib();
 
     public static String obtenerClientes(){
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String clientes = "";
         try {
-            resultado = lib.obtenerClientes();
+            clientes = lib.obtenerClientes();
         } catch(SQLException excepcion) {
 
             return retornarError("-1");
         }
 
-        return resultado;
+        resultado.put("clientes", clientes);
+        resultado.put("code", "0");
+        return resultado.toString();
     }
     public static String agregarCliente(String tipoIdentificacion, int identificacion, String nombre, String direccion, int ciudad){
 
@@ -55,20 +58,25 @@ public class GestionClienteApi {
         return true;
     }
     public static String cambiarEstadoCliente(int idCliente){
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
 
         try {
             if(idCliente < 0) {
                 throw new Exception("-5");
             } else {
-                resultado = lib.cambiarEstadoCliente(idCliente);
+                codigo = lib.cambiarEstadoCliente(idCliente);
+            }
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
         }
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
     public static String retornarError(String codigoExcepcion){
         JSONObject mensajeError = new JSONObject();
