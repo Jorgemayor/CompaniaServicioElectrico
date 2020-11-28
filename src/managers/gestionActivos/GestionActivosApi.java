@@ -9,15 +9,17 @@ public class GestionActivosApi {
     private static GestionActivosLib lib = new GestionActivosLib();
 
     public static String obtenerActivos(){
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
         try {
-            resultado = lib.obtenerActivos();
+            codigo = lib.obtenerActivos();
         } catch(SQLException excepcion) {
 
             return retornarError("-1");
         }
 
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
     public static String registrarActivo(String numeroSerie, String nombre, int ciudad, String estado){
         JSONObject resultado = new JSONObject();
@@ -49,36 +51,40 @@ public class GestionActivosApi {
         return resultado.toString();
     }
     public static String actualizarActivo(int idActivo, String numeroSerie, String nombre, int ciudad){
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
 
         try {
             if(idActivo < 0) {
                 throw new Exception("-5");
             } else {
-                resultado = lib.actualizarActivo(idActivo, numeroSerie, nombre,ciudad);
+                codigo = lib.actualizarActivo(idActivo, numeroSerie, nombre,ciudad);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
         }
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
     public static String cambiarEstadoActivo(int idActivo){
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
 
         try {
             if(idActivo < 0) {
                 throw new Exception("-5");
             } else {
-                resultado = lib.cambiarEstadoActivo(idActivo);
+                codigo = lib.cambiarEstadoActivo(idActivo);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
         }
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
     public static String retornarError(String codigoExcepcion){
         JSONObject mensajeError = new JSONObject();
