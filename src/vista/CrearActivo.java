@@ -115,11 +115,12 @@ public class CrearActivo extends Container {
         botonEnviar.addActionListener(new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent event) {
- 
+  
                  String numSerie = (String)campoNumSerie.getText();
                  String nombre = (String)campoNombre.getText();
-                 String textoCiudad = (String)selectorCiudad.getSelectedItem();
-                 int ciudad = 1;
+                 JSONArray arregloID = ciudades.getJSONArray("id");
+                 int indiceSelector = selectorCiudad.getSelectedIndex();
+                 int ciudad = arregloID.getInt(indiceSelector);
                  String estado = (String)selectorEstado.getSelectedItem();
  
                  String resultado = GestionActivosApi.registrarActivo(numSerie, nombre, ciudad, estado);

@@ -143,8 +143,9 @@ public class CrearCliente extends Container {
                  int identificacion = Integer.parseInt(textoIdentificacion);
                  String nombre = (String)campoNombre.getText();
                  String direccion = (String)campoDireccion.getText();
-                 String textoCiudad = (String)selectorTipoIdentificacion.getSelectedItem();
-                 int ciudad = 0;
+                 JSONArray arregloID = ciudades.getJSONArray("id");
+                 int indiceSelector = selectorCiudad.getSelectedIndex();
+                 int ciudad = arregloID.getInt(indiceSelector);
  
                  String resultado = GestionClienteApi.agregarCliente(tipoIdentificacion,identificacion,nombre,direccion,ciudad);
                  JSONObject jsonResultado = new JSONObject(resultado);
