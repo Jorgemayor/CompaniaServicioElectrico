@@ -54,8 +54,27 @@ public class GestionClienteApi {
     }
 
 
-    public static boolean actualizarCliente(int idCliente){
-        return true;
+    public static String actualizarCliente(String tipoIdentificacion, int identificacion, String nombre,
+            String direccion, int ciudad) {
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
+
+        try {
+            if(identificacion < 0) {
+                throw new Exception("-2");
+            } else {
+                codigo = lib.actualizarCliente(tipoIdentificacion, identificacion, nombre, direccion, ciudad);
+            }
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
+            }
+        } catch(SQLException excepcion) {
+            return retornarError("-1");
+        } catch(Exception excepcion) {
+            return retornarError(excepcion.getMessage());
+        }
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
     public static String cambiarEstadoCliente(int idCliente){
         JSONObject resultado = new JSONObject();
