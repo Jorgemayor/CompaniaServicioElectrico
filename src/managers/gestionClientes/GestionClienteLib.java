@@ -64,7 +64,7 @@ public class GestionClienteLib {
         Connection conexion = Conexion.conectar();
         String consultaSQL = "SELECT * FROM cliente WHERE habilitado = ? AND identificacion = ?";
         PreparedStatement consultaEstado = conexion.prepareStatement(consultaSQL);
-        consultaEstado.setBoolean(2, true);
+        consultaEstado.setBoolean(1, true);
         consultaEstado.setInt(2, identificacion);
         ResultSet respuesta = consultaEstado.executeQuery();
         
@@ -79,7 +79,7 @@ public class GestionClienteLib {
             actualizarEstado.executeUpdate();
         }
         conexion.close();
-        return respuesta.toString();
+        return "0";
     }
     public String cambiarEstadoCliente(int idCliente) throws SQLException {
         Connection conexion = Conexion.conectar();
