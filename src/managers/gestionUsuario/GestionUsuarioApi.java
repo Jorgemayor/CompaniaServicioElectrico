@@ -53,15 +53,16 @@ public class GestionUsuarioApi {
     public static String obtenerUsuarios() {
 
         JSONObject resultado = new JSONObject();
-        String codigo = "";
+        String usuarios = "";
         try {
-            codigo = lib.obtenerUsuarios();
+            usuarios = lib.obtenerUsuarios();
         } catch(SQLException excepcion) {
 
             return retornarError("-1");
         }
 
-        resultado.put("code", codigo);
+        resultado.put("usuarios", usuarios);
+        resultado.put("code", "0");
         return resultado.toString();
     }
     /**
@@ -77,15 +78,16 @@ public class GestionUsuarioApi {
     public static String obtenerUsuarioPorNombre(String nombre) {
 
         JSONObject resultado = new JSONObject();
-        String codigo = "";
+        String usuario = "";
         try {
-            codigo = lib.obtenerUsuarioPorNombre(nombre);
+            usuario = lib.obtenerUsuarioPorNombre(nombre);
         } catch(SQLException excepcion) {
 
             return retornarError("-1");
         }
 
-        resultado.put("code", codigo);
+        resultado.put("usuario", usuario);
+        resultado.put("code", "0");
         return resultado.toString();
     }
 
@@ -153,6 +155,9 @@ public class GestionUsuarioApi {
             } else {
                 codigo = lib.actualizarUsuario(idUsuario, nombre, contrasena, idRol);
             }
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
+            }
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
@@ -183,6 +188,9 @@ public class GestionUsuarioApi {
                 throw new Exception("-2");
             } else {
                 codigo = lib.cambiarEstadoUsuario(idUsuario);
+            }
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");

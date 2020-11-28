@@ -10,15 +10,16 @@ public class GestionActivosApi {
 
     public static String obtenerActivos(){
         JSONObject resultado = new JSONObject();
-        String codigo = "";
+        String activos = "";
         try {
-            codigo = lib.obtenerActivos();
+            activos = lib.obtenerActivos();
         } catch(SQLException excepcion) {
 
             return retornarError("-1");
         }
 
-        resultado.put("code", codigo);
+        resultado.put("activos", activos);
+        resultado.put("code", "0");
         return resultado.toString();
     }
     public static String registrarActivo(String numeroSerie, String nombre, int ciudad, String estado){
@@ -60,6 +61,9 @@ public class GestionActivosApi {
             } else {
                 codigo = lib.actualizarActivo(idActivo, numeroSerie, nombre,ciudad);
             }
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
+            }
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
@@ -77,6 +81,9 @@ public class GestionActivosApi {
                 throw new Exception("-5");
             } else {
                 codigo = lib.cambiarEstadoActivo(idActivo);
+            }
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");
