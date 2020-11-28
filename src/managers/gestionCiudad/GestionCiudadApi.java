@@ -14,6 +14,16 @@ public class GestionCiudadApi {
         return resultado;
 
     }
+    public static String obtenerCiudadPorId(int id){
+        String resultado  = "";
+        try {
+            resultado = lib.obtenerCiudadPorId(id);
+        } catch(SQLException excepcion) {
+            return excepcion.getMessage();
+        }
+        return resultado;
+
+    }
 
     private static String retornarError(String codigoExcepcion) {
         String mensajeError = "{ \"code\": ";
