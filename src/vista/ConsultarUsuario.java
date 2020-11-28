@@ -3,19 +3,28 @@ package src.vista;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import src.managers.gestionUsuario.GestionUsuarioApi;
 
 public class ConsultarUsuario extends Container {
- 
+
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
-    private static final Color COLOR_FONDO = new Color(232,234,246);
+    private static final Color COLOR_FONDO = new Color(232, 234, 246);
 
     private JPanel contenido;
     private JLabel titulo;
@@ -24,11 +33,13 @@ public class ConsultarUsuario extends Container {
     private JButton buscar;
     private JButton mostrarTodos;
     private JTable datos;
+    private DefaultTableModel modeloDatos;
+    private JScrollPane navegacionDatos;
 
-    public ConsultarUsuario(){
+    public ConsultarUsuario() {
         iniciarComponentes();
     }
-    
+
     private void iniciarComponentes() {
 
         contenido = new JPanel();
@@ -37,19 +48,25 @@ public class ConsultarUsuario extends Container {
         usuarioCampo = new JTextField();
         buscar = new JButton("Buscar");
         mostrarTodos = new JButton("Mostrar Todos");
+        modeloDatos = new DefaultTableModel();
+        modeloDatos.addColumn("ID");
+        modeloDatos.addColumn("NOMBRE");
+        modeloDatos.addColumn("ROL");
+        modeloDatos.addColumn("ESTADO");
         datos = new JTable();
+        navegacionDatos = new JScrollPane(datos);
 
         contenido.setLayout(null);
         contenido.setVisible(true);
         contenido.setBackground(COLOR_FONDO);
 
-        //Titulo
+        // Titulo
         titulo.setFont(FUENTE_TITULO);
         titulo.setVisible(true);
         titulo.setBounds(510, 30, 400, 25);
         contenido.add(titulo);
 
-        //Formulario
+        // Formulario
         usuario.setFont(FUENTE_ETIQUETAS);
         usuario.setVisible(true);
         usuario.setBounds(150, 100, 200, 30);
@@ -61,17 +78,68 @@ public class ConsultarUsuario extends Container {
         buscar.setFont(FUENTE_ETIQUETAS);
         buscar.setVisible(true);
         buscar.setBounds(540, 100, 130, 30);
+        buscar.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+            
+        });
         contenido.add(buscar);
 
         mostrarTodos.setFont(FUENTE_ETIQUETAS);
         mostrarTodos.setVisible(true);
         mostrarTodos.setBounds(900, 100, 200, 30);
+        mostrarTodos.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSONObject usuarios = new JSONObject(GestionUsuarioApi.obtenerUsuarios());
+                JSONArray id = usuarios.getJSONArray("id");
+                JSONArray nombre = usuarios.getJSONArray("nombre");
+                JSONArray rol = usuarios.getJSONArray("rol");
+                JSONArray habilitado = usuarios.getJSONArray("habilitado");
+                datos.setModel(modeloDatos);
+                for(int i=0; i<id.length(); i++){
+                    String rolString = "";
+                    switch (rol.getInt(i)) {
+                        case 0:
+                            rolString = "Super Usuario";
+                            break;
+                        case 1:
+                            rolString = "Administrador";
+                            break;
+                        case 2:
+                            rolString = "Gerente";
+                            break;
+                        
+                        case 3:
+                            rolString = "Operador";
+                            break;
+                    }
+                    String estadoString;
+                    if(habilitado.getBoolean(i)){
+                        estadoString = "Habilitado";
+                    }
+                    else{
+                        estadoString = "Deshabilitado";
+                    }
+                    modeloDatos.addRow(new Object[]{
+                                                    id.getString(i),
+                                                    nombre.getString(i),
+                                                    rolString,
+                                                    estadoString});
+                }
+            }
+            
+        });
         contenido.add(mostrarTodos);
 
-        //Tabla
-        datos.setVisible(true);
-        datos.setBounds(150,150,950,390);
-        contenido.add(datos);
+        //Tabla 
+        navegacionDatos.setVisible(true);
+        navegacionDatos.setBounds(150,150,950,390);
+        contenido.add(navegacionDatos);
+
         this.add(contenido, BorderLayout.CENTER);
     }  
 }
