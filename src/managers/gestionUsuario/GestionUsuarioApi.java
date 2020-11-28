@@ -52,15 +52,17 @@ public class GestionUsuarioApi {
      */
     public static String obtenerUsuarios() {
 
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
         try {
-            resultado = lib.obtenerUsuarios();
+            codigo = lib.obtenerUsuarios();
         } catch(SQLException excepcion) {
 
             return retornarError("-1");
         }
 
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
     /**
      * obtenerUsuarioPorId
@@ -74,15 +76,17 @@ public class GestionUsuarioApi {
      */
     public static String obtenerUsuarioPorId(String nombre) {
 
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
         try {
-            resultado = lib.obtenerUsuarioPorNombre(nombre);
+            codigo = lib.obtenerUsuarioPorNombre(nombre);
         } catch(SQLException excepcion) {
 
             return retornarError("-1");
         }
 
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
 
     /**
@@ -140,20 +144,22 @@ public class GestionUsuarioApi {
      */
     public static String actualizarUsuario(int idUsuario, String nombre, String contrasena,int idRol) {
 
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
 
         try {
             if(idUsuario < 0) {
                 throw new Exception("-2");
             } else {
-                resultado = lib.actualizarUsuario(idUsuario, nombre, contrasena, idRol);
+                codigo = lib.actualizarUsuario(idUsuario, nombre, contrasena, idRol);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
         }
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
     
     /**
@@ -169,20 +175,22 @@ public class GestionUsuarioApi {
      */
     public static String cambiarEstadoUsuario(int idUsuario) {
 
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
 
         try {
             if(idUsuario < 0) {
                 throw new Exception("-2");
             } else {
-                resultado = lib.cambiarEstadoUsuario(idUsuario);
+                codigo = lib.cambiarEstadoUsuario(idUsuario);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
         }
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
 
     /**
