@@ -4,6 +4,7 @@ import java.sql.*;
 import src.control.Principal;
 import src.control.Usuario;
 
+import org.json.JSONObject;
 import org.sebastian.utils.AESEncryptor;
 
 import src.control.Conexion;
@@ -51,9 +52,16 @@ public class GestionUsuarioLib {
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setBoolean(1, true);
         ResultSet respuesta = consulta.executeQuery();
-
+        JSONObject resultado = new JSONObject();
+        while(respuesta.next())
+                { 
+                    resultado.append("id", respuesta.getString(1));
+                    resultado.append("nombre", respuesta.getString(2));
+                    resultado.append("rol", respuesta.getString(4));
+                    resultado.append("habilitado", respuesta.getBoolean(5));
+                }
         conexion.close();
-        return respuesta.toString();
+        return resultado.toString();
     }
 
     public String crearUsuario(String nombre, String contrasena, int idRol) throws SQLException {

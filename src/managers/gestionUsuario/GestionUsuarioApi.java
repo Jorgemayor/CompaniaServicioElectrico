@@ -195,7 +195,9 @@ public class GestionUsuarioApi {
                 mensajeError.put("mensaje", "La contraseña no puede estar vacía");
                 break;
             case -8:
+
                 mensajeError.put("mensaje", "Nombre de usuario en uso");
+
                 break;
             default:
                 mensajeError.put("mensaje", "El código de error " + codigo + " no ha sido identificado");

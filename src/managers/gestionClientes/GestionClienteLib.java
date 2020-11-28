@@ -3,6 +3,9 @@ package src.managers.gestionClientes;
 import java.sql.*;
 import src.control.Conexion;
 
+
+import java.lang.String;
+
 public class GestionClienteLib {
 
     // variables para encriptacion
@@ -15,22 +18,28 @@ public class GestionClienteLib {
         Connection conexion = Conexion.conectar();
         String respuesta = "";
 
-        String consultaSQL = "SELECT * FROM cliente WHERE habilitado = ?";
+        String consultaSQL = "SELECT COUNT(nombre) as conteo FROM cliente WHERE identificacion = ? AND habilitado = ?";
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
-        consulta.setString(1, nombre);
+        consulta.setInt(1, identificacion);
+        consulta.setBoolean(2, true);
         ResultSet resultadoConsulta = consulta.executeQuery();
+        resultadoConsulta.next();
+        String textoResultadoConsulta = resultadoConsulta.getString("conteo");
+        int enteroResultadoConsulta = Integer.parseInt(textoResultadoConsulta);
+        System.out.println(enteroResultadoConsulta);
 
-        if(resultadoConsulta.next()) {
-            respuesta = "-8";
+
+        if(enteroResultadoConsulta>0) {
+            respuesta = "-7";
         } else {
-            String insercionSQL = "INSERT INTO cliente(tipo_identificacion=?,identificacion=?,nombre=?,direccion=?,ciudad=?)";
+            String insercionSQL = "INSERT INTO cliente (tipo_identificacion,identificacion,nombre,direccion,id_ciudad,habilitado) VALUES(?,?,?,?,?,true)";
             PreparedStatement insercion = conexion.prepareStatement(insercionSQL);
             insercion.setString(1, tipoIdentificacion);
             insercion.setInt(2, identificacion);
             insercion.setString(3, nombre);
             insercion.setString(4, direccion);
             insercion.setInt(5, ciudad);
-            insercion.executeQuery();
+            insercion.executeUpdate();
 
             respuesta = "0";
         }
