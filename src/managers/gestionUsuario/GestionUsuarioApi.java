@@ -72,7 +72,7 @@ public class GestionUsuarioApi {
      * 
      * @return booleano indicando si se actualizó (true) o no (false).
      */
-    public static String obtenerUsuarioPorId(String nombre) {
+    public static String obtenerUsuarioPorNombre(String nombre) {
 
         String resultado = "";
         try {

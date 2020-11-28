@@ -51,6 +51,12 @@ public class ConsultarActivo extends Container {
         mostrarTodos = new JButton("Mostrar Todos");
         datos = new JTable();
         modeloDatos = new DefaultTableModel();
+        modeloDatos.addColumn("ID");
+        modeloDatos.addColumn("NUMERO DE SERIE");
+        modeloDatos.addColumn("NOMBRE");
+        modeloDatos.addColumn("CIUDAD");
+        modeloDatos.addColumn("ESTADO");
+        modeloDatos.addColumn("HABILITADO");
         navegacionDatos = new JScrollPane(datos);
 
         contenido.setLayout(null);
@@ -84,12 +90,6 @@ public class ConsultarActivo extends Container {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                modeloDatos.addColumn("ID");
-                modeloDatos.addColumn("NUMERO DE SERIE");
-                modeloDatos.addColumn("NOMBRE");
-                modeloDatos.addColumn("CIUDAD");
-                modeloDatos.addColumn("ESTADO");
-                modeloDatos.addColumn("HABILITADO");
                 JSONObject activos = new JSONObject(GestionActivosApi.obtenerActivos());
                 JSONArray id = activos.getJSONArray("id");
                 JSONArray numero_serie = activos.getJSONArray("numero_serie");
