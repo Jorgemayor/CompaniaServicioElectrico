@@ -64,21 +64,22 @@ public class GestionUsuarioLib {
         return resultado.toString();
     }
 
-    public String obtenerUsuarioPorId(int id) throws SQLException {
+    public String obtenerUsuarioPorNombre(String nombre) throws SQLException {
 
         Connection conexion = Conexion.conectar();
 
-        String consultaSQL = "SELECT * FROM usuario WHERE habilitado = ? AND id = ?";
+        String consultaSQL = "SELECT * FROM usuario WHERE habilitado = ? AND nombre = ?";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setBoolean(1, true);
-        consulta.setInt(2, id);
+        consulta.setString(2, nombre);
         ResultSet respuesta = consulta.executeQuery();
         JSONObject resultado = new JSONObject();
         while(respuesta.next())
                 { 
                     resultado.append("id", respuesta.getString(1));
                     resultado.append("nombre", respuesta.getString(2));
+                    resultado.append("contraseña", respuesta.getString(3));
                     resultado.append("rol", respuesta.getString(4));
                     resultado.append("habilitado", respuesta.getBoolean(5));
                 }
@@ -115,9 +116,26 @@ public class GestionUsuarioLib {
         return respuesta;
     }
 
-    public String actualizarUsuario(int id_usuario) {
+    public String actualizarUsuario(int id, String nombre, String contrasena,int idRol) throws SQLException{
 
-        return "";
+        Connection conexion = Conexion.conectar();
+        String consultaSQL = "SELECT habilitado FROM usuario WHERE id = ? AND habilitado = =";
+        PreparedStatement consultaEstado = conexion.prepareStatement(consultaSQL);
+        consultaEstado.setInt(1, id);
+        consultaEstado.setBoolean(2, true);
+        ResultSet estadoActual = consultaEstado.executeQuery();
+        
+        if(estadoActual.next()) {
+            String actualizacionSQL = "UPDATE usuario SET nombre = ?,contrasena = ?, id_rol = ? WHERE id = ?";
+            PreparedStatement actualizarEstado = conexion.prepareStatement(actualizacionSQL);
+            actualizarEstado.setString(1, nombre);
+            actualizarEstado.setString(2, contrasena);
+            actualizarEstado.setInt(3, idRol);
+            actualizarEstado.setInt(4, id);
+            actualizarEstado.executeUpdate();
+        }
+        conexion.close();
+        return "0";
     }
     
     /**

@@ -33,7 +33,6 @@ public class ConsultarUsuario extends Container {
     private JButton buscar;
     private JButton mostrarTodos;
     private JTable datos;
-    private DefaultTableModel modeloDatos;
     private JScrollPane navegacionDatos;
 
     public ConsultarUsuario() {
@@ -49,7 +48,6 @@ public class ConsultarUsuario extends Container {
         buscar = new JButton("Buscar");
         mostrarTodos = new JButton("Mostrar Todos");
         datos = new JTable();
-        modeloDatos = new DefaultTableModel();
         navegacionDatos = new JScrollPane(datos);
 
         contenido.setLayout(null);
@@ -78,8 +76,47 @@ public class ConsultarUsuario extends Container {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                JSONObject usuario = new JSONObject(GestionUsuarioApi.obtenerUsuarioPorNombre(usuarioCampo.getText()));
+                JSONArray id = usuario.getJSONArray("id");
+                JSONArray nombre = usuario.getJSONArray("nombre");
+                JSONArray rol = usuario.getJSONArray("rol");
+                JSONArray habilitado = usuario.getJSONArray("habilitado");
+                DefaultTableModel modeloDatos = new DefaultTableModel();
+                datos.setModel(modeloDatos);
+                modeloDatos = new DefaultTableModel();
+                modeloDatos.addColumn("ID");
+                modeloDatos.addColumn("NOMBRE");
+                modeloDatos.addColumn("ROL");
+                modeloDatos.addColumn("ESTADO");
+                String rolString = "";
+                    switch (rol.getInt(0)) {
+                        case 0:
+                            rolString = "Super Usuario";
+                            break;
+                        case 1:
+                            rolString = "Administrador";
+                            break;
+                        case 2:
+                            rolString = "Gerente";
+                            break;
+                        
+                        case 3:
+                            rolString = "Operador";
+                            break;
+                    }
+                    String estadoString;
+                    if(habilitado.getBoolean(0)){
+                        estadoString = "Habilitado";
+                    }
+                    else{
+                        estadoString = "Deshabilitado";
+                    }
+                    modeloDatos.addRow(new Object[]{
+                                                    id.getString(0),
+                                                    nombre.getString(0),
+                                                    rolString,
+                                                    estadoString});
             }
-             
         });
         contenido.add(buscar);
 
@@ -90,15 +127,18 @@ public class ConsultarUsuario extends Container {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                modeloDatos.addColumn("ID");
-                modeloDatos.addColumn("NOMBRE");
-                modeloDatos.addColumn("ROL");
-                modeloDatos.addColumn("ESTADO");
                 JSONObject usuarios = new JSONObject(GestionUsuarioApi.obtenerUsuarios());
                 JSONArray id = usuarios.getJSONArray("id");
                 JSONArray nombre = usuarios.getJSONArray("nombre");
                 JSONArray rol = usuarios.getJSONArray("rol");
                 JSONArray habilitado = usuarios.getJSONArray("habilitado");
+                DefaultTableModel modeloDatos = new DefaultTableModel();;
+                datos.setModel(modeloDatos);
+                modeloDatos = new DefaultTableModel();
+                modeloDatos.addColumn("ID");
+                modeloDatos.addColumn("NOMBRE");
+                modeloDatos.addColumn("ROL");
+                modeloDatos.addColumn("ESTADO");
                 datos.setModel(modeloDatos);
                 for(int i=0; i<id.length(); i++){
                     String rolString = "";
