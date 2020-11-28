@@ -24,6 +24,17 @@ public class GestionCiudadLib {
                 }
                 conexion.close();
                 return resultado.toString();
-	}
+    }
+    
+    public String obtenerCiudadPorId(int id) throws SQLException {
+        Connection conexion = Conexion.conectar();
+        String consultaSQL = "SELECT * FROM ciudad WHERE id =?";
+        PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
+        consulta.setInt(1, id);
+        ResultSet respuesta = consulta.executeQuery();
+        respuesta.next();
+        conexion.close();
+        return respuesta.getString(2);
+}
     
 }

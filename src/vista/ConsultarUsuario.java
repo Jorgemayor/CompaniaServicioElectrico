@@ -48,12 +48,8 @@ public class ConsultarUsuario extends Container {
         usuarioCampo = new JTextField();
         buscar = new JButton("Buscar");
         mostrarTodos = new JButton("Mostrar Todos");
-        modeloDatos = new DefaultTableModel();
-        modeloDatos.addColumn("ID");
-        modeloDatos.addColumn("NOMBRE");
-        modeloDatos.addColumn("ROL");
-        modeloDatos.addColumn("ESTADO");
         datos = new JTable();
+        modeloDatos = new DefaultTableModel();
         navegacionDatos = new JScrollPane(datos);
 
         contenido.setLayout(null);
@@ -83,7 +79,7 @@ public class ConsultarUsuario extends Container {
             @Override
             public void actionPerformed(ActionEvent e) {
             }
-            
+             
         });
         contenido.add(buscar);
 
@@ -94,6 +90,10 @@ public class ConsultarUsuario extends Container {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                modeloDatos.addColumn("ID");
+                modeloDatos.addColumn("NOMBRE");
+                modeloDatos.addColumn("ROL");
+                modeloDatos.addColumn("ESTADO");
                 JSONObject usuarios = new JSONObject(GestionUsuarioApi.obtenerUsuarios());
                 JSONArray id = usuarios.getJSONArray("id");
                 JSONArray nombre = usuarios.getJSONArray("nombre");

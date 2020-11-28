@@ -1,13 +1,13 @@
 package src.managers.gestionActivos;
 
 import java.sql.*;
+
+import org.json.JSONObject;
+
 import src.control.Conexion;
 
 public class GestionActivosLib {
 
-        // variables para encriptacion
-        private static final String KEY = "gn2byqYnYFlJMzG5";
-        private static final String IV = "HFNvUwjB1KiOKtJI";
 
     public String obtenerActivos()throws SQLException{
         Connection conexion = Conexion.conectar();
@@ -17,10 +17,18 @@ public class GestionActivosLib {
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setBoolean(1, true);
         ResultSet respuesta = consulta.executeQuery();
-
+        JSONObject resultado = new JSONObject();
+        while(respuesta.next())
+                { 
+                    resultado.append("id", respuesta.getString(1));
+                    resultado.append("numero_serie", respuesta.getString(2));
+                    resultado.append("nombre", respuesta.getString(3));
+                    resultado.append("id_ciudad", respuesta.getInt(4));
+                    resultado.append("estado", respuesta.getString(5));
+                    resultado.append("habilitado", respuesta.getBoolean(6));
+                }
         conexion.close();
-
-        return respuesta.toString();
+        return resultado.toString();
     }
     public String registrarActivo(String numeroSerie, String nombre, int ciudad, String estado)throws SQLException{
         Connection conexion = Conexion.conectar();
