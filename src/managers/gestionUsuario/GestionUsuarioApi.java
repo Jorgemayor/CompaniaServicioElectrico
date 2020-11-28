@@ -41,7 +41,7 @@ public class GestionUsuarioApi {
     }
 
     /**
-     * crearUsuario
+     * obtenerUsuarios
      * 
      * Función encargada de validar los datos para consultar todos
      * los usuario.
@@ -55,6 +55,28 @@ public class GestionUsuarioApi {
         String resultado = "";
         try {
             resultado = lib.obtenerUsuarios();
+        } catch(SQLException excepcion) {
+
+            return retornarError("-1");
+        }
+
+        return resultado;
+    }
+    /**
+     * obtenerUsuarioPorId
+     * 
+     * Función encargada de validar los datos para consultar todos
+     * los usuario.
+     * 
+     * @param id_usuario identificador del usuario a inhabilitar.
+     * 
+     * @return booleano indicando si se actualizó (true) o no (false).
+     */
+    public static String obtenerUsuarioPorId(int id) {
+
+        String resultado = "";
+        try {
+            resultado = lib.obtenerUsuarioPorId(id);
         } catch(SQLException excepcion) {
 
             return retornarError("-1");
