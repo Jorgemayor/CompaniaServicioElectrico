@@ -60,8 +60,26 @@ public class GestionClienteLib {
 
         return respuesta.toString();
     }
-    public String actualizarCliente(){
-        return "";
+    public String actualizarCliente(String tipoIdentificacion, int identificacion, String nombre, String direccion, int ciudad)throws SQLException{
+        Connection conexion = Conexion.conectar();
+        String consultaSQL = "SELECT * FROM cliente WHERE habilitado = ? AND identificacion = ?";
+        PreparedStatement consultaEstado = conexion.prepareStatement(consultaSQL);
+        consultaEstado.setBoolean(2, true);
+        consultaEstado.setInt(2, identificacion);
+        ResultSet respuesta = consultaEstado.executeQuery();
+        
+        if(respuesta.next()) {
+            String actualizacionSQL = "UPDATE cliente SET (tipo_identificacion=?,identificacion=?,nombre=?,direccion=?,id_ciudad=?)  WHERE id = ?";
+            PreparedStatement actualizarEstado = conexion.prepareStatement(actualizacionSQL);
+            actualizarEstado.setString(1, tipoIdentificacion);
+            actualizarEstado.setInt(2, identificacion);
+            actualizarEstado.setString(3, nombre);
+            actualizarEstado.setString(4, direccion);
+            actualizarEstado.setInt(5, ciudad);
+            actualizarEstado.executeUpdate();
+        }
+        conexion.close();
+        return respuesta.toString();
     }
     public String cambiarEstadoCliente(int idCliente) throws SQLException {
         Connection conexion = Conexion.conectar();
@@ -78,6 +96,6 @@ public class GestionClienteLib {
             actualizarEstado.executeQuery();
         }
         conexion.close();
-        return "{\"code\": 0, \"result\": " + "true" +"}";
+        return estadoActual.toString();
     }
 }
