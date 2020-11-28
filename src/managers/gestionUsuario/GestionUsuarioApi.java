@@ -72,11 +72,11 @@ public class GestionUsuarioApi {
      * 
      * @return booleano indicando si se actualizó (true) o no (false).
      */
-    public static String obtenerUsuarioPorId(int id) {
+    public static String obtenerUsuarioPorId(String nombre) {
 
         String resultado = "";
         try {
-            resultado = lib.obtenerUsuarioPorId(id);
+            resultado = lib.obtenerUsuarioPorNombre(nombre);
         } catch(SQLException excepcion) {
 
             return retornarError("-1");
@@ -138,9 +138,22 @@ public class GestionUsuarioApi {
      * @return booleano indicando si el usuario se actualizó (true)
      * o no (false).
      */
-    public static boolean actualizarUsuario(int idUsuario) {
+    public static String actualizarUsuario(int idUsuario, String nombre, String contrasena,int idRol) {
 
-        return true;
+        String resultado = "";
+
+        try {
+            if(idUsuario < 0) {
+                throw new Exception("-2");
+            } else {
+                resultado = lib.actualizarUsuario(idUsuario, nombre, contrasena, idRol);
+            }
+        } catch(SQLException excepcion) {
+            return retornarError("-1");
+        } catch(Exception excepcion) {
+            return retornarError(excepcion.getMessage());
+        }
+        return resultado;
     }
     
     /**
