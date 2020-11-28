@@ -82,12 +82,12 @@ public class ConsultarUsuario extends Container {
                 JSONArray rol = usuario.getJSONArray("rol");
                 JSONArray habilitado = usuario.getJSONArray("habilitado");
                 DefaultTableModel modeloDatos = new DefaultTableModel();
-                datos.setModel(modeloDatos);
                 modeloDatos = new DefaultTableModel();
                 modeloDatos.addColumn("ID");
                 modeloDatos.addColumn("NOMBRE");
                 modeloDatos.addColumn("ROL");
                 modeloDatos.addColumn("ESTADO");
+                datos.setModel(modeloDatos);
                 String rolString = "";
                     switch (rol.getInt(0)) {
                         case 0:
@@ -133,12 +133,12 @@ public class ConsultarUsuario extends Container {
                 JSONArray rol = usuarios.getJSONArray("rol");
                 JSONArray habilitado = usuarios.getJSONArray("habilitado");
                 DefaultTableModel modeloDatos = new DefaultTableModel();;
-                datos.setModel(modeloDatos);
                 modeloDatos = new DefaultTableModel();
                 modeloDatos.addColumn("ID");
                 modeloDatos.addColumn("NOMBRE");
                 modeloDatos.addColumn("ROL");
                 modeloDatos.addColumn("ESTADO");
+                datos.setModel(modeloDatos);
                 datos.setModel(modeloDatos);
                 for(int i=0; i<id.length(); i++){
                     String rolString = "";
