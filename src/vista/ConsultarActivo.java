@@ -95,22 +95,13 @@ public class ConsultarActivo extends Container {
                     modeloDatos.addColumn("NOMBRE");
                     modeloDatos.addColumn("CIUDAD");
                     modeloDatos.addColumn("ESTADO");
-                    modeloDatos.addColumn("HABILITADO");
                     datos.setModel(modeloDatos);
-                    String habilitadoString;
-                        if(habilitado.getBoolean(0)){
-                            habilitadoString = "Sí";
-                        }
-                        else{
-                            habilitadoString = "No";
-                        }
                         modeloDatos.addRow(new Object[]{
                             id.getString(0),
                             numero_serie.getString(0),
                             nombre.getString(0),
                             GestionCiudadApi.obtenerCiudadPorId(id_ciudad.getInt(0)),
-                            estado.getString(0),
-                            habilitadoString});
+                            estado.getString(0)});
                 }
                 else
                 {
@@ -144,23 +135,14 @@ public class ConsultarActivo extends Container {
                     modeloDatos.addColumn("NOMBRE");
                     modeloDatos.addColumn("CIUDAD");
                     modeloDatos.addColumn("ESTADO");
-                    modeloDatos.addColumn("HABILITADO");
                     datos.setModel(modeloDatos);
                     for(int i=0; i<id.length(); i++){
-                        String habilitadoString;
-                        if(habilitado.getBoolean(i)){
-                            habilitadoString = "Sí";
-                        }
-                        else{
-                            habilitadoString = "No";
-                        }
                         modeloDatos.addRow(new Object[]{
                             id.getString(i),
                             numero_serie.getString(i),
                             nombre.getString(i),
                             GestionCiudadApi.obtenerCiudadPorId(id_ciudad.getInt(i)),
-                            estado.getString(i),
-                            habilitadoString});
+                            estado.getString(i)});
                     }
                 }
                 else
