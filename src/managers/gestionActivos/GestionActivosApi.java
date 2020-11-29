@@ -48,14 +48,14 @@ public class GestionActivosApi {
         resultado.put("code", codigo);
         return resultado.toString();
     }
-    public static String actualizarActivo(int idActivo, String numeroSerie, String nombre, int ciudad){
+    public static String actualizarActivo(int idActivo, String nombre, int ciudad, String estado){
         String resultado = "";
 
         try {
             if(idActivo < 0) {
                 throw new Exception("-5");
             } else {
-                resultado = lib.actualizarActivo(idActivo, numeroSerie, nombre,ciudad);
+                resultado = lib.actualizarActivo(idActivo, nombre,ciudad,estado);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");

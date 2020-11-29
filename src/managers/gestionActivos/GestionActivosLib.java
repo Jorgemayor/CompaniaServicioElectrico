@@ -54,7 +54,7 @@ public class GestionActivosLib {
         conexion.close();
         return respuesta;
     }
-    public String actualizarActivo(int idActivo, String numeroSerie, String nombre, int ciudad)throws SQLException{
+    public String actualizarActivo(int idActivo, String nombre, int ciudad, String estado)throws SQLException{
         Connection conexion = Conexion.conectar();
         String consultaSQL = "SELECT * FROM activo WHERE id = ?";
         PreparedStatement consultaEstado = conexion.prepareStatement(consultaSQL);
@@ -62,11 +62,11 @@ public class GestionActivosLib {
         ResultSet estadoActual = consultaEstado.executeQuery();
         
         if(estadoActual.next()) {
-            String actualizacionSQL = "UPDATE activo SET (numero_serie=?,nombre=?,ciudad=?)  WHERE id = ?";
+            String actualizacionSQL = "UPDATE activo SET (nombre=?,id_ciudad=?,estado=?)  WHERE id = ?";
             PreparedStatement actualizarActivo = conexion.prepareStatement(actualizacionSQL);
-            actualizarActivo.setString(1, numeroSerie);
-            actualizarActivo.setString(2, nombre);
-            actualizarActivo.setInt(3, ciudad);
+            actualizarActivo.setString(1, nombre);
+            actualizarActivo.setInt(2, ciudad);
+            actualizarActivo.setString(3, estado);
             actualizarActivo.setInt(4, idActivo);
             actualizarActivo.executeQuery();
         }
