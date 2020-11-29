@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import org.json.JSONObject;
 
 public class GestionUsuarioApi {
@@ -52,15 +54,23 @@ public class GestionUsuarioApi {
      */
     public static String obtenerUsuarios() {
 
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String usuarios = "";
         try {
-            resultado = lib.obtenerUsuarios();
+            usuarios = lib.obtenerUsuarios();
         } catch(SQLException excepcion) {
-
+            System.out.print(excepcion.getMessage());
             return retornarError("-1");
         }
+        if(usuarios.equals("{}")){
 
-        return resultado;
+            return retornarError("-2");
+        }
+        else{
+            resultado.put("usuarios", usuarios);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
     }
     /**
      * obtenerUsuarioPorId
@@ -72,17 +82,57 @@ public class GestionUsuarioApi {
      * 
      * @return booleano indicando si se actualizó (true) o no (false).
      */
-    public static String obtenerUsuarioPorId(int id) {
-
-        String resultado = "";
+    public static String obtenerUsuarioPorNombre(String nombre) {
+        if(nombre.equals("")){
+            return retornarError("-6");
+        }
+        JSONObject resultado = new JSONObject();
+        String usuario = "";
         try {
-            resultado = lib.obtenerUsuarioPorId(id);
+            usuario = lib.obtenerUsuarioPorNombre(nombre);
         } catch(SQLException excepcion) {
-
             return retornarError("-1");
         }
+        if(usuario.equals("{}")){
 
-        return resultado;
+            return retornarError("-2");
+        }
+        else{
+            resultado.put("usuario", usuario);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
+    }
+    /**
+     * buscarEnTodosLosUsuarios
+     * 
+     * Función encargada de validar los datos para consultar todos
+     * los usuario.
+     * 
+     * @param id_usuario identificador del usuario a inhabilitar.
+     * 
+     * @return booleano indicando si se actualizó (true) o no (false).
+     */
+    public static String buscarEnTodosLosUsuarios(String nombre) {
+        if(nombre.equals("")){
+            return retornarError("-6");
+        }
+        JSONObject resultado = new JSONObject();
+        String usuario = "";
+        try {
+            usuario = lib.buscarEnTodosLosUsuarios(nombre);
+        } catch(SQLException excepcion) {
+            return retornarError("-1");
+        }
+        if(usuario.equals("{}")){
+
+            return retornarError("-2");
+        }
+        else{
+            resultado.put("usuario", usuario);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
     }
 
     /**
@@ -138,9 +188,28 @@ public class GestionUsuarioApi {
      * @return booleano indicando si el usuario se actualizó (true)
      * o no (false).
      */
-    public static boolean actualizarUsuario(int idUsuario) {
+    public static String actualizarUsuario(int idUsuario, String nombre, String contrasena,int idRol) {
 
-        return true;
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
+
+        try {
+            if(idUsuario < 0) {
+                throw new Exception("-2");
+            } else {
+                codigo = lib.actualizarUsuario(idUsuario, nombre, contrasena, idRol);
+            }
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
+            }
+        } catch(SQLException excepcion) {
+            System.out.print(excepcion.getMessage());
+            return retornarError("-1");
+        } catch(Exception excepcion) {
+            return retornarError(excepcion.getMessage());
+        }
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
     
     /**
@@ -156,20 +225,25 @@ public class GestionUsuarioApi {
      */
     public static String cambiarEstadoUsuario(int idUsuario) {
 
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
 
         try {
             if(idUsuario < 0) {
                 throw new Exception("-2");
             } else {
-                resultado = lib.cambiarEstadoUsuario(idUsuario);
+                codigo = lib.cambiarEstadoUsuario(idUsuario);
+            }
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
         }
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
 
     /**
@@ -199,7 +273,7 @@ public class GestionUsuarioApi {
                 mensajeError.put("mensaje", "Error al conectarse a la base de datos");
                 break;
             case -2:
-                mensajeError.put("mensaje", "No existe un usuario con es id");
+                mensajeError.put("mensaje", "No existe ese usuario");
                 break;
             case -3:
                 mensajeError.put("mensaje", "Rol inválido");

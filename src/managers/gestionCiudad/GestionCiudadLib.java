@@ -32,13 +32,9 @@ public class GestionCiudadLib {
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setInt(1, id);
         ResultSet respuesta = consulta.executeQuery();
-        JSONObject resultado = new JSONObject();
-        while(respuesta.next())
-        {
-            resultado.append("nombre", respuesta.getString(2)); 
-        }
+        respuesta.next();
         conexion.close();
-        return resultado.toString();
+        return respuesta.getString(2);
 }
     
 }

@@ -9,16 +9,49 @@ public class GestionActivosApi {
     private static GestionActivosLib lib = new GestionActivosLib();
 
     public static String obtenerActivos(){
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String activos = "";
         try {
-            resultado = lib.obtenerActivos();
+            activos = lib.obtenerActivos();
         } catch(SQLException excepcion) {
 
             return retornarError("-1");
         }
 
-        return resultado;
+        if(activos.equals("{}")){
+
+            return retornarError("-5");
+        }
+        else{
+
+            resultado.put("activos", activos);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
     }
+    public static String obtenerActivosPorSerial(String serial){
+        JSONObject resultado = new JSONObject();
+        String activos = "";
+        try {
+            activos = lib.obtenerActivoPorSerial(serial);
+        } catch(SQLException excepcion) {
+
+            return retornarError("-1");
+        }
+        if(activos.equals("{}")){
+
+            return retornarError("-5");
+
+
+        }
+        else{
+
+            resultado.put("activos", activos);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
+    }
+    
     public static String registrarActivo(String numeroSerie, String nombre, int ciudad, String estado){
         JSONObject resultado = new JSONObject();
         String codigo = "";
@@ -48,37 +81,51 @@ public class GestionActivosApi {
         resultado.put("code", codigo);
         return resultado.toString();
     }
+
     public static String actualizarActivo(int idActivo, String nombre, int ciudad, String estado){
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
 
         try {
             if(idActivo < 0) {
                 throw new Exception("-5");
-            } else {
-                resultado = lib.actualizarActivo(idActivo, nombre,ciudad,estado);
+            } else 
+            {
+
+                codigo = lib.actualizarActivo(idActivo, nombre,ciudad, estado);
+            }
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
+
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
         }
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
     public static String cambiarEstadoActivo(int idActivo){
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
 
         try {
             if(idActivo < 0) {
                 throw new Exception("-5");
             } else {
-                resultado = lib.cambiarEstadoActivo(idActivo);
+                codigo = lib.cambiarEstadoActivo(idActivo);
+            }
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
         }
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
     public static String retornarError(String codigoExcepcion){
         JSONObject mensajeError = new JSONObject();
@@ -105,7 +152,7 @@ public class GestionActivosApi {
                 mensajeError.put("mensaje","Ciudad invalida");
                 break;
             case -5:
-                mensajeError.put("mensaje", "No existe un Actibo con ese ID");
+                mensajeError.put("mensaje", "No existe ese Activo");
                 break;
             case -6:
                 mensajeError.put("mensaje", "Nombre del Activo no puede ser vació");
