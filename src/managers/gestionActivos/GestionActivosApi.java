@@ -23,7 +23,18 @@ public class GestionActivosApi {
         return resultado.toString();
     }
     public static String obtenerActivosPorSerial(String serial){
-        return "";
+        JSONObject resultado = new JSONObject();
+        String activos = "";
+        try {
+            activos = lib.obtenerActivoPorSerial(serial);
+        } catch(SQLException excepcion) {
+
+            return retornarError("-1");
+        }
+
+        resultado.put("activos", activos);
+        resultado.put("code", "0");
+        return resultado.toString();
     }
     
     public static String registrarActivo(String numeroSerie, String nombre, int ciudad, String estado){
