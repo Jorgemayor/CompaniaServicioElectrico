@@ -79,7 +79,7 @@ public class GestionUsuarioLib {
                 { 
                     resultado.append("id", respuesta.getString(1));
                     resultado.append("nombre", respuesta.getString(2));
-                    resultado.append("contraseña", respuesta.getString(3));
+                    resultado.append("contraseña", AESEncryptor.decrypt(KEY, IV, respuesta.getString(3)));
                     resultado.append("rol", respuesta.getString(4));
                     resultado.append("habilitado", respuesta.getBoolean(5));
                 }
@@ -119,17 +119,24 @@ public class GestionUsuarioLib {
     public String actualizarUsuario(int id, String nombre, String contrasena,int idRol) throws SQLException{
 
         Connection conexion = Conexion.conectar();
-        String consultaSQL = "SELECT habilitado FROM usuario WHERE id = ? AND habilitado = =";
+        System.out.print("1");
+        String consultaSQL = "SELECT habilitado FROM usuario WHERE id = ? AND habilitado = ?";
+        System.out.print("2");
         PreparedStatement consultaEstado = conexion.prepareStatement(consultaSQL);
+        System.out.print("3");
         consultaEstado.setInt(1, id);
+        System.out.print("4");
         consultaEstado.setBoolean(2, true);
+        System.out.print("5");
+        System.out.print("\n"+consultaEstado);
         ResultSet estadoActual = consultaEstado.executeQuery();
+        System.out.print("6");
         
         if(estadoActual.next()) {
             String actualizacionSQL = "UPDATE usuario SET nombre = ?,contrasena = ?, id_rol = ? WHERE id = ?";
             PreparedStatement actualizarEstado = conexion.prepareStatement(actualizacionSQL);
             actualizarEstado.setString(1, nombre);
-            actualizarEstado.setString(2, contrasena);
+            actualizarEstado.setString(2, AESEncryptor.encrypt(KEY, IV, contrasena) );
             actualizarEstado.setInt(3, idRol);
             actualizarEstado.setInt(4, id);
             actualizarEstado.executeUpdate();

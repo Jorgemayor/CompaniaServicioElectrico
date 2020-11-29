@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import org.json.JSONObject;
 
 public class GestionUsuarioApi {
@@ -57,7 +59,6 @@ public class GestionUsuarioApi {
         try {
             usuarios = lib.obtenerUsuarios();
         } catch(SQLException excepcion) {
-
             return retornarError("-1");
         }
 
@@ -76,13 +77,14 @@ public class GestionUsuarioApi {
      * @return booleano indicando si se actualizó (true) o no (false).
      */
     public static String obtenerUsuarioPorNombre(String nombre) {
-
+        if(nombre.equals("")){
+            return retornarError("-6");
+        }
         JSONObject resultado = new JSONObject();
         String usuario = "";
         try {
             usuario = lib.obtenerUsuarioPorNombre(nombre);
         } catch(SQLException excepcion) {
-
             return retornarError("-1");
         }
 
@@ -159,6 +161,7 @@ public class GestionUsuarioApi {
                 throw new Exception(codigo);
             }
         } catch(SQLException excepcion) {
+            System.out.print(excepcion.getMessage());
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());

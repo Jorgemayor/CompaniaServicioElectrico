@@ -9,6 +9,7 @@ import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -73,50 +74,58 @@ public class ConsultarUsuario extends Container {
         buscar.setVisible(true);
         buscar.setBounds(540, 100, 130, 30);
         buscar.addActionListener(new ActionListener(){
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSONObject usuario = new JSONObject(GestionUsuarioApi.obtenerUsuarioPorNombre(usuarioCampo.getText()));
-                JSONArray id = usuario.getJSONArray("id");
-                JSONArray nombre = usuario.getJSONArray("nombre");
-                JSONArray rol = usuario.getJSONArray("rol");
-                JSONArray habilitado = usuario.getJSONArray("habilitado");
-                DefaultTableModel modeloDatos = new DefaultTableModel();
-                modeloDatos = new DefaultTableModel();
-                modeloDatos.addColumn("ID");
-                modeloDatos.addColumn("NOMBRE");
-                modeloDatos.addColumn("ROL");
-                modeloDatos.addColumn("ESTADO");
-                datos.setModel(modeloDatos);
-                String rolString = "";
-                    switch (rol.getInt(0)) {
-                        case 0:
-                            rolString = "Super Usuario";
-                            break;
-                        case 1:
-                            rolString = "Administrador";
-                            break;
-                        case 2:
-                            rolString = "Gerente";
-                            break;
-                        
-                        case 3:
-                            rolString = "Operador";
-                            break;
-                    }
-                    String estadoString;
-                    if(habilitado.getBoolean(0)){
-                        estadoString = "Habilitado";
-                    }
-                    else{
-                        estadoString = "Deshabilitado";
-                    }
-                    modeloDatos.addRow(new Object[]{
-                                                    id.getString(0),
-                                                    nombre.getString(0),
-                                                    rolString,
-                                                    estadoString});
+                JSONObject resultado = new JSONObject(GestionUsuarioApi.obtenerUsuarioPorNombre(usuarioCampo.getText()));
+                if(resultado.getString("code").equals("0")){
+                    JSONObject usuario = new JSONObject(resultado.getString("usuario"));
+                    JSONArray id = usuario.getJSONArray("id");
+                    JSONArray nombre = usuario.getJSONArray("nombre");
+                    JSONArray rol = usuario.getJSONArray("rol");
+                    JSONArray habilitado = usuario.getJSONArray("habilitado");
+                    DefaultTableModel modeloDatos = new DefaultTableModel();;
+                    modeloDatos = new DefaultTableModel();
+                    modeloDatos.addColumn("ID");
+                    modeloDatos.addColumn("NOMBRE");
+                    modeloDatos.addColumn("ROL");
+                    modeloDatos.addColumn("ESTADO");
+                    datos.setModel(modeloDatos);
+                    datos.setModel(modeloDatos);
+                    String rolString = "";
+                        switch (rol.getInt(0)) {
+                            case 0:
+                                rolString = "Super Usuario";
+                                break;
+                            case 1:
+                                rolString = "Administrador";
+                                break;
+                            case 2:
+                                rolString = "Gerente";
+                                break;
+                            
+                            case 3:
+                                rolString = "Operador";
+                                break;
+                        }
+                        String estadoString;
+                        if(habilitado.getBoolean(0)){
+                            estadoString = "Habilitado";
+                        }
+                        else{
+                            estadoString = "Deshabilitado";
+                        }
+                        modeloDatos.addRow(new Object[]{
+                                                        id.getString(0),
+                                                        nombre.getString(0),
+                                                        rolString,
+                                                        estadoString});
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
+                }
             }
+            
         });
         contenido.add(buscar);
 
@@ -127,48 +136,55 @@ public class ConsultarUsuario extends Container {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSONObject usuarios = new JSONObject(GestionUsuarioApi.obtenerUsuarios());
-                JSONArray id = usuarios.getJSONArray("id");
-                JSONArray nombre = usuarios.getJSONArray("nombre");
-                JSONArray rol = usuarios.getJSONArray("rol");
-                JSONArray habilitado = usuarios.getJSONArray("habilitado");
-                DefaultTableModel modeloDatos = new DefaultTableModel();;
-                modeloDatos = new DefaultTableModel();
-                modeloDatos.addColumn("ID");
-                modeloDatos.addColumn("NOMBRE");
-                modeloDatos.addColumn("ROL");
-                modeloDatos.addColumn("ESTADO");
-                datos.setModel(modeloDatos);
-                datos.setModel(modeloDatos);
-                for(int i=0; i<id.length(); i++){
-                    String rolString = "";
-                    switch (rol.getInt(i)) {
-                        case 0:
-                            rolString = "Super Usuario";
-                            break;
-                        case 1:
-                            rolString = "Administrador";
-                            break;
-                        case 2:
-                            rolString = "Gerente";
-                            break;
-                        
-                        case 3:
-                            rolString = "Operador";
-                            break;
+                JSONObject resultado = new JSONObject(GestionUsuarioApi.obtenerUsuarios());
+                if(resultado.getString("code").equals("0")){
+                    JSONObject usuarios = new JSONObject(resultado.getString("usuarios"));
+                    JSONArray id = usuarios.getJSONArray("id");
+                    JSONArray nombre = usuarios.getJSONArray("nombre");
+                    JSONArray rol = usuarios.getJSONArray("rol");
+                    JSONArray habilitado = usuarios.getJSONArray("habilitado");
+                    DefaultTableModel modeloDatos = new DefaultTableModel();
+                    modeloDatos = new DefaultTableModel();
+                    modeloDatos.addColumn("ID");
+                    modeloDatos.addColumn("NOMBRE");
+                    modeloDatos.addColumn("ROL");
+                    modeloDatos.addColumn("ESTADO");
+                    datos.setModel(modeloDatos);
+                    datos.setModel(modeloDatos);
+                    for(int i=0; i<id.length(); i++){
+                        String rolString = "";
+                        switch (rol.getInt(i)) {
+                            case 0:
+                                rolString = "Super Usuario";
+                                break;
+                            case 1:
+                                rolString = "Administrador";
+                                break;
+                            case 2:
+                                rolString = "Gerente";
+                                break;
+                            
+                            case 3:
+                                rolString = "Operador";
+                                break;
+                        }
+                        String estadoString;
+                        if(habilitado.getBoolean(i)){
+                            estadoString = "Habilitado";
+                        }
+                        else{
+                            estadoString = "Deshabilitado";
+                        }
+                        modeloDatos.addRow(new Object[]{
+                                                        id.getString(i),
+                                                        nombre.getString(i),
+                                                        rolString,
+                                                        estadoString});
                     }
-                    String estadoString;
-                    if(habilitado.getBoolean(i)){
-                        estadoString = "Habilitado";
-                    }
-                    else{
-                        estadoString = "Deshabilitado";
-                    }
-                    modeloDatos.addRow(new Object[]{
-                                                    id.getString(i),
-                                                    nombre.getString(i),
-                                                    rolString,
-                                                    estadoString});
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
                 }
             }
             

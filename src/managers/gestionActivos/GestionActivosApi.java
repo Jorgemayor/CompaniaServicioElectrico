@@ -22,6 +22,10 @@ public class GestionActivosApi {
         resultado.put("code", "0");
         return resultado.toString();
     }
+    public static String obtenerActivosPorSerial(String serial){
+        return "";
+    }
+    
     public static String registrarActivo(String numeroSerie, String nombre, int ciudad, String estado){
         JSONObject resultado = new JSONObject();
         String codigo = "";
