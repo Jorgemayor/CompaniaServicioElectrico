@@ -79,12 +79,10 @@ public class ConsultarUsuario extends Container {
                 JSONObject resultado = new JSONObject(GestionUsuarioApi.obtenerUsuarioPorNombre(usuarioCampo.getText()));
                 if(resultado.getString("code").equals("0")){
                     JSONObject usuario = new JSONObject(resultado.getString("usuario"));
-                    JSONArray id = usuario.getJSONArray("id");
                     JSONArray nombre = usuario.getJSONArray("nombre");
                     JSONArray rol = usuario.getJSONArray("rol");
                     DefaultTableModel modeloDatos = new DefaultTableModel();;
                     modeloDatos = new DefaultTableModel();
-                    modeloDatos.addColumn("ID");
                     modeloDatos.addColumn("NOMBRE");
                     modeloDatos.addColumn("ROL");
                     datos.setModel(modeloDatos);
@@ -106,7 +104,6 @@ public class ConsultarUsuario extends Container {
                                 break;
                         }
                         modeloDatos.addRow(new Object[]{
-                                                        id.getString(0),
                                                         nombre.getString(0),
                                                         rolString});
                 }
@@ -129,17 +126,15 @@ public class ConsultarUsuario extends Container {
                 JSONObject resultado = new JSONObject(GestionUsuarioApi.obtenerUsuarios());
                 if(resultado.getString("code").equals("0")){
                     JSONObject usuarios = new JSONObject(resultado.getString("usuarios"));
-                    JSONArray id = usuarios.getJSONArray("id");
                     JSONArray nombre = usuarios.getJSONArray("nombre");
                     JSONArray rol = usuarios.getJSONArray("rol");
                     DefaultTableModel modeloDatos = new DefaultTableModel();
                     modeloDatos = new DefaultTableModel();
-                    modeloDatos.addColumn("ID");
                     modeloDatos.addColumn("NOMBRE");
                     modeloDatos.addColumn("ROL");
                     datos.setModel(modeloDatos);
                     datos.setModel(modeloDatos);
-                    for(int i=0; i<id.length(); i++){
+                    for(int i=0; i<nombre.length(); i++){
                         String rolString = "";
                         switch (rol.getInt(i)) {
                             case 0:
@@ -157,7 +152,6 @@ public class ConsultarUsuario extends Container {
                                 break;
                         }
                         modeloDatos.addRow(new Object[]{
-                                                        id.getString(i),
                                                         nombre.getString(i),
                                                         rolString});
                     }

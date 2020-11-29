@@ -92,16 +92,16 @@ public class GestionActivosLib {
         ResultSet estadoActual = consultaEstado.executeQuery();
         
         if(estadoActual.next()) {
-            String actualizacionSQL = "UPDATE activo SET (nombre=?,id_ciudad=?,estado=?)  WHERE id = ?";
+            String actualizacionSQL = "UPDATE activo SET nombre=?,id_ciudad=?,estado=?  WHERE id = ?";
             PreparedStatement actualizarActivo = conexion.prepareStatement(actualizacionSQL);
             actualizarActivo.setString(1, nombre);
             actualizarActivo.setInt(2, ciudad);
             actualizarActivo.setString(3, estado);
             actualizarActivo.setInt(4, idActivo);
-            actualizarActivo.executeQuery();
+            actualizarActivo.executeUpdate();
         }
         conexion.close();
-        return "{\"code\": 0, \"result\": " + "true" +"}";
+        return "0";
     }
     
     public String cambiarEstadoActivo(int idActivo)throws SQLException{

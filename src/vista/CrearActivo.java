@@ -46,7 +46,7 @@ public class CrearActivo extends Container {
     private void iniciarComponentes() {
 
         contenedor = new JPanel();
-        etiquetaTitulo = new JLabel("Crear Activos");
+        etiquetaTitulo = new JLabel("Crear Activo");
         EtiquetaNumSerie = new JLabel("Número de Serie");
         campoNumSerie = new JTextField();
         etiquetaNombre = new JLabel("Nombre");

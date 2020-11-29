@@ -57,7 +57,7 @@ public class DeshabilitarUsuario extends Container {
         // Titulo
         titulo.setFont(FUENTE_TITULO);
         titulo.setVisible(true);
-        titulo.setBounds(400, 30, 500, 25);
+        titulo.setBounds(390, 50, 600, 50);
         contenido.add(titulo);
 
         // Formulario
@@ -85,7 +85,7 @@ public class DeshabilitarUsuario extends Container {
                         botonCambio.setText("Deshabilitar");
                     }
                     else{
-                        stringEstado= "Inhabilitado";
+                        stringEstado= "Deshabilitado";
                         botonCambio.setText("Habilitar");
                     }
                     idUsuarioActual = id;
@@ -103,7 +103,7 @@ public class DeshabilitarUsuario extends Container {
 
         estado.setFont(FUENTE_ETIQUETAS);
         estado.setVisible(true);
-        estado.setBounds(500, 250, 200, 30);
+        estado.setBounds(500, 250, 400, 30);
         contenido.add(estado);
         elEstado.setFont(FUENTE_ETIQUETAS);
         elEstado.setVisible(true);
