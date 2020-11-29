@@ -17,10 +17,15 @@ public class GestionClienteApi {
 
             return retornarError("-1");
         }
+        if(clientes.equals("{}")){
 
-        resultado.put("clientes", clientes);
-        resultado.put("code", "0");
-        return resultado.toString();
+            return retornarError("-5");
+        }
+        else{
+            resultado.put("clientes", clientes);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
     }
     public static String agregarCliente(String tipoIdentificacion, int identificacion, String nombre, String direccion, int ciudad){
 

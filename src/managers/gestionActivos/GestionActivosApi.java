@@ -18,9 +18,16 @@ public class GestionActivosApi {
             return retornarError("-1");
         }
 
-        resultado.put("activos", activos);
-        resultado.put("code", "0");
-        return resultado.toString();
+        if(activos.equals("{}")){
+
+            return retornarError("-5");
+        }
+        else{
+
+            resultado.put("activos", activos);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
     }
     public static String obtenerActivosPorSerial(String serial){
         JSONObject resultado = new JSONObject();
@@ -31,10 +38,18 @@ public class GestionActivosApi {
 
             return retornarError("-1");
         }
+        if(activos.equals("{}")){
 
-        resultado.put("activos", activos);
-        resultado.put("code", "0");
-        return resultado.toString();
+            return retornarError("-5");
+
+
+        }
+        else{
+
+            resultado.put("activos", activos);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
     }
     
     public static String registrarActivo(String numeroSerie, String nombre, int ciudad, String estado){

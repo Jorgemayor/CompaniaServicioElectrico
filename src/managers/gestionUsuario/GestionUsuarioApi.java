@@ -61,10 +61,15 @@ public class GestionUsuarioApi {
         } catch(SQLException excepcion) {
             return retornarError("-1");
         }
+        if(usuarios.equals("{}")){
 
-        resultado.put("usuarios", usuarios);
-        resultado.put("code", "0");
-        return resultado.toString();
+            return retornarError("-2");
+        }
+        else{
+            resultado.put("usuarios", usuarios);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
     }
     /**
      * obtenerUsuarioPorId
@@ -87,10 +92,15 @@ public class GestionUsuarioApi {
         } catch(SQLException excepcion) {
             return retornarError("-1");
         }
+        if(usuario.equals("{}")){
 
-        resultado.put("usuario", usuario);
-        resultado.put("code", "0");
-        return resultado.toString();
+            return retornarError("-2");
+        }
+        else{
+            resultado.put("usuario", usuario);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
     }
 
     /**
