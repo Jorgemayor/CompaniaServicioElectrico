@@ -122,23 +122,19 @@ public class ConsultarActivo extends Container {
                 JSONObject resultado = new JSONObject(GestionActivosApi.obtenerActivos());
                 if(resultado.getString("code").equals("0")){
                     JSONObject activos = new JSONObject(resultado.getString("activos"));
-                    JSONArray id = activos.getJSONArray("id");
                     JSONArray numero_serie = activos.getJSONArray("numero_serie");
                     JSONArray nombre = activos.getJSONArray("nombre");
                     JSONArray id_ciudad = activos.getJSONArray("id_ciudad");
                     JSONArray estado = activos.getJSONArray("estado");
-                    JSONArray habilitado = activos.getJSONArray("habilitado");
                     DefaultTableModel modeloDatos = new DefaultTableModel();;
                     modeloDatos = new DefaultTableModel();
-                    modeloDatos.addColumn("ID");
                     modeloDatos.addColumn("NUMERO DE SERIE");
                     modeloDatos.addColumn("NOMBRE");
                     modeloDatos.addColumn("CIUDAD");
                     modeloDatos.addColumn("ESTADO");
                     datos.setModel(modeloDatos);
-                    for(int i=0; i<id.length(); i++){
+                    for(int i=0; i<numero_serie.length(); i++){
                         modeloDatos.addRow(new Object[]{
-                            id.getString(i),
                             numero_serie.getString(i),
                             nombre.getString(i),
                             GestionCiudadApi.obtenerCiudadPorId(id_ciudad.getInt(i)),
