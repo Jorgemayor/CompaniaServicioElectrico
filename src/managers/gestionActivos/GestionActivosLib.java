@@ -140,10 +140,10 @@ public class GestionActivosLib {
             PreparedStatement actualizarEstado = conexion.prepareStatement(actualizacionSQL);
             actualizarEstado.setBoolean(1, !estadoActual.getBoolean("habilitado"));
             actualizarEstado.setInt(2, idActivo);
-            actualizarEstado.executeQuery();
+            actualizarEstado.executeUpdate();
         }
         conexion.close();
-        return "{\"code\": 0, \"result\": " + "true" +"}";
+        return "0";
     }
     
 }

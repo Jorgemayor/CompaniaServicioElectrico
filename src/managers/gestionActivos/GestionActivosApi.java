@@ -53,22 +53,22 @@ public class GestionActivosApi {
     }
     
     public static String buscarEnTodosLosActivos(String serial) {
-        if(nombre.equals("")){
+        if(serial.equals("")){
             return retornarError("-2");
         }
         JSONObject resultado = new JSONObject();
-        String usuario = "";
+        String activo = "";
         try {
-            usuario = lib.buscarEnTodosLosActivos(serial);
+            activo = lib.buscarEnTodosLosActivos(serial);
         } catch(SQLException excepcion) {
             return retornarError("-1");
         }
-        if(usuario.equals("{}")){
+        if(activo.equals("{}")){
 
             return retornarError("-5");
         }
         else{
-            resultado.put("usuario", usuario);
+            resultado.put("activo", activo);
             resultado.put("code", "0");
             return resultado.toString();
         }
