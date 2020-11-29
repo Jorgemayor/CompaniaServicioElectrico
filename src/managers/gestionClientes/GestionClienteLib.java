@@ -97,7 +97,7 @@ public class GestionClienteLib {
         conexion.close();
         return resultado.toString();
     }
-    public String buscarEnTodosLosclienes(int id) throws SQLException {
+    public String buscarEnTodosLosclientes(int id) throws SQLException {
 
         Connection conexion = Conexion.conectar();
 
@@ -110,11 +110,12 @@ public class GestionClienteLib {
         while(respuesta.next())
                 { 
                     resultado.append("id", respuesta.getString(1));
-                    resultado.append("numero_serie", respuesta.getString(2));
-                    resultado.append("nombre", respuesta.getString(3));
-                    resultado.append("id_ciudad", respuesta.getString(4));
-                    resultado.append("ciudad", respuesta.getString(5));
-                    resultado.append("habilitado", respuesta.getBoolean(6));
+                    resultado.append("tipo_identificacion", respuesta.getString(2));
+                    resultado.append("identificacion", respuesta.getString(3));
+                    resultado.append("nombre", respuesta.getString(4));
+                    resultado.append("direccion", respuesta.getString(5));
+                    resultado.append("id_ciudad", respuesta.getString(6));
+                    resultado.append("habilitado", respuesta.getBoolean(7));
                 }
         conexion.close();
         return resultado.toString();
