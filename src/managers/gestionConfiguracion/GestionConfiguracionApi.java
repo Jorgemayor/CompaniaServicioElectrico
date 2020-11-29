@@ -14,35 +14,34 @@ public class GestionConfiguracionApi {
         try {
             parametros = lib.obtenerParametros();
         } catch(SQLException excepcion) {
-
             return retornarError("-3");
         }
         if(parametros.equals("{}")){
-
             return retornarError("-1");
         }
         else{
-            resultado.put("parametros", parametros);
             resultado.put("code", "0");
+            resultado.put("parametros", parametros);
             return resultado.toString();
         }
     }
 
 
-    public static String actualizarParametros(double khw, double reconexion) {
+    public static String actualizarParametros(int kwh, int reconexion) {
         JSONObject resultado = new JSONObject();
         String codigo = "";
 
         try {
-            if(khw < 0 || reconexion < 0) {
+            if(kwh < 0 || reconexion < 0) {
                 throw new Exception("-2");
             } else {
-                codigo = lib.actualizarParametros(khw,reconexion);
+                codigo = lib.actualizarParametros(kwh,reconexion);
             }
             if(!codigo.equals("0")) {
                 throw new Exception(codigo);
             }
         } catch(SQLException excepcion) {
+            System.out.println(excepcion);
             return retornarError("-3");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
