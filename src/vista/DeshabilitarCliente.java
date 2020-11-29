@@ -4,6 +4,11 @@ import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import org.json.JSONObject;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,6 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.JOptionPane;
+
+
+import src.managers.gestionClientes.GestionClienteApi;
 
 public class DeshabilitarCliente extends Container {
 
@@ -18,98 +27,143 @@ public class DeshabilitarCliente extends Container {
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
     private static final Color COLOR_FONDO = new Color(232,234,246);
 
-    private JPanel contenido;
-    private JLabel titulo;
-    private JLabel tipoId;
-    private JComboBox tipoIdList;
-    private JLabel identificacion;
-    private JTextField identificacionCampo;
-    private JButton ver;
-    private JLabel nombre;
-    private JLabel elNombre;
-    private JLabel estado;
-    private JLabel elEstado;
+    private JPanel panelContenido;
+    private JLabel etiquetaTitulo;
+    private JLabel etiquetaTipoId;
+    private JComboBox selectorTipoId;
+    private JLabel etiquetaIdentificacion;
+    private JTextField campoIdentificacion;
+    private JButton botonVer;
+    private JLabel etiquetaNombre;
+    private JLabel etiquetaNombreActual;
+    private JLabel etiquetaEstado;
+    private JLabel etiquetaEstadoActual;
     private JToggleButton botonCambio;
-    private JButton enviar;
+    
+
 
     public DeshabilitarCliente(){
         iniciarComponentes();
     }
     
-    private <ActionListener> void iniciarComponentes() {
+    private void iniciarComponentes() {
 
-        contenido = new JPanel();
-        titulo = new JLabel("Deshabilitar Cliente");
-        tipoId = new JLabel("Tipo de ID");
-        tipoIdList = new JComboBox();
-        identificacion = new JLabel("ID");
-        identificacionCampo = new JTextField();
-        ver = new JButton("ver");
-        nombre = new JLabel("Nombre:");
-        elNombre = new JLabel();
+        panelContenido = new JPanel();
+        etiquetaTitulo = new JLabel("Deshabilitar/Habilitar Cliente");
+        etiquetaTipoId = new JLabel("Tipo de ID");
+        selectorTipoId = new JComboBox();
+        etiquetaIdentificacion = new JLabel("ID");
+        campoIdentificacion = new JTextField();
+        botonVer = new JButton("ver");
+        etiquetaNombre = new JLabel("Nombre:");
+        etiquetaNombreActual = new JLabel();
 
-        estado = new JLabel("Estado:");
-        elEstado = new JLabel("");
+        etiquetaEstado = new JLabel("Estado:");
+        etiquetaEstadoActual = new JLabel("");
         botonCambio = new JToggleButton("Hablitar/Deshabilitar");
-        enviar = new JButton("Enviar Cambios");
 
-        contenido.setLayout(null);
-        contenido.setVisible(true);
-        contenido.setBackground(COLOR_FONDO);
+        panelContenido.setLayout(null);
+        panelContenido.setVisible(true);
+        panelContenido.setBackground(COLOR_FONDO);
 
         //Titulo
-        titulo.setFont(FUENTE_TITULO);
-        titulo.setVisible(true);
-        titulo.setBounds(530, 30, 300, 25);
-        contenido.add(titulo);
+        etiquetaTitulo.setFont(FUENTE_TITULO);
+        etiquetaTitulo.setVisible(true);
+        etiquetaTitulo.setBounds(530, 30, 300, 25);
+        panelContenido.add(etiquetaTitulo);
 
         //Formulario
-        tipoId.setFont(FUENTE_ETIQUETAS);
-        tipoId.setVisible(true);
-        tipoId.setBounds(150, 150, 200, 30);
-        contenido.add(tipoId);
-        tipoIdList.setVisible(true);
-        tipoIdList.setBounds(300, 150, 200, 30);
-        contenido.add(tipoIdList);
+        etiquetaTipoId.setFont(FUENTE_ETIQUETAS);
+        etiquetaTipoId.setVisible(true);
+        etiquetaTipoId.setBounds(150, 150, 200, 30);
+        panelContenido.add(etiquetaTipoId);
+        selectorTipoId.setVisible(true);
+        selectorTipoId.setBounds(300, 150, 200, 30);
+        selectorTipoId.addItem("RC");
+        selectorTipoId.addItem("TI");
+        selectorTipoId.addItem("CC");
+        panelContenido.add(selectorTipoId);
 
-        identificacion.setFont(FUENTE_ETIQUETAS);
-        identificacion.setVisible(true);
-        identificacion.setBounds(800, 150, 150, 30);
-        contenido.add(identificacion);
-        identificacionCampo.setVisible(true);
-        identificacionCampo.setBounds(830, 150, 200, 30);
-        contenido.add(identificacionCampo);
-        ver.setFont(FUENTE_ETIQUETAS);
-        ver.setVisible(true);
-        ver.setBounds(1035, 150, 70, 30);
-        contenido.add(ver);
+        etiquetaIdentificacion.setFont(FUENTE_ETIQUETAS);
+        etiquetaIdentificacion.setVisible(true);
+        etiquetaIdentificacion.setBounds(800, 150, 150, 30);
+        panelContenido.add(etiquetaIdentificacion);
+        campoIdentificacion.setVisible(true);
+        campoIdentificacion.setBounds(830, 150, 200, 30);
+        panelContenido.add(campoIdentificacion);
+        botonVer.setFont(FUENTE_ETIQUETAS);
+        botonVer.setVisible(true);
+        botonVer.setBounds(1035, 150, 70, 30);
+        botonVer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSONObject resultado = new JSONObject(GestionClienteApi.buscarEnTodosLosClientes(campoIdentificacion.getText()));
+                JSONObject cliente = new JSONObject(resultado.getString("cliente"));
+                String tipoIdentificacion = cliente.getJSONArray("tipo_identificacion").getString(0);
+                int identificador = cliente.getJSONArray("identificador").getInt(0);
+                String nombre = cliente.getJSONArray("nombre").getString(0);
+                String stringEstado="";
+                if(cliente.getJSONArray("habilitado").getBoolean(0)){
+                    stringEstado = "Habilitado";
+                    botonCambio.setText("Deshabilitar");
+                }
+                else{
+                    stringEstado= "Deshabilitado";
+                    botonCambio.setText("Habilitar");
+                }
+                selectorTipoId.setSelectedItem(tipoIdentificacion);
+                campoIdentificacion.setText(String.valueOf(identificador));
+                etiquetaEstado.setText("Estado: "+stringEstado);
+                etiquetaTitulo.setText(etiquetaTitulo.getText()+": "+nombre);
+            }
+        });
+        panelContenido.add(botonVer);
 
-        nombre.setFont(FUENTE_ETIQUETAS);
-        nombre.setVisible(true);
-        nombre.setBounds(150, 225, 150, 30);
-        contenido.add(nombre);
-        elNombre.setVisible(true);
-        elNombre.setBounds(300, 225, 200, 30);
-        contenido.add(elNombre);
+        etiquetaNombre.setFont(FUENTE_ETIQUETAS);
+        etiquetaNombre.setVisible(true);
+        etiquetaNombre.setBounds(150, 225, 150, 30);
+        panelContenido.add(etiquetaNombre);
+        etiquetaNombreActual.setVisible(true);
+        etiquetaNombreActual.setBounds(300, 225, 200, 30);
+        panelContenido.add(etiquetaNombreActual);
 
-        estado.setFont(FUENTE_ETIQUETAS);
-        estado.setVisible(true);
-        estado.setBounds(800, 225, 150, 30);
-        contenido.add(estado);
-        elEstado.setVisible(true);
-        elEstado.setBounds(890, 225, 220, 30);
-        contenido.add(elEstado);
+        etiquetaEstado.setFont(FUENTE_ETIQUETAS);
+        etiquetaEstado.setVisible(true);
+        etiquetaEstado.setBounds(800, 225, 150, 30);
+        panelContenido.add(etiquetaEstado);
+        etiquetaEstadoActual.setVisible(true);
+        etiquetaEstadoActual.setBounds(890, 225, 220, 30);
+        panelContenido.add(etiquetaEstadoActual);
 
         botonCambio.setFont(FUENTE_ETIQUETAS);
         botonCambio.setVisible(true);
         botonCambio.setBounds(800, 300, 250, 30);
-        contenido.add(botonCambio);
-        
-        enviar.setFont(FUENTE_ETIQUETAS);
-        enviar.setVisible(true);
-        enviar.setBounds(550, 450, 200, 30);
-        contenido.add(enviar);
+        botonCambio.addActionListener(new ActionListener(){
 
-        this.add(contenido, BorderLayout.CENTER);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String resultado = GestionClienteApi.cambiarEstadoCliente(Integer.parseInt(campoIdentificacion.toString()));
+                JSONObject jsonResultado = new JSONObject(resultado);
+                String codigo = jsonResultado.getString("code");
+                if (codigo.equals("0")) {
+                    if(botonCambio.getText()=="Deshabilitar"){
+                        botonCambio.setText("Habilitar");
+                        etiquetaEstado.setText("Estado: "+"Deshabilitado");
+                    }
+                    else{
+                        botonCambio.setText("Deshabilitar");
+                        etiquetaEstado.setText("Estado: "+"Habilitado");
+                    }
+                } else {
+                    String mensaje = jsonResultado.getString("mensaje");
+                    JOptionPane.showMessageDialog(null, mensaje);
+                }
+            }
+            
+        });
+        panelContenido.add(botonCambio);
+        
+
+        this.add(panelContenido, BorderLayout.CENTER);
     }
 }
