@@ -161,6 +161,7 @@ public class GestionUsuarioApi {
                 throw new Exception(codigo);
             }
         } catch(SQLException excepcion) {
+            System.out.print(excepcion.getMessage());
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
