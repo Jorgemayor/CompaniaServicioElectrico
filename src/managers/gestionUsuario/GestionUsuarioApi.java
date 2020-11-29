@@ -71,7 +71,37 @@ public class GestionUsuarioApi {
             return resultado.toString();
         }
     }
-    
+    /**
+     * obtenerUsuarioPorId
+     * 
+     * Función encargada de validar los datos para consultar todos
+     * los usuario.
+     * 
+     * @param id_usuario identificador del usuario a inhabilitar.
+     * 
+     * @return booleano indicando si se actualizó (true) o no (false).
+     */
+    public static String obtenerUsuarioPorNombre(String nombre) {
+        if(nombre.equals("")){
+            return retornarError("-6");
+        }
+        JSONObject resultado = new JSONObject();
+        String usuario = "";
+        try {
+            usuario = lib.obtenerUsuarioPorNombre(nombre);
+        } catch(SQLException excepcion) {
+            return retornarError("-1");
+        }
+        if(usuario.equals("{}")){
+
+            return retornarError("-2");
+        }
+        else{
+            resultado.put("usuario", usuario);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
+    }
     /**
      * buscarEnTodosLosUsuarios
      * 
