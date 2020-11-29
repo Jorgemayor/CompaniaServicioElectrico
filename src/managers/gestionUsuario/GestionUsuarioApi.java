@@ -71,8 +71,9 @@ public class GestionUsuarioApi {
             return resultado.toString();
         }
     }
+    
     /**
-     * obtenerUsuarioPorId
+     * buscarEnTodosLosUsuarios
      * 
      * Función encargada de validar los datos para consultar todos
      * los usuario.
@@ -81,14 +82,14 @@ public class GestionUsuarioApi {
      * 
      * @return booleano indicando si se actualizó (true) o no (false).
      */
-    public static String obtenerUsuarioPorNombre(String nombre) {
+    public static String buscarEnTodosLosUsuarios(String nombre) {
         if(nombre.equals("")){
             return retornarError("-6");
         }
         JSONObject resultado = new JSONObject();
         String usuario = "";
         try {
-            usuario = lib.obtenerUsuarioPorNombre(nombre);
+            usuario = lib.buscarEnTodosLosUsuarios(nombre);
         } catch(SQLException excepcion) {
             return retornarError("-1");
         }
@@ -241,7 +242,7 @@ public class GestionUsuarioApi {
                 mensajeError.put("mensaje", "Error al conectarse a la base de datos");
                 break;
             case -2:
-                mensajeError.put("mensaje", "No existe un usuario con es id");
+                mensajeError.put("mensaje", "No existe ese usuario");
                 break;
             case -3:
                 mensajeError.put("mensaje", "Rol inválido");

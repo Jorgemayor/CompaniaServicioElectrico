@@ -148,7 +148,7 @@ public class GestionActivosApi {
                 mensajeError.put("mensaje","Ciudad invalida");
                 break;
             case -5:
-                mensajeError.put("mensaje", "No existe un Actibo con ese ID");
+                mensajeError.put("mensaje", "No existe ese Activo");
                 break;
             case -6:
                 mensajeError.put("mensaje", "Nombre del Activo no puede ser vació");
