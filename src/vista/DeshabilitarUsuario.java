@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 
 import javax.swing.JButton;
-import javax.swing.JToggleButton;
 
 import org.json.JSONObject;
 
@@ -32,7 +31,7 @@ public class DeshabilitarUsuario extends Container {
     private JButton ver;
     private JLabel estado;
     private JLabel elEstado;
-    private JToggleButton botonCambio;
+    private JButton botonCambio;
     private int idUsuarioActual;
 
     public DeshabilitarUsuario() {
@@ -48,7 +47,8 @@ public class DeshabilitarUsuario extends Container {
         ver = new JButton("ver");
         estado = new JLabel("Estado: ");
         elEstado = new JLabel();
-        botonCambio = new JToggleButton("Habilitar/Deshabilitar");
+        botonCambio = new JButton("Habilitar/Deshabilitar");
+        idUsuarioActual = -1;
 
         contenido.setLayout(null);
         contenido.setVisible(true);
@@ -116,14 +116,21 @@ public class DeshabilitarUsuario extends Container {
         botonCambio.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                GestionUsuarioApi.cambiarEstadoUsuario(idUsuarioActual);
-                if(botonCambio.getText()=="Deshabilitar"){
-                    botonCambio.setText("Habilitar");
-                    estado.setText("Estado: "+"Deshabilitado");
-                }
-                else{
-                    botonCambio.setText("Deshabilitar");
-                    estado.setText("Estado: "+"Habilitado");
+                String resultado = GestionUsuarioApi.cambiarEstadoUsuario(idUsuarioActual);
+                JSONObject jsonResultado = new JSONObject(resultado);
+                String codigo = jsonResultado.getString("code");
+                if (codigo.equals("0")) {
+                    if(botonCambio.getText()=="Deshabilitar"){
+                        botonCambio.setText("Habilitar");
+                        estado.setText("Estado: "+"Deshabilitado");
+                    }
+                    else{
+                        botonCambio.setText("Deshabilitar");
+                        estado.setText("Estado: "+"Habilitado");
+                    }
+                } else {
+                    String mensaje = jsonResultado.getString("mensaje");
+                    JOptionPane.showMessageDialog(null, mensaje);
                 }
             }
             
