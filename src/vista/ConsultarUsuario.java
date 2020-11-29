@@ -143,7 +143,7 @@ public class ConsultarUsuario extends Container {
                     JSONArray nombre = usuarios.getJSONArray("nombre");
                     JSONArray rol = usuarios.getJSONArray("rol");
                     JSONArray habilitado = usuarios.getJSONArray("habilitado");
-                    DefaultTableModel modeloDatos = new DefaultTableModel();;
+                    DefaultTableModel modeloDatos = new DefaultTableModel();
                     modeloDatos = new DefaultTableModel();
                     modeloDatos.addColumn("ID");
                     modeloDatos.addColumn("NOMBRE");
@@ -184,7 +184,7 @@ public class ConsultarUsuario extends Container {
                 }
                 else
                 {
-                    
+                    JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
                 }
             }
             
