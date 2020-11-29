@@ -52,6 +52,27 @@ public class GestionActivosApi {
         }
     }
     
+    public static String buscarEnTodosLosActivos(String serial) {
+        if(nombre.equals("")){
+            return retornarError("-2");
+        }
+        JSONObject resultado = new JSONObject();
+        String usuario = "";
+        try {
+            usuario = lib.buscarEnTodosLosActivos(serial);
+        } catch(SQLException excepcion) {
+            return retornarError("-1");
+        }
+        if(usuario.equals("{}")){
+
+            return retornarError("-5");
+        }
+        else{
+            resultado.put("usuario", usuario);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
+    }
     public static String registrarActivo(String numeroSerie, String nombre, int ciudad, String estado){
         JSONObject resultado = new JSONObject();
         String codigo = "";

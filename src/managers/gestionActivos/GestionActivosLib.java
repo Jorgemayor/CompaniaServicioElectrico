@@ -52,6 +52,30 @@ public class GestionActivosLib {
         conexion.close();
         return resultado.toString();
     }
+
+    public String buscarEnTodosLosActivos(String serial) throws SQLException {
+
+        Connection conexion = Conexion.conectar();
+
+        String consultaSQL = "SELECT * FROM activo WHERE numero_serie = ?";
+
+        PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
+        consulta.setString(1, serial);
+        ResultSet respuesta = consulta.executeQuery();
+        JSONObject resultado = new JSONObject();
+        while(respuesta.next())
+                { 
+                    resultado.append("id", respuesta.getString(1));
+                    resultado.append("numero_serie", respuesta.getString(2));
+                    resultado.append("nombre", respuesta.getString(3));
+                    resultado.append("id_ciudad", respuesta.getString(4));
+                    resultado.append("ciudad", respuesta.getString(5));
+                    resultado.append("habilitado", respuesta.getBoolean(6));
+                }
+        conexion.close();
+        return resultado.toString();
+    }
+
     public String registrarActivo(String numeroSerie, String nombre, int ciudad, String estado)throws SQLException{
         Connection conexion = Conexion.conectar();
         String respuesta = "";
