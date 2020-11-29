@@ -27,6 +27,50 @@ public class GestionClienteApi {
             return resultado.toString();
         }
     }
+
+    public static String obtenerClientePorId(String id) {
+        if(id.equals("")){
+            return retornarError("-2");
+        }
+        JSONObject resultado = new JSONObject();
+        String cliente = "";
+        try {
+            cliente = lib.obtenerClientePorId(Integer.parseInt(id));
+        } catch(SQLException excepcion) {
+            return retornarError("-1");
+        }
+        if(cliente.equals("{}")){
+
+            return retornarError("-5");
+        }
+        else{
+            resultado.put("cliente", cliente);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
+    }
+
+    public static String buscarEnTodosLosClientes(String id) {
+        if(id.equals("")){
+            return retornarError("-2");
+        }
+        JSONObject resultado = new JSONObject();
+        String cliente = "";
+        try {
+            cliente = lib.buscarEnTodosLosClientes(Integer.parseInt(id));
+        } catch(SQLException excepcion) {
+            return retornarError("-1");
+        }
+        if(activo.equals("{}")){
+
+            return retornarError("-5");
+        }
+        else{
+            resultado.put("cliente", cliente);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
+    }
     public static String agregarCliente(String tipoIdentificacion, int identificacion, String nombre, String direccion, int ciudad){
 
         JSONObject resultado = new JSONObject();

@@ -3,6 +3,7 @@ package src.managers.gestionClientes;
 import java.sql.*;
 import src.control.Conexion;
 
+import org.json.JSONObject;
 
 import java.lang.String;
 
@@ -55,10 +56,68 @@ public class GestionClienteLib {
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setBoolean(1, true);
         ResultSet respuesta = consulta.executeQuery();
+        JSONObject resultado = new JSONObject();
+        while(respuesta.next())
+                { 
+                    resultado.append("id", respuesta.getString(1));
+                    resultado.append("tipo_identificacion", respuesta.getString(2));
+                    resultado.append("identificacion", respuesta.getString(3));
+                    resultado.append("nombre", respuesta.getString(4));
+                    resultado.append("direccion", respuesta.getString(5));
+                    resultado.append("id_ciudad", respuesta.getString(6));
+                    resultado.append("habilitado", respuesta.getBoolean(7));
+                }
 
         conexion.close();
 
-        return respuesta.toString();
+        return resultado.toString();
+    }
+
+    public String obtenerClientePorId(int id) throws SQLException {
+
+        Connection conexion = Conexion.conectar();
+
+        String consultaSQL = "SELECT * FROM cliente WHERE habilitado = ? AND identificacion = ?";
+
+        PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
+        consulta.setBoolean(1, true);
+        consulta.setInt(2, id);
+        ResultSet respuesta = consulta.executeQuery();
+        JSONObject resultado = new JSONObject();
+        while(respuesta.next())
+                { 
+                    resultado.append("id", respuesta.getString(1));
+                    resultado.append("tipo_identificacion", respuesta.getString(2));
+                    resultado.append("identificacion", respuesta.getString(3));
+                    resultado.append("nombre", respuesta.getString(4));
+                    resultado.append("direccion", respuesta.getString(5));
+                    resultado.append("id_ciudad", respuesta.getString(6));
+                    resultado.append("habilitado", respuesta.getBoolean(7));
+                }
+        conexion.close();
+        return resultado.toString();
+    }
+    public String buscarEnTodosLosclienes(int id) throws SQLException {
+
+        Connection conexion = Conexion.conectar();
+
+        String consultaSQL = "SELECT * FROM activo WHERE identificacion = ?";
+
+        PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
+        consulta.setInt(1, id);
+        ResultSet respuesta = consulta.executeQuery();
+        JSONObject resultado = new JSONObject();
+        while(respuesta.next())
+                { 
+                    resultado.append("id", respuesta.getString(1));
+                    resultado.append("numero_serie", respuesta.getString(2));
+                    resultado.append("nombre", respuesta.getString(3));
+                    resultado.append("id_ciudad", respuesta.getString(4));
+                    resultado.append("ciudad", respuesta.getString(5));
+                    resultado.append("habilitado", respuesta.getBoolean(6));
+                }
+        conexion.close();
+        return resultado.toString();
     }
     public String actualizarCliente(String tipoIdentificacion, int identificacion, String nombre, String direccion, int ciudad)throws SQLException{
         Connection conexion = Conexion.conectar();
@@ -69,13 +128,14 @@ public class GestionClienteLib {
         ResultSet respuesta = consultaEstado.executeQuery();
         
         if(respuesta.next()) {
-            String actualizacionSQL = "UPDATE cliente SET (tipo_identificacion=?,identificacion=?,nombre=?,direccion=?,id_ciudad=?)  WHERE id = ?";
+            String actualizacionSQL = "UPDATE cliente SET tipo_identificacion=?,identificacion=?,nombre=?,direccion=?,id_ciudad=?  WHERE identificacion = ?";
             PreparedStatement actualizarEstado = conexion.prepareStatement(actualizacionSQL);
             actualizarEstado.setString(1, tipoIdentificacion);
             actualizarEstado.setInt(2, identificacion);
             actualizarEstado.setString(3, nombre);
             actualizarEstado.setString(4, direccion);
             actualizarEstado.setInt(5, ciudad);
+            actualizarEstado.setInt(6, identificacion);
             actualizarEstado.executeUpdate();
         }
         conexion.close();
