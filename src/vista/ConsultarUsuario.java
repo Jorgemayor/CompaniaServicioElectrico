@@ -82,13 +82,11 @@ public class ConsultarUsuario extends Container {
                     JSONArray id = usuario.getJSONArray("id");
                     JSONArray nombre = usuario.getJSONArray("nombre");
                     JSONArray rol = usuario.getJSONArray("rol");
-                    JSONArray habilitado = usuario.getJSONArray("habilitado");
                     DefaultTableModel modeloDatos = new DefaultTableModel();;
                     modeloDatos = new DefaultTableModel();
                     modeloDatos.addColumn("ID");
                     modeloDatos.addColumn("NOMBRE");
                     modeloDatos.addColumn("ROL");
-                    modeloDatos.addColumn("ESTADO");
                     datos.setModel(modeloDatos);
                     datos.setModel(modeloDatos);
                     String rolString = "";
@@ -107,18 +105,10 @@ public class ConsultarUsuario extends Container {
                                 rolString = "Operador";
                                 break;
                         }
-                        String estadoString;
-                        if(habilitado.getBoolean(0)){
-                            estadoString = "Habilitado";
-                        }
-                        else{
-                            estadoString = "Deshabilitado";
-                        }
                         modeloDatos.addRow(new Object[]{
                                                         id.getString(0),
                                                         nombre.getString(0),
-                                                        rolString,
-                                                        estadoString});
+                                                        rolString});
                 }
                 else
                 {
@@ -142,13 +132,11 @@ public class ConsultarUsuario extends Container {
                     JSONArray id = usuarios.getJSONArray("id");
                     JSONArray nombre = usuarios.getJSONArray("nombre");
                     JSONArray rol = usuarios.getJSONArray("rol");
-                    JSONArray habilitado = usuarios.getJSONArray("habilitado");
                     DefaultTableModel modeloDatos = new DefaultTableModel();
                     modeloDatos = new DefaultTableModel();
                     modeloDatos.addColumn("ID");
                     modeloDatos.addColumn("NOMBRE");
                     modeloDatos.addColumn("ROL");
-                    modeloDatos.addColumn("ESTADO");
                     datos.setModel(modeloDatos);
                     datos.setModel(modeloDatos);
                     for(int i=0; i<id.length(); i++){
@@ -168,18 +156,10 @@ public class ConsultarUsuario extends Container {
                                 rolString = "Operador";
                                 break;
                         }
-                        String estadoString;
-                        if(habilitado.getBoolean(i)){
-                            estadoString = "Habilitado";
-                        }
-                        else{
-                            estadoString = "Deshabilitado";
-                        }
                         modeloDatos.addRow(new Object[]{
                                                         id.getString(i),
                                                         nombre.getString(i),
-                                                        rolString,
-                                                        estadoString});
+                                                        rolString});
                     }
                 }
                 else

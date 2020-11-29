@@ -189,7 +189,7 @@ public class GestionUsuarioLib {
             PreparedStatement actualizarEstado = conexion.prepareStatement(actualizacionSQL);
             actualizarEstado.setBoolean(1, !estadoActual.getBoolean("habilitado"));
             actualizarEstado.setInt(2, idUsuario);
-            actualizarEstado.executeQuery();
+            actualizarEstado.executeUpdate();
         }
         conexion.close();
         return "0";

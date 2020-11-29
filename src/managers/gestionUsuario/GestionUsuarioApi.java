@@ -59,6 +59,7 @@ public class GestionUsuarioApi {
         try {
             usuarios = lib.obtenerUsuarios();
         } catch(SQLException excepcion) {
+            System.out.print(excepcion.getMessage());
             return retornarError("-1");
         }
         if(usuarios.equals("{}")){
