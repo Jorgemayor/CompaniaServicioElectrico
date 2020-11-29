@@ -9,6 +9,7 @@ import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -50,13 +51,6 @@ public class ConsultarActivo extends Container {
         buscar = new JButton("Buscar");
         mostrarTodos = new JButton("Mostrar Todos");
         datos = new JTable();
-        modeloDatos = new DefaultTableModel();
-        modeloDatos.addColumn("ID");
-        modeloDatos.addColumn("NUMERO DE SERIE");
-        modeloDatos.addColumn("NOMBRE");
-        modeloDatos.addColumn("CIUDAD");
-        modeloDatos.addColumn("ESTADO");
-        modeloDatos.addColumn("HABILITADO");
         navegacionDatos = new JScrollPane(datos);
 
         contenido.setLayout(null);
@@ -81,42 +75,99 @@ public class ConsultarActivo extends Container {
         buscar.setFont(FUENTE_ETIQUETAS);
         buscar.setVisible(true);
         buscar.setBounds(540, 100, 130, 30);
+        buscar.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSONObject resultado = new JSONObject(GestionActivosApi.obtenerActivosPorSerial(numSerieCampo.getText()));
+                if(resultado.getString("code").equals("0")){
+                    JSONObject activo = new JSONObject(resultado.getString("activos"));
+                    JSONArray id = activo.getJSONArray("id");
+                    JSONArray numero_serie = activo.getJSONArray("numero_serie");
+                    JSONArray nombre = activo.getJSONArray("nombre");
+                    JSONArray id_ciudad = activo.getJSONArray("id_ciudad");
+                    JSONArray estado = activo.getJSONArray("estado");
+                    JSONArray habilitado = activo.getJSONArray("habilitado");
+                    DefaultTableModel modeloDatos = new DefaultTableModel();;
+                    modeloDatos = new DefaultTableModel();
+                    modeloDatos.addColumn("ID");
+                    modeloDatos.addColumn("NUMERO DE SERIE");
+                    modeloDatos.addColumn("NOMBRE");
+                    modeloDatos.addColumn("CIUDAD");
+                    modeloDatos.addColumn("ESTADO");
+                    modeloDatos.addColumn("HABILITADO");
+                    datos.setModel(modeloDatos);
+                    String habilitadoString;
+                        if(habilitado.getBoolean(0)){
+                            habilitadoString = "Sí";
+                        }
+                        else{
+                            habilitadoString = "No";
+                        }
+                        modeloDatos.addRow(new Object[]{
+                            id.getString(0),
+                            numero_serie.getString(0),
+                            nombre.getString(0),
+                            GestionCiudadApi.obtenerCiudadPorId(id_ciudad.getInt(0)),
+                            estado.getString(0),
+                            habilitadoString});
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
+                }
+
+            }
+            
+        });
         contenido.add(buscar);
 
         mostrarTodos.setFont(FUENTE_ETIQUETAS);
         mostrarTodos.setVisible(true);
         mostrarTodos.setBounds(900, 100, 200, 30);
         mostrarTodos.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSONObject activos = new JSONObject(GestionActivosApi.obtenerActivos());
-                JSONArray id = activos.getJSONArray("id");
-                JSONArray numero_serie = activos.getJSONArray("numero_serie");
-                JSONArray nombre = activos.getJSONArray("nombre");
-                JSONArray id_ciudad = activos.getJSONArray("id_ciudad");
-                JSONArray estado = activos.getJSONArray("estado");
-                JSONArray habilitado = activos.getJSONArray("habilitado");
-                datos.setModel(modeloDatos);
-                for(int i=0; i<id.length(); i++){
-                    String habilitadoString;
-                    if(habilitado.getBoolean(i)){
-                        habilitadoString = "Sí";
+                JSONObject resultado = new JSONObject(GestionActivosApi.obtenerActivos());
+                if(resultado.getString("code").equals("0")){
+                    JSONObject activos = new JSONObject(resultado.getString("activos"));
+                    JSONArray id = activos.getJSONArray("id");
+                    JSONArray numero_serie = activos.getJSONArray("numero_serie");
+                    JSONArray nombre = activos.getJSONArray("nombre");
+                    JSONArray id_ciudad = activos.getJSONArray("id_ciudad");
+                    JSONArray estado = activos.getJSONArray("estado");
+                    JSONArray habilitado = activos.getJSONArray("habilitado");
+                    DefaultTableModel modeloDatos = new DefaultTableModel();;
+                    modeloDatos = new DefaultTableModel();
+                    modeloDatos.addColumn("ID");
+                    modeloDatos.addColumn("NUMERO DE SERIE");
+                    modeloDatos.addColumn("NOMBRE");
+                    modeloDatos.addColumn("CIUDAD");
+                    modeloDatos.addColumn("ESTADO");
+                    modeloDatos.addColumn("HABILITADO");
+                    datos.setModel(modeloDatos);
+                    for(int i=0; i<id.length(); i++){
+                        String habilitadoString;
+                        if(habilitado.getBoolean(i)){
+                            habilitadoString = "Sí";
+                        }
+                        else{
+                            habilitadoString = "No";
+                        }
+                        modeloDatos.addRow(new Object[]{
+                            id.getString(i),
+                            numero_serie.getString(i),
+                            nombre.getString(i),
+                            GestionCiudadApi.obtenerCiudadPorId(id_ciudad.getInt(i)),
+                            estado.getString(i),
+                            habilitadoString});
                     }
-                    else{
-                        habilitadoString = "No";
-                    }
-                    modeloDatos.addRow(new Object[]{
-                        id.getString(i),
-                        numero_serie.getString(i),
-                        nombre.getString(i),
-                        GestionCiudadApi.obtenerCiudadPorId(id_ciudad.getInt(i)),
-                        estado.getString(i),
-                        habilitadoString});
                 }
-
+                else
+                {
+                    JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
+                }
             }
-            
         });
         contenido.add(mostrarTodos);
 
