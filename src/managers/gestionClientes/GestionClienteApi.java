@@ -61,7 +61,7 @@ public class GestionClienteApi {
         } catch(SQLException excepcion) {
             return retornarError("-1");
         }
-        if(activo.equals("{}")){
+        if(cliente.equals("{}")){
 
             return retornarError("-5");
         }
