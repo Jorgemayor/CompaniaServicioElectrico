@@ -86,6 +86,27 @@ public class GestionUsuarioLib {
         conexion.close();
         return resultado.toString();
     }
+    public String buscarEnTodosLosUsuarios(String nombre) throws SQLException {
+
+        Connection conexion = Conexion.conectar();
+
+        String consultaSQL = "SELECT * FROM usuario WHERE nombre = ?";
+
+        PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
+        consulta.setString(1, nombre);
+        ResultSet respuesta = consulta.executeQuery();
+        JSONObject resultado = new JSONObject();
+        while(respuesta.next())
+                { 
+                    resultado.append("id", respuesta.getString(1));
+                    resultado.append("nombre", respuesta.getString(2));
+                    resultado.append("contraseña", AESEncryptor.decrypt(KEY, IV, respuesta.getString(3)));
+                    resultado.append("rol", respuesta.getString(4));
+                    resultado.append("habilitado", respuesta.getBoolean(5));
+                }
+        conexion.close();
+        return resultado.toString();
+    }
 
     public String crearUsuario(String nombre, String contrasena, int idRol) throws SQLException {
 

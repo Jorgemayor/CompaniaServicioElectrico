@@ -126,7 +126,7 @@ public class GestionClienteApi {
                 mensajeError.put("mensaje", "Ciudad invalida");
                 break;
             case -5:
-                mensajeError.put("mensaje", "No existe un Cliente con ese ID");
+                mensajeError.put("mensaje", "No existe ese Cliente");
                 break;
             case -6:
                 mensajeError.put("mensaje", "Nombre del cliente no puede ser vació");
