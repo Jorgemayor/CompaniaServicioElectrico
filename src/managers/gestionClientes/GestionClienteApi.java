@@ -57,7 +57,7 @@ public class GestionClienteApi {
         JSONObject resultado = new JSONObject();
         String cliente = "";
         try {
-            cliente = lib.buscarEnTodosLosClientes(Integer.parseInt(id));
+            cliente = lib.buscarEnTodosLosclientes(Integer.parseInt(id));
         } catch(SQLException excepcion) {
             return retornarError("-1");
         }
