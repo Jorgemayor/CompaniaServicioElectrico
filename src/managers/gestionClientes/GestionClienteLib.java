@@ -149,9 +149,9 @@ public class GestionClienteLib {
             PreparedStatement actualizarEstado = conexion.prepareStatement(actualizacionSQL);
             actualizarEstado.setBoolean(1, !estadoActual.getBoolean("habilitado"));
             actualizarEstado.setInt(2, id);
-            actualizarEstado.executeQuery();
+            actualizarEstado.executeUpdate();
         }
         conexion.close();
-        return estadoActual.toString();
+        return "0";
     }
 }
