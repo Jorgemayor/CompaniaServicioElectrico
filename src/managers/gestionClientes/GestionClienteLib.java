@@ -77,7 +77,7 @@ public class GestionClienteLib {
 
         Connection conexion = Conexion.conectar();
 
-        String consultaSQL = "SELECT * FROM cliente WHERE habilitado = ? AND identificacion = ?";
+        String consultaSQL = "SELECT * FROM cliente WHERE habilitado = ? AND id = ?";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setBoolean(1, true);
