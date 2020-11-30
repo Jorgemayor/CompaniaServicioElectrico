@@ -125,15 +125,15 @@ public class GestionClienteApi {
         resultado.put("code", codigo);
         return resultado.toString();
     }
-    public static String cambiarEstadoCliente(int idCliente){
+    public static String cambiarEstadoCliente(int id){
         JSONObject resultado = new JSONObject();
         String codigo = "";
 
         try {
-            if(idCliente < 0) {
+            if(id < 0) {
                 throw new Exception("-5");
             } else {
-                codigo = lib.cambiarEstadoCliente(idCliente);
+                codigo = lib.cambiarEstadoCliente(id);
             }
             if(!codigo.equals("0")) {
                 throw new Exception(codigo);
