@@ -77,7 +77,7 @@ public class GestionClienteLib {
 
         Connection conexion = Conexion.conectar();
 
-        String consultaSQL = "SELECT * FROM cliente WHERE habilitado = ? AND id = ?";
+        String consultaSQL = "SELECT * FROM cliente WHERE habilitado = ? AND identificacion = ?";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setBoolean(1, true);
@@ -137,18 +137,18 @@ public class GestionClienteLib {
         conexion.close();
         return "0";
     }
-    public String cambiarEstadoCliente(int idCliente) throws SQLException {
+    public String cambiarEstadoCliente(int id) throws SQLException {
         Connection conexion = Conexion.conectar();
         String consultaSQL = "SELECT habilitado FROM cliente WHERE id = ?";
         PreparedStatement consultaEstado = conexion.prepareStatement(consultaSQL);
-        consultaEstado.setInt(1, idCliente);
+        consultaEstado.setInt(1, id);
         ResultSet estadoActual = consultaEstado.executeQuery();
         
         if(estadoActual.next()) {
             String actualizacionSQL = "UPDATE cliente SET habilitado = ? WHERE id = ?";
             PreparedStatement actualizarEstado = conexion.prepareStatement(actualizacionSQL);
             actualizarEstado.setBoolean(1, !estadoActual.getBoolean("habilitado"));
-            actualizarEstado.setInt(2, idCliente);
+            actualizarEstado.setInt(2, id);
             actualizarEstado.executeQuery();
         }
         conexion.close();
