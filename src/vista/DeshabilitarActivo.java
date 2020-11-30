@@ -71,26 +71,46 @@ public class DeshabilitarActivo extends Container {
         contenido.add(serialCampo);
         ver.setFont(FUENTE_ETIQUETAS);
         ver.setVisible(true);
-        ver.setBounds(810, 150, 70, 30);
+        ver.setBounds(810, 150, 100, 30);
         ver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSONObject resultado = new JSONObject(GestionActivosApi.buscarEnTodosLosActivos(serialCampo.getText()));
-                JSONObject activo = new JSONObject(resultado.getString("activo"));
-                int id = activo.getJSONArray("id").getInt(0);
-                String nombre = activo.getJSONArray("nombre").getString(0);
-                String stringEstado="";
-                if(activo.getJSONArray("habilitado").getBoolean(0)){
-                    stringEstado = "Habilitado";
-                    botonCambio.setText("Deshabilitar");
+
+                if(ver.getText()=="ver"){
+                    JSONObject resultado = new JSONObject(GestionActivosApi.buscarEnTodosLosActivos(serialCampo.getText()));
+                    String codigo = resultado.getString("code");
+                    if(codigo.equals("0")){
+                        serialCampo.setEditable(false);
+                        ver.setText(("limpiar"));
+                        JSONObject activo = new JSONObject(resultado.getString("activo"));
+                        int id = activo.getJSONArray("id").getInt(0);
+                        String nombre = activo.getJSONArray("nombre").getString(0);
+                        String stringEstado="";
+                        if(activo.getJSONArray("habilitado").getBoolean(0)){
+                            stringEstado = "Habilitado";
+                            botonCambio.setText("Deshabilitar");
+                        }
+                        else{
+                            stringEstado= "Deshabilitado";
+                            botonCambio.setText("Habilitar");
+                        }
+                        idActivoActual = id;
+                        estado.setText("Estado: "+stringEstado);
+                        titulo.setText(titulo.getText()+": "+nombre);
+                    }
+                    else{
+                        String mensaje = resultado.getString("mensaje");
+                        JOptionPane.showMessageDialog(null, mensaje);
+                    }
                 }
                 else{
-                    stringEstado= "Deshabilitado";
-                    botonCambio.setText("Habilitar");
+                    ver.setText("ver");
+                    idActivoActual = -1;
+                    serialCampo.setText("");
+                    serialCampo.setEditable(true);
+                    estado.setText("Estado: ");
+                    botonCambio.setText("Habilitar/Deshabilitar");
                 }
-                idActivoActual = id;
-                estado.setText("Estado: "+stringEstado);
-                titulo.setText(titulo.getText()+": "+nombre);
             }
         });
         contenido.add(ver);

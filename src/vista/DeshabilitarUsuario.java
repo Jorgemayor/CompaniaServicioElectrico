@@ -70,30 +70,43 @@ public class DeshabilitarUsuario extends Container {
         contenido.add(nombreCampo);
         ver.setFont(FUENTE_ETIQUETAS);
         ver.setVisible(true);
-        ver.setBounds(810, 150, 70, 30);
+        ver.setBounds(810, 150, 100, 30);
         ver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSONObject resultado = new JSONObject(GestionUsuarioApi.buscarEnTodosLosUsuarios(nombreCampo.getText()));
-                if(resultado.getString("code").equals("0")){
-                    JSONObject usuario = new JSONObject(resultado.getString("usuario"));
-                    int id = usuario.getJSONArray("id").getInt(0);
-                    String nombre = usuario.getJSONArray("nombre").getString(0);
-                    String stringEstado="";
-                    if(usuario.getJSONArray("habilitado").getBoolean(0)){
-                        stringEstado = "Habilitado";
-                        botonCambio.setText("Deshabilitar");
+                if(ver.getText()=="ver"){
+                    ver.setText("limpiar");
+                    nombreCampo.setEditable(false);
+                    JSONObject resultado = new JSONObject(GestionUsuarioApi.buscarEnTodosLosUsuarios(nombreCampo.getText()));
+                    if(resultado.getString("code").equals("0")){
+                        JSONObject usuario = new JSONObject(resultado.getString("usuario"));
+                        int id = usuario.getJSONArray("id").getInt(0);
+                        String nombre = usuario.getJSONArray("nombre").getString(0);
+                        String stringEstado="";
+                        if(usuario.getJSONArray("habilitado").getBoolean(0)){
+                            stringEstado = "Habilitado";
+                            botonCambio.setText("Deshabilitar");
+                        }
+                        else{
+                            stringEstado= "Deshabilitado";
+                            botonCambio.setText("Habilitar");
+                        }
+                        idUsuarioActual = id;
+                        estado.setText("Estado: "+stringEstado);
+                        titulo.setText(titulo.getText()+": "+nombre);
                     }
                     else{
-                        stringEstado= "Deshabilitado";
-                        botonCambio.setText("Habilitar");
+                        JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
                     }
-                    idUsuarioActual = id;
-                    estado.setText("Estado: "+stringEstado);
-                    titulo.setText(titulo.getText()+": "+nombre);
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
+                    ver.setText("ver");
+                    idUsuarioActual = -1;
+                    nombreCampo.setText("");
+                    nombreCampo.setEditable(true);
+                    titulo.setText("Habilitar/Deshabilitar Usuario");
+                    botonCambio.setText("Habilitar/Deshabilitar");
+                    estado.setText("");
                 }
             }
             
