@@ -161,6 +161,7 @@ public class ConsultarCliente extends Container {
                     modeloDatos.addColumn("DIRECCION");
                     modeloDatos.addColumn("CIUDAD");
                     tablaDatos.setModel(modeloDatos);
+                    
                     for(int i=0; i<identificacion.length(); i++){
                         modeloDatos.addRow(new Object[]{
                             tipoIdentificacion.getString(i),

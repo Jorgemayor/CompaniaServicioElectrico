@@ -98,25 +98,20 @@ public class GestionClienteLib {
         return resultado.toString();
     }
     public String buscarEnTodosLosclientes(int id) throws SQLException {
-
         Connection conexion = Conexion.conectar();
-
-        String consultaSQL = "SELECT * FROM activo WHERE identificacion = ?";
-
+        String consultaSQL = "SELECT * FROM cliente WHERE identificacion = ?";
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setInt(1, id);
         ResultSet respuesta = consulta.executeQuery();
         JSONObject resultado = new JSONObject();
-        while(respuesta.next())
-                { 
-                    resultado.append("id", respuesta.getString(1));
-                    resultado.append("tipo_identificacion", respuesta.getString(2));
-                    resultado.append("identificacion", respuesta.getString(3));
-                    resultado.append("nombre", respuesta.getString(4));
-                    resultado.append("direccion", respuesta.getString(5));
-                    resultado.append("id_ciudad", respuesta.getString(6));
-                    resultado.append("habilitado", respuesta.getBoolean(7));
-                }
+        respuesta.next();
+        resultado.append("id", respuesta.getString(1));
+        resultado.append("tipo_identificacion", respuesta.getString(2));
+        resultado.append("identificacion", respuesta.getString(3));
+        resultado.append("nombre", respuesta.getString(4));
+        resultado.append("direccion", respuesta.getString(5));
+        resultado.append("id_ciudad", respuesta.getString(6));
+        resultado.append("habilitado", respuesta.getBoolean(7));
         conexion.close();
         return resultado.toString();
     }

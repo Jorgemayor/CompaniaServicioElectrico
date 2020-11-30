@@ -8,6 +8,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.JButton;
@@ -34,11 +36,9 @@ public class DeshabilitarCliente extends Container {
     private JLabel etiquetaIdentificacion;
     private JTextField campoIdentificacion;
     private JButton botonVer;
-    private JLabel etiquetaNombre;
-    private JLabel etiquetaNombreActual;
     private JLabel etiquetaEstado;
-    private JLabel etiquetaEstadoActual;
     private JToggleButton botonCambio;
+    private int idClienteActual;
     
 
 
@@ -55,13 +55,10 @@ public class DeshabilitarCliente extends Container {
         etiquetaIdentificacion = new JLabel("ID");
         campoIdentificacion = new JTextField();
         botonVer = new JButton("ver");
-        etiquetaNombre = new JLabel("Nombre:");
-        etiquetaNombreActual = new JLabel();
+        idClienteActual = -1;
 
         etiquetaEstado = new JLabel("Estado:");
-        etiquetaEstadoActual = new JLabel("");
         botonCambio = new JToggleButton("Hablitar/Deshabilitar");
-
         panelContenido.setLayout(null);
         panelContenido.setVisible(true);
         panelContenido.setBackground(COLOR_FONDO);
@@ -69,7 +66,7 @@ public class DeshabilitarCliente extends Container {
         //Titulo
         etiquetaTitulo.setFont(FUENTE_TITULO);
         etiquetaTitulo.setVisible(true);
-        etiquetaTitulo.setBounds(530, 30, 300, 25);
+        etiquetaTitulo.setBounds(390, 20, 600, 50);
         panelContenido.add(etiquetaTitulo);
 
         //Formulario
@@ -79,9 +76,6 @@ public class DeshabilitarCliente extends Container {
         panelContenido.add(etiquetaTipoId);
         selectorTipoId.setVisible(true);
         selectorTipoId.setBounds(300, 150, 200, 30);
-        selectorTipoId.addItem("RC");
-        selectorTipoId.addItem("TI");
-        selectorTipoId.addItem("CC");
         panelContenido.add(selectorTipoId);
 
         etiquetaIdentificacion.setFont(FUENTE_ETIQUETAS);
@@ -90,6 +84,34 @@ public class DeshabilitarCliente extends Container {
         panelContenido.add(etiquetaIdentificacion);
         campoIdentificacion.setVisible(true);
         campoIdentificacion.setBounds(830, 150, 200, 30);
+        campoIdentificacion.addKeyListener(new KeyListener(){
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!(Character.isDigit(c) ||
+                (c == KeyEvent.VK_BACK_SPACE) ||
+                (c == KeyEvent.VK_DELETE))) {
+                    getToolkit().beep();
+                    e.consume();
+                    JOptionPane.showMessageDialog(null, "En este campo solo se admiten valores numéricos");
+                }
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+            
+        });
         panelContenido.add(campoIdentificacion);
         botonVer.setFont(FUENTE_ETIQUETAS);
         botonVer.setVisible(true);
@@ -98,42 +120,39 @@ public class DeshabilitarCliente extends Container {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JSONObject resultado = new JSONObject(GestionClienteApi.buscarEnTodosLosClientes(campoIdentificacion.getText()));
-                JSONObject cliente = new JSONObject(resultado.getString("cliente"));
-                String tipoIdentificacion = cliente.getJSONArray("tipo_identificacion").getString(0);
-                int identificador = cliente.getJSONArray("identificador").getInt(0);
-                String nombre = cliente.getJSONArray("nombre").getString(0);
-                String stringEstado="";
-                if(cliente.getJSONArray("habilitado").getBoolean(0)){
-                    stringEstado = "Habilitado";
-                    botonCambio.setText("Deshabilitar");
+                String codigo = resultado.getString("code");
+                if(codigo.equals("0")){
+                    selectorTipoId.addItem("RC");
+                    selectorTipoId.addItem("TI");
+                    selectorTipoId.addItem("CC");
+                    JSONObject cliente = new JSONObject(resultado.getString("cliente"));
+                    int id = cliente.getJSONArray("id").getInt(0);
+                    String nombreCliente = cliente.getJSONArray("nombre").getString(0);
+                    String stringEstado = "";
+                    if(cliente.getJSONArray("habilitado").getBoolean(0)){
+                        stringEstado = "Habilitado";
+                        botonCambio.setText("Deshabilitar");
+                    }
+                    else{
+                        stringEstado= "Deshabilitado";
+                        botonCambio.setText("Habilitar");
+                    }
+                    idClienteActual = id;
+                    etiquetaEstado.setText("Estado: "+stringEstado);
+                    etiquetaTitulo.setText(etiquetaTitulo.getText()+": "+nombreCliente);
                 }
                 else{
-                    stringEstado= "Deshabilitado";
-                    botonCambio.setText("Habilitar");
-                }
-                selectorTipoId.setSelectedItem(tipoIdentificacion);
-                campoIdentificacion.setText(String.valueOf(identificador));
-                etiquetaEstado.setText("Estado: "+stringEstado);
-                etiquetaTitulo.setText(etiquetaTitulo.getText()+": "+nombre);
+                    String mensaje = resultado.getString("mensaje");
+                    JOptionPane.showMessageDialog(null, mensaje);
+                }                
             }
         });
         panelContenido.add(botonVer);
 
-        etiquetaNombre.setFont(FUENTE_ETIQUETAS);
-        etiquetaNombre.setVisible(true);
-        etiquetaNombre.setBounds(150, 225, 150, 30);
-        panelContenido.add(etiquetaNombre);
-        etiquetaNombreActual.setVisible(true);
-        etiquetaNombreActual.setBounds(300, 225, 200, 30);
-        panelContenido.add(etiquetaNombreActual);
-
         etiquetaEstado.setFont(FUENTE_ETIQUETAS);
         etiquetaEstado.setVisible(true);
-        etiquetaEstado.setBounds(800, 225, 150, 30);
+        etiquetaEstado.setBounds(800, 225, 300, 30);
         panelContenido.add(etiquetaEstado);
-        etiquetaEstadoActual.setVisible(true);
-        etiquetaEstadoActual.setBounds(890, 225, 220, 30);
-        panelContenido.add(etiquetaEstadoActual);
 
         botonCambio.setFont(FUENTE_ETIQUETAS);
         botonCambio.setVisible(true);
@@ -142,7 +161,7 @@ public class DeshabilitarCliente extends Container {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                String resultado = GestionClienteApi.cambiarEstadoCliente(Integer.parseInt(campoIdentificacion.toString()));
+                String resultado = GestionClienteApi.cambiarEstadoCliente(idClienteActual);
                 JSONObject jsonResultado = new JSONObject(resultado);
                 String codigo = jsonResultado.getString("code");
                 if (codigo.equals("0")) {
