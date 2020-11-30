@@ -36,7 +36,7 @@ public class DeshabilitarCliente extends Container {
     private JButton botonVer;
     private JLabel etiquetaEstado;
     private JLabel etiquetaNombre;
-    private JToggleButton botonCambio;
+    private JButton botonCambio;
     private int idClienteActual;
     
 
@@ -55,7 +55,7 @@ public class DeshabilitarCliente extends Container {
         idClienteActual = -1;
         etiquetaEstado = new JLabel("Estado:");
         etiquetaNombre = new JLabel("Nombre:");
-        botonCambio = new JToggleButton("Hablitar/Deshabilitar");
+        botonCambio = new JButton("Hablitar/Deshabilitar");
         panelContenido.setLayout(null);
         panelContenido.setVisible(true);
         panelContenido.setBackground(COLOR_FONDO);
@@ -105,34 +105,47 @@ public class DeshabilitarCliente extends Container {
         panelContenido.add(campoIdentificacion);
         botonVer.setFont(FUENTE_ETIQUETAS);
         botonVer.setVisible(true);
-        botonVer.setBounds(735, 130, 70, 30);
+        botonVer.setBounds(735, 130, 100, 30);
         botonVer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSONObject resultado = new JSONObject(GestionClienteApi.buscarEnTodosLosClientes(campoIdentificacion.getText()));
-                String codigo = resultado.getString("code");
-                if(codigo.equals("0")){
-                    JSONObject cliente = new JSONObject(resultado.getString("cliente"));
-                    int id = cliente.getJSONArray("id").getInt(0);
-                    String nombreCliente = cliente.getJSONArray("nombre").getString(0);
-                    String stringEstado = "";
-                    if(cliente.getJSONArray("habilitado").getBoolean(0)){
-                        stringEstado = "Habilitado";
-                        botonCambio.setText("Deshabilitar");
+                if(botonVer.getText()=="ver"){
+                    JSONObject resultado = new JSONObject(GestionClienteApi.buscarEnTodosLosClientes(campoIdentificacion.getText()));
+                    String codigo = resultado.getString("code");
+                    if(codigo.equals("0")){
+                        campoIdentificacion.setEditable(false);
+                        botonVer.setText(("limpiar"));
+                        JSONObject cliente = new JSONObject(resultado.getString("cliente"));
+                        int id = cliente.getJSONArray("id").getInt(0);
+                        String nombreCliente = cliente.getJSONArray("nombre").getString(0);
+                        String stringEstado = "";
+                        if(cliente.getJSONArray("habilitado").getBoolean(0)){
+                            stringEstado = "Habilitado";
+                            botonCambio.setText("Deshabilitar");
+                        }
+                        else{
+                            System.out.print(codigo+"\n");
+                            stringEstado= "Deshabilitado";
+                            botonCambio.setText("Habilitar");
+                        }
+                        idClienteActual = id;
+                        etiquetaNombre.setText("Nombre: "+nombreCliente);
+                        etiquetaEstado.setText("Estado: "+stringEstado);
                     }
                     else{
-                        System.out.print(codigo+"\n");
-                        stringEstado= "Deshabilitado";
-                        botonCambio.setText("Habilitar");
-                    }
-                    idClienteActual = id;
-                    etiquetaNombre.setText("Nombre: "+nombreCliente);
-                    etiquetaEstado.setText("Estado: "+stringEstado);
+                        String mensaje = resultado.getString("mensaje");
+                        JOptionPane.showMessageDialog(null, mensaje);
+                    }    
                 }
                 else{
-                    String mensaje = resultado.getString("mensaje");
-                    JOptionPane.showMessageDialog(null, mensaje);
-                }                
+                    botonVer.setText("ver");
+                    idClienteActual = -1;
+                    campoIdentificacion.setText("");
+                    campoIdentificacion.setEditable(true);
+                    botonCambio.setText("Habilitar/Deshabilitar");
+                    etiquetaNombre.setText("Nombre:");
+                    etiquetaEstado.setText("Estado:");
+                }            
             }
         });
         panelContenido.add(botonVer);
@@ -158,7 +171,6 @@ public class DeshabilitarCliente extends Container {
                 String codigo = jsonResultado.getString("code");
                 System.out.print(codigo+"\n");
                 if (codigo.equals("0")) {
-                    System.out.print(codigo+"\n");
                     if(botonCambio.getText()=="Deshabilitar"){
                         System.out.print(codigo+"\n");
                         botonCambio.setText("Habilitar");
