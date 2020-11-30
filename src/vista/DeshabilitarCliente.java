@@ -31,12 +31,11 @@ public class DeshabilitarCliente extends Container {
 
     private JPanel panelContenido;
     private JLabel etiquetaTitulo;
-    private JLabel etiquetaTipoId;
-    private JComboBox selectorTipoId;
     private JLabel etiquetaIdentificacion;
     private JTextField campoIdentificacion;
     private JButton botonVer;
     private JLabel etiquetaEstado;
+    private JLabel etiquetaNombre;
     private JToggleButton botonCambio;
     private int idClienteActual;
     
@@ -50,14 +49,12 @@ public class DeshabilitarCliente extends Container {
 
         panelContenido = new JPanel();
         etiquetaTitulo = new JLabel("Deshabilitar/Habilitar Cliente");
-        etiquetaTipoId = new JLabel("Tipo de ID");
-        selectorTipoId = new JComboBox();
         etiquetaIdentificacion = new JLabel("ID");
         campoIdentificacion = new JTextField();
         botonVer = new JButton("ver");
         idClienteActual = -1;
-
         etiquetaEstado = new JLabel("Estado:");
+        etiquetaNombre = new JLabel("Nombre:");
         botonCambio = new JToggleButton("Hablitar/Deshabilitar");
         panelContenido.setLayout(null);
         panelContenido.setVisible(true);
@@ -66,24 +63,17 @@ public class DeshabilitarCliente extends Container {
         //Titulo
         etiquetaTitulo.setFont(FUENTE_TITULO);
         etiquetaTitulo.setVisible(true);
-        etiquetaTitulo.setBounds(390, 20, 600, 50);
+        etiquetaTitulo.setBounds(450, 20, 600, 50);
         panelContenido.add(etiquetaTitulo);
 
         //Formulario
-        etiquetaTipoId.setFont(FUENTE_ETIQUETAS);
-        etiquetaTipoId.setVisible(true);
-        etiquetaTipoId.setBounds(150, 150, 200, 30);
-        panelContenido.add(etiquetaTipoId);
-        selectorTipoId.setVisible(true);
-        selectorTipoId.setBounds(300, 150, 200, 30);
-        panelContenido.add(selectorTipoId);
 
         etiquetaIdentificacion.setFont(FUENTE_ETIQUETAS);
         etiquetaIdentificacion.setVisible(true);
-        etiquetaIdentificacion.setBounds(800, 150, 150, 30);
+        etiquetaIdentificacion.setBounds(500, 130, 150, 30);
         panelContenido.add(etiquetaIdentificacion);
         campoIdentificacion.setVisible(true);
-        campoIdentificacion.setBounds(830, 150, 200, 30);
+        campoIdentificacion.setBounds(530, 130, 200, 30);
         campoIdentificacion.addKeyListener(new KeyListener(){
 
             @Override
@@ -115,16 +105,13 @@ public class DeshabilitarCliente extends Container {
         panelContenido.add(campoIdentificacion);
         botonVer.setFont(FUENTE_ETIQUETAS);
         botonVer.setVisible(true);
-        botonVer.setBounds(1035, 150, 70, 30);
+        botonVer.setBounds(735, 130, 70, 30);
         botonVer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JSONObject resultado = new JSONObject(GestionClienteApi.buscarEnTodosLosClientes(campoIdentificacion.getText()));
                 String codigo = resultado.getString("code");
                 if(codigo.equals("0")){
-                    selectorTipoId.addItem("RC");
-                    selectorTipoId.addItem("TI");
-                    selectorTipoId.addItem("CC");
                     JSONObject cliente = new JSONObject(resultado.getString("cliente"));
                     int id = cliente.getJSONArray("id").getInt(0);
                     String nombreCliente = cliente.getJSONArray("nombre").getString(0);
@@ -134,12 +121,13 @@ public class DeshabilitarCliente extends Container {
                         botonCambio.setText("Deshabilitar");
                     }
                     else{
+                        System.out.print(codigo+"\n");
                         stringEstado= "Deshabilitado";
                         botonCambio.setText("Habilitar");
                     }
                     idClienteActual = id;
+                    etiquetaNombre.setText("Nombre: "+nombreCliente);
                     etiquetaEstado.setText("Estado: "+stringEstado);
-                    etiquetaTitulo.setText(etiquetaTitulo.getText()+": "+nombreCliente);
                 }
                 else{
                     String mensaje = resultado.getString("mensaje");
@@ -149,14 +137,18 @@ public class DeshabilitarCliente extends Container {
         });
         panelContenido.add(botonVer);
 
+        etiquetaNombre.setFont(FUENTE_ETIQUETAS);
+        etiquetaNombre.setVisible(true);
+        etiquetaNombre.setBounds(500, 205, 300, 30);
+        panelContenido.add(etiquetaNombre);
         etiquetaEstado.setFont(FUENTE_ETIQUETAS);
         etiquetaEstado.setVisible(true);
-        etiquetaEstado.setBounds(800, 225, 300, 30);
+        etiquetaEstado.setBounds(500, 270, 300, 30);
         panelContenido.add(etiquetaEstado);
 
         botonCambio.setFont(FUENTE_ETIQUETAS);
         botonCambio.setVisible(true);
-        botonCambio.setBounds(800, 300, 250, 30);
+        botonCambio.setBounds(500, 350, 250, 30);
         botonCambio.addActionListener(new ActionListener(){
 
             @Override
@@ -164,16 +156,21 @@ public class DeshabilitarCliente extends Container {
                 String resultado = GestionClienteApi.cambiarEstadoCliente(idClienteActual);
                 JSONObject jsonResultado = new JSONObject(resultado);
                 String codigo = jsonResultado.getString("code");
+                System.out.print(codigo+"\n");
                 if (codigo.equals("0")) {
+                    System.out.print(codigo+"\n");
                     if(botonCambio.getText()=="Deshabilitar"){
+                        System.out.print(codigo+"\n");
                         botonCambio.setText("Habilitar");
                         etiquetaEstado.setText("Estado: "+"Deshabilitado");
                     }
                     else{
+                        System.out.print(codigo+"\n");
                         botonCambio.setText("Deshabilitar");
                         etiquetaEstado.setText("Estado: "+"Habilitado");
                     }
                 } else {
+                    System.out.print(codigo+"\n");
                     String mensaje = jsonResultado.getString("mensaje");
                     JOptionPane.showMessageDialog(null, mensaje);
                 }
