@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import src.managers.gestionClientes.GestionClienteApi;
 import src.managers.gestionActivos.GestionActivosApi;
 import src.managers.gestionCiudad.GestionCiudadApi;
 

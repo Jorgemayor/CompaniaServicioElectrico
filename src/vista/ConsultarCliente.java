@@ -152,7 +152,7 @@ public class ConsultarCliente extends Container {
                     JSONArray identificacion = cliente.getJSONArray("identificacion");
                     JSONArray nombre = cliente.getJSONArray("nombre");
                     JSONArray direccion = cliente.getJSONArray("direccion");
-                    JSONArray idCiudad = cliente.getJSONArray("id_ciudad");
+                    JSONArray ciudad = cliente.getJSONArray("ciudad");
                     DefaultTableModel modeloDatos = new DefaultTableModel();;
                     modeloDatos = new DefaultTableModel();
                     modeloDatos.addColumn("TIPO ID");
@@ -168,7 +168,7 @@ public class ConsultarCliente extends Container {
                             identificacion.getString(i),
                             nombre.getString(i),
                             direccion.getString(i),
-                            GestionCiudadApi.obtenerCiudadPorId(idCiudad.getInt(i))});
+                            ciudad.getString(i)});
                     }
                 }
                 else

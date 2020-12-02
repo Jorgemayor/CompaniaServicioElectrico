@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.Color;
 
 import javax.swing.JButton;
@@ -24,7 +26,7 @@ public class CrearCliente extends Container {
 
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
-    private static final Color COLOR_FONDO = new Color(232,234,246);
+    private static final Color COLOR_FONDO = new Color(232, 234, 246);
 
     private JPanel contenedor;
     private JLabel etiquetaTitulo;
@@ -40,23 +42,23 @@ public class CrearCliente extends Container {
     private JComboBox<String> selectorCiudad;
     private JButton botonEnviar;
 
-    public CrearCliente(){
+    public CrearCliente() {
         iniciarComponentes();
     }
-    
+
     private void iniciarComponentes() {
 
         contenedor = new JPanel();
         etiquetaTitulo = new JLabel("Crear Cliente");
         etiquetaTipoIdentificacion = new JLabel("Tipo de ID");
         selectorTipoIdentificacion = new JComboBox<String>();
-        etiquetaIdentificacion = new JLabel("ID");
+        etiquetaIdentificacion = new JLabel("Documento Identidad");
         campoIdentificacion = new JTextField();
         etiquetaNombre = new JLabel("Nombre");
         campoNombre = new JTextField();
         etiquetaDireccion = new JLabel("Dirección");
         campoDireccion = new JTextField();
-        etiquetaCiudad = new JLabel("ciudad");
+        etiquetaCiudad = new JLabel("Ciudad");
         selectorCiudad = new JComboBox<String>();
         botonEnviar = new JButton("Enviar");
 
@@ -64,17 +66,15 @@ public class CrearCliente extends Container {
         contenedor.setVisible(true);
         contenedor.setBackground(COLOR_FONDO);
 
-        //Titulo
+        // Titulo
         etiquetaTitulo.setFont(FUENTE_TITULO);
         etiquetaTitulo.setVisible(true);
         etiquetaTitulo.setBounds(550, 30, 200, 25);
         contenedor.add(etiquetaTitulo);
 
-        //Formulario
+        // Formulario
 
-
-
-        //Tipo de identificación
+        // Tipo de identificación
         etiquetaTipoIdentificacion.setFont(FUENTE_ETIQUETAS);
         etiquetaTipoIdentificacion.setVisible(true);
         etiquetaTipoIdentificacion.setBounds(150, 150, 200, 30);
@@ -87,14 +87,41 @@ public class CrearCliente extends Container {
         selectorTipoIdentificacion.addItem("CC");
         contenedor.add(selectorTipoIdentificacion);
 
-        //Identificación
+        // Identificación
         etiquetaIdentificacion.setFont(FUENTE_ETIQUETAS);
         etiquetaIdentificacion.setVisible(true);
-        etiquetaIdentificacion.setBounds(800, 150, 150, 30);
+        etiquetaIdentificacion.setBounds(670, 150, 250, 30);
         contenedor.add(etiquetaIdentificacion);
 
         campoIdentificacion.setVisible(true);
         campoIdentificacion.setBounds(890, 150, 200, 30);
+        campoIdentificacion.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!(Character.isDigit(c) ||
+                (c == KeyEvent.VK_BACK_SPACE) ||
+                (c == KeyEvent.VK_DELETE))) {
+                    getToolkit().beep();
+                    e.consume();
+                    JOptionPane.showMessageDialog(null, "En este campo solo se admiten valores numéricos");
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+            
+        });
         contenedor.add(campoIdentificacion);
 
         //Nombre

@@ -4,12 +4,14 @@ import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class RegistrarPagoIndividual extends Container {
@@ -21,7 +23,6 @@ public class RegistrarPagoIndividual extends Container {
     private JPanel contenido;
     private JLabel titulo;
     private JLabel idCliente;
-    private JComboBox tipoIdCliente;
     private JTextField campoIdCliente;
     private JLabel idFactura;
     private JTextField campoFactura;
@@ -38,8 +39,7 @@ public class RegistrarPagoIndividual extends Container {
 
         contenido = new JPanel();
         titulo = new JLabel("Registrar Pago Individual");
-        idCliente = new JLabel("ID Cliente");
-        tipoIdCliente = new JComboBox();
+        idCliente = new JLabel("Identificación del Cliente");
         campoIdCliente = new JTextField();
         idFactura = new JLabel("Número Factura");
         campoFactura = new JTextField();
@@ -57,16 +57,41 @@ public class RegistrarPagoIndividual extends Container {
         titulo.setBounds(450, 30, 400, 35);
         contenido.add(titulo);
 
+        KeyListener validacionNumerica=new KeyListener(){
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!(Character.isDigit(c) ||
+                (c == KeyEvent.VK_BACK_SPACE) ||
+                (c == KeyEvent.VK_DELETE))) {
+                    getToolkit().beep();
+                    e.consume();
+                    JOptionPane.showMessageDialog(null, "En este campo solo se admiten valores numéricos");
+                }
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+         };
+
         //Formulario
         idCliente.setFont(FUENTE_ETIQUETAS);
         idCliente.setVisible(true);
-        idCliente.setBounds(350, 100, 200, 30);
+        idCliente.setBounds(400, 100, 300, 30);
         contenido.add(idCliente);
-        tipoIdCliente.setVisible(true);
-        tipoIdCliente.setBounds(460, 100, 200, 30);
-        contenido.add(tipoIdCliente);
         campoIdCliente.setVisible(true);
         campoIdCliente.setBounds(680, 100, 200, 30);
+        campoIdCliente.addKeyListener(validacionNumerica);
         contenido.add(campoIdCliente);
         idFactura.setFont(FUENTE_ETIQUETAS);
         idFactura.setVisible(true);
@@ -74,6 +99,7 @@ public class RegistrarPagoIndividual extends Container {
         contenido.add(idFactura);
         campoFactura.setVisible(true);
         campoFactura.setBounds(680, 140, 200, 30);
+        campoFactura.addKeyListener(validacionNumerica);
         contenido.add(campoFactura);
 
         ver.setFont(FUENTE_ETIQUETAS);

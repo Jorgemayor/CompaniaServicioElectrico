@@ -14,7 +14,7 @@ public class GestionActivosApi {
         try {
             activos = lib.obtenerActivos();
         } catch(SQLException excepcion) {
-
+            System.out.println(excepcion.getMessage());
             return retornarError("-1");
         }
 
