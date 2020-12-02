@@ -44,6 +44,28 @@ public class GestionDeudaLib {
         
         conexion.close();
         return codigo;
-    }   
+    }
 
+    public String obtenerDeudasPorCliente(int identificacionCliente) throws SQLException {
+
+        Connection conexion = Conexion.conectar();
+        String consultaSQL = ""
+            + "SELECT *"
+            + "FROM deuda AS D"
+            + "INNER JOIN cliente AS C ON D.id_cliente = C.id"
+            + "WHERE C.identificacion=? AND C.habilitado=?";
+
+        PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
+        consulta.setInt(1, identificacionCliente);
+        consulta.setBoolean(2, true);
+        ResultSet respuesta = consulta.executeQuery();
+        
+        JSONObject resultado = new JSONObject();
+        while(respuesta.next()) {
+            resultado.append("descripcion", respuesta.getString(3));
+            resultado.append("valor", respuesta.getInt(4));
+        }
+        conexion.close();
+        return resultado.toString();
+    }
 }

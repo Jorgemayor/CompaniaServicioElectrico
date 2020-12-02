@@ -15,13 +15,13 @@ public class GestionDeudaApi {
 
         try {
             if(identificacionCliente.trim().equals("")) {
-                throw new Exception("-2");
+                return retornarError("-2");
             }
 
             int valorIdentificacionCliente = Integer.parseInt(identificacionCliente);
             
             if(valorIdentificacionCliente < 0) {
-                throw new Exception("-3");
+                return retornarError("-3");
             }
 
             codigo = lib.registrarDeudaPorReconexion(valorIdentificacionCliente);
@@ -32,6 +32,35 @@ public class GestionDeudaApi {
                 resultado.put("code", codigo);
                 return resultado.toString();
             }
+        } catch(SQLException excepcion) {
+            return retornarError("-1");
+        } catch(Exception excepcion) {
+            return retornarError("-99");
+        }
+    }
+
+    public String obtenerDeudasPorCliente(String identificacionCliente) {
+
+        JSONObject resultado = new JSONObject();
+        String deudas = "";
+
+        try {
+            if(identificacionCliente.trim().equals("")) {
+                return retornarError("-2");
+            }
+
+            int valorIdentificacionCliente = Integer.parseInt(identificacionCliente);
+            
+            if(valorIdentificacionCliente < 0) {
+                return retornarError("-3");
+            }
+
+            deudas = lib.obtenerDeudasPorCliente(valorIdentificacionCliente);
+
+            resultado.put("code", "0");
+            resultado.put("deudas", deudas);
+
+            return resultado.toString();
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
