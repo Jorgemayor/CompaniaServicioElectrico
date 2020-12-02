@@ -3,6 +3,8 @@ package src.vista;
 import java.awt.*;
 import javax.swing.*;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -70,7 +72,6 @@ public class Login extends JFrame {
         LAviso = new JLabel();
     
         attachListeners();
-
         setMinimumSize(new Dimension(640, 400));
         setUndecorated(true);
         setResizable(false);
@@ -182,8 +183,8 @@ public class Login extends JFrame {
                 if(resultado.equals("OK")){
                     Login.this.dispatchEvent(new WindowEvent(Login.this, WindowEvent.WINDOW_CLOSING));
                 }else{
-                    Login.this.LAviso.setText(resultado);
-                    Login.this.LAviso.setVisible(true);
+                    JSONObject jsonResultado = new JSONObject(resultado.toString());
+                    JOptionPane.showMessageDialog(null, jsonResultado.getString("mensaje"));
                 }
             }
         });

@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import src.managers.gestionClientes.GestionClienteApi;
 import src.managers.gestionActivos.GestionActivosApi;
 import src.managers.gestionCiudad.GestionCiudadApi;
 
@@ -46,7 +45,7 @@ public class CrearActivo extends Container {
     private void iniciarComponentes() {
 
         contenedor = new JPanel();
-        etiquetaTitulo = new JLabel("Crear Activos");
+        etiquetaTitulo = new JLabel("Crear Activo");
         EtiquetaNumSerie = new JLabel("Número de Serie");
         campoNumSerie = new JTextField();
         etiquetaNombre = new JLabel("Nombre");

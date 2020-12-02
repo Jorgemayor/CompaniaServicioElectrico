@@ -41,6 +41,7 @@ public class VentanaPrincipal extends JFrame {
     private JMenu menuClientes;
     private JMenu menuPagos;
     private JMenu menuFacturas;
+    private JMenu menuLecturas;
     private JMenu menuReportes;
     private JMenu menuActivos;
     private JMenu menuConfiguracion;
@@ -61,6 +62,9 @@ public class VentanaPrincipal extends JFrame {
 
     private JMenuItem accionGenerarFacturaIndividual;
     private JMenuItem accionGenerarFacturasMasivas;
+
+    private JMenuItem accionRegistrarLecturaIndividual;
+    private JMenuItem accionRegistrarLecturasMasivas;
 
     private JMenuItem accionGenerarReporteIndividual;
     private JMenuItem accionGenerarReportesMasivos;
@@ -173,6 +177,14 @@ public class VentanaPrincipal extends JFrame {
         accionGenerarFacturasMasivas.addActionListener(escucha);
         menuFacturas.add(accionGenerarFacturaIndividual);
         menuFacturas.add(accionGenerarFacturasMasivas);
+
+        menuLecturas = new JMenu("Lecturas");
+        accionRegistrarLecturaIndividual = new JMenuItem("Registrar lectura individual");
+        accionRegistrarLecturasMasivas = new JMenuItem("Registrar lecturas masivas");
+        accionRegistrarLecturaIndividual.addActionListener(escucha);
+        accionRegistrarLecturasMasivas.addActionListener(escucha);
+        menuLecturas.add(accionRegistrarLecturaIndividual);
+        menuLecturas.add(accionRegistrarLecturasMasivas);
         
         menuReportes = new JMenu("Reportes");
         accionGenerarReporteIndividual = new JMenuItem("Generar reporte individual");
@@ -216,6 +228,7 @@ public class VentanaPrincipal extends JFrame {
                 menuDesplegable.add(menuActivos);
                 menuDesplegable.add(menuFacturas);
                 menuDesplegable.add(menuPagos);
+                menuDesplegable.add(menuLecturas);
                 menuDesplegable.add(menuReportes);
                 menuDesplegable.add(menuConfiguracion);
                 menuDesplegable.add(menuSalir);
@@ -235,6 +248,7 @@ public class VentanaPrincipal extends JFrame {
 
             case 3: //operador
                 menuDesplegable.add(menuClientes);
+                menuDesplegable.add(menuLecturas);
                 menuDesplegable.add(menuFacturas);
                 menuDesplegable.add(menuPagos);
                 menuDesplegable.add(menuSalir);
@@ -298,7 +312,15 @@ public class VentanaPrincipal extends JFrame {
                 contenedorVentanas = new GenerarFacturaIndividual();
             } else if(itemPresionado.equals(accionGenerarFacturasMasivas)) {
                 contenedorVentanas = new GenerarFacturasMasivas();
-            } else if(itemPresionado.equals(accionGenerarReporteIndividual)) {
+            }else if(itemPresionado.equals(accionGenerarFacturaIndividual)) {
+                contenedorVentanas = new GenerarFacturaIndividual();
+            } else if(itemPresionado.equals(accionGenerarFacturasMasivas)) {
+                contenedorVentanas = new GenerarFacturasMasivas();
+            }else if(itemPresionado.equals(accionRegistrarLecturaIndividual)) {
+                contenedorVentanas = new RegistrarLecturaIndividual();
+            } else if(itemPresionado.equals(accionRegistrarLecturasMasivas)) {
+                contenedorVentanas = new RegistrarLecturasMasivas();
+            }else if(itemPresionado.equals(accionGenerarReporteIndividual)) {
                 contenedorVentanas = new GenerarReporteIndividual();
             } else if(itemPresionado.equals(accionGenerarReportesMasivos)) {
                 contenedorVentanas = new GenerarReportesMasivos();

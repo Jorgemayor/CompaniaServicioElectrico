@@ -1,27 +1,79 @@
 package src.managers.gestionActivos;
 
 import java.sql.*;
+
+import org.json.JSONObject;
+
 import src.control.Conexion;
 
 public class GestionActivosLib {
 
-        // variables para encriptacion
-        private static final String KEY = "gn2byqYnYFlJMzG5";
-        private static final String IV = "HFNvUwjB1KiOKtJI";
 
-    public String obtenerActivos()throws SQLException{
+    public String obtenerActivos() throws SQLException {
         Connection conexion = Conexion.conectar();
-
-        String consultaSQL = "SELECT * FROM activo WHERE habilitado = ?";
+        String consultaSQL = "SELECT * FROM activo INNER JOIN ciudad ON activo.id_ciudad = ciudad.id WHERE habilitado = ?";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setBoolean(1, true);
         ResultSet respuesta = consulta.executeQuery();
-
+        JSONObject resultado = new JSONObject();
+        while(respuesta.next()){ 
+            resultado.append("id", respuesta.getString(1));
+            resultado.append("numero_serie", respuesta.getString(2));
+            resultado.append("nombre", respuesta.getString(3));
+            resultado.append("ciudad", respuesta.getString(8));
+            resultado.append("estado", respuesta.getString(5));
+            resultado.append("habilitado", respuesta.getBoolean(6));
+        }
         conexion.close();
-
-        return respuesta.toString();
+        return resultado.toString();
     }
+    public String obtenerActivoPorSerial(String serial)throws SQLException{
+        Connection conexion = Conexion.conectar();
+
+        String consultaSQL = "SELECT * FROM activo WHERE habilitado = ? AND numero_serie = ? ";
+
+        PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
+        consulta.setBoolean(1, true);
+        consulta.setString(2, serial);
+        ResultSet respuesta = consulta.executeQuery();
+        JSONObject resultado = new JSONObject();
+        while(respuesta.next())
+                { 
+                    resultado.append("id", respuesta.getString(1));
+                    resultado.append("numero_serie", respuesta.getString(2));
+                    resultado.append("nombre", respuesta.getString(3));
+                    resultado.append("id_ciudad", respuesta.getInt(4));
+                    resultado.append("estado", respuesta.getString(5));
+                    resultado.append("habilitado", respuesta.getBoolean(6));
+                }
+        conexion.close();
+        return resultado.toString();
+    }
+
+    public String buscarEnTodosLosActivos(String serial) throws SQLException {
+
+        Connection conexion = Conexion.conectar();
+
+        String consultaSQL = "SELECT * FROM activo WHERE numero_serie = ?";
+
+        PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
+        consulta.setString(1, serial);
+        ResultSet respuesta = consulta.executeQuery();
+        JSONObject resultado = new JSONObject();
+        while(respuesta.next())
+                { 
+                    resultado.append("id", respuesta.getString(1));
+                    resultado.append("numero_serie", respuesta.getString(2));
+                    resultado.append("nombre", respuesta.getString(3));
+                    resultado.append("id_ciudad", respuesta.getString(4));
+                    resultado.append("ciudad", respuesta.getString(5));
+                    resultado.append("habilitado", respuesta.getBoolean(6));
+                }
+        conexion.close();
+        return resultado.toString();
+    }
+
     public String registrarActivo(String numeroSerie, String nombre, int ciudad, String estado)throws SQLException{
         Connection conexion = Conexion.conectar();
         String respuesta = "";
@@ -54,7 +106,7 @@ public class GestionActivosLib {
         conexion.close();
         return respuesta;
     }
-    public String actualizarActivo(int idActivo, String numeroSerie, String nombre, int ciudad)throws SQLException{
+    public String actualizarActivo(int idActivo, String nombre, int ciudad, String estado)throws SQLException{
         Connection conexion = Conexion.conectar();
         String consultaSQL = "SELECT * FROM activo WHERE id = ?";
         PreparedStatement consultaEstado = conexion.prepareStatement(consultaSQL);
@@ -62,16 +114,16 @@ public class GestionActivosLib {
         ResultSet estadoActual = consultaEstado.executeQuery();
         
         if(estadoActual.next()) {
-            String actualizacionSQL = "UPDATE activo SET (numero_serie=?,nombre=?,ciudad=?)  WHERE id = ?";
+            String actualizacionSQL = "UPDATE activo SET nombre=?,id_ciudad=?,estado=?  WHERE id = ?";
             PreparedStatement actualizarActivo = conexion.prepareStatement(actualizacionSQL);
-            actualizarActivo.setString(1, numeroSerie);
-            actualizarActivo.setString(2, nombre);
-            actualizarActivo.setInt(3, ciudad);
+            actualizarActivo.setString(1, nombre);
+            actualizarActivo.setInt(2, ciudad);
+            actualizarActivo.setString(3, estado);
             actualizarActivo.setInt(4, idActivo);
-            actualizarActivo.executeQuery();
+            actualizarActivo.executeUpdate();
         }
         conexion.close();
-        return "{\"code\": 0, \"result\": " + "true" +"}";
+        return "0";
     }
     
     public String cambiarEstadoActivo(int idActivo)throws SQLException{
@@ -86,10 +138,10 @@ public class GestionActivosLib {
             PreparedStatement actualizarEstado = conexion.prepareStatement(actualizacionSQL);
             actualizarEstado.setBoolean(1, !estadoActual.getBoolean("habilitado"));
             actualizarEstado.setInt(2, idActivo);
-            actualizarEstado.executeQuery();
+            actualizarEstado.executeUpdate();
         }
         conexion.close();
-        return "{\"code\": 0, \"result\": " + "true" +"}";
+        return "0";
     }
     
 }

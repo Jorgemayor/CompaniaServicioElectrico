@@ -9,15 +9,67 @@ public class GestionClienteApi {
     private static GestionClienteLib lib = new GestionClienteLib();
 
     public static String obtenerClientes(){
-        String resultado = "";
+        JSONObject resultado = new JSONObject();
+        String clientes = "";
         try {
-            resultado = lib.obtenerClientes();
+            clientes = lib.obtenerClientes();
         } catch(SQLException excepcion) {
 
             return retornarError("-1");
         }
+        if(clientes.equals("{}")){
 
-        return resultado;
+            return retornarError("-5");
+        }
+        else{
+            resultado.put("clientes", clientes);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
+    }
+
+    public static String obtenerClientePorId(String id) {
+        if(id.equals("")){
+            return retornarError("-2");
+        }
+        JSONObject resultado = new JSONObject();
+        String cliente = "";
+        try {
+            cliente = lib.obtenerClientePorId(Integer.parseInt(id));
+        } catch(SQLException excepcion) {
+            return retornarError("-1");
+        }
+        if(cliente.equals("{}")){
+
+            return retornarError("-5");
+        }
+        else{
+            resultado.put("cliente", cliente);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
+    }
+
+    public static String buscarEnTodosLosClientes(String id) {
+        if(id.equals("")){
+            return retornarError("-2");
+        }
+        JSONObject resultado = new JSONObject();
+        String cliente = "";
+        try {
+            cliente = lib.buscarEnTodosLosclientes(Integer.parseInt(id));
+        } catch(SQLException excepcion) {
+            return retornarError("-1");
+        }
+        if(cliente.equals("{}")){
+
+            return retornarError("-5");
+        }
+        else{
+            resultado.put("cliente", cliente);
+            resultado.put("code", "0");
+            return resultado.toString();
+        }
     }
     public static String agregarCliente(String tipoIdentificacion, int identificacion, String nombre, String direccion, int ciudad){
 
@@ -51,24 +103,49 @@ public class GestionClienteApi {
     }
 
 
-    public static boolean actualizarCliente(int idCliente){
-        return true;
-    }
-    public static String cambiarEstadoCliente(int idCliente){
-        String resultado = "";
+    public static String actualizarCliente(String tipoIdentificacion, int identificacion, String nombre,
+            String direccion, int ciudad) {
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
 
         try {
-            if(idCliente < 0) {
-                throw new Exception("-5");
+            if(identificacion < 0) {
+                throw new Exception("-2");
             } else {
-                resultado = lib.cambiarEstadoCliente(idCliente);
+                codigo = lib.actualizarCliente(tipoIdentificacion, identificacion, nombre, direccion, ciudad);
+            }
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
             }
         } catch(SQLException excepcion) {
             return retornarError("-1");
         } catch(Exception excepcion) {
             return retornarError(excepcion.getMessage());
         }
-        return resultado;
+        resultado.put("code", codigo);
+        return resultado.toString();
+    }
+    public static String cambiarEstadoCliente(int id){
+        JSONObject resultado = new JSONObject();
+        String codigo = "";
+
+        try {
+            if(id < 0) {
+                throw new Exception("-5");
+            } else {
+                codigo = lib.cambiarEstadoCliente(id);
+            }
+            if(!codigo.equals("0")) {
+                throw new Exception(codigo);
+            }
+        } catch(SQLException excepcion) {
+            System.out.print(excepcion.getMessage());
+            return retornarError("-1");
+        } catch(Exception excepcion) {
+            return retornarError(excepcion.getMessage());
+        }
+        resultado.put("code", codigo);
+        return resultado.toString();
     }
     public static String retornarError(String codigoExcepcion){
         JSONObject mensajeError = new JSONObject();
@@ -94,7 +171,7 @@ public class GestionClienteApi {
                 mensajeError.put("mensaje", "Ciudad invalida");
                 break;
             case -5:
-                mensajeError.put("mensaje", "No existe un Cliente con ese ID");
+                mensajeError.put("mensaje", "No existe ese Cliente");
                 break;
             case -6:
                 mensajeError.put("mensaje", "Nombre del cliente no puede ser vació");
