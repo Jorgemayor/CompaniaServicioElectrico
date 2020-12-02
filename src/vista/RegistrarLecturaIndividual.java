@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import com.toedter.calendar.JDateChooser;
 
 public class RegistrarLecturaIndividual extends Container {
  
@@ -19,11 +20,12 @@ public class RegistrarLecturaIndividual extends Container {
     private JPanel contenido;
     private JLabel titulo;
     private JLabel etiquetaFecha;
-    private JTextField campoFecha;
+    private JDateChooser selectorFecha;
     private JLabel etiquetaID;
     private JTextField campoID;
     private JLabel etiquetaConsumo;
     private JTextField campoConsumo;
+
 
     private JButton registrar;
 
@@ -38,7 +40,7 @@ public class RegistrarLecturaIndividual extends Container {
         contenido = new JPanel();
         titulo = new JLabel("Registrar Lectura Individual");
         etiquetaFecha = new JLabel("Fecha de Realización");
-        campoFecha = new JTextField();
+        selectorFecha = new JDateChooser();
         etiquetaID = new JLabel("ID Cliente");
         campoID = new JTextField();
         etiquetaConsumo = new JLabel("Consumo en KWH");
@@ -60,24 +62,25 @@ public class RegistrarLecturaIndividual extends Container {
         etiquetaFecha.setVisible(true);
         etiquetaFecha.setBounds(445, 100, 300, 30);
         contenido.add(etiquetaFecha);
-        campoFecha.setVisible(true);
-        campoFecha.setBounds(680, 100, 200, 30);
-        contenido.add(campoFecha);
+        selectorFecha.setVisible(true);
+        selectorFecha.setBounds(680, 100, 200, 30);
+        selectorFecha.setVisible(true);
+        contenido.add(selectorFecha);
 
         etiquetaID.setFont(FUENTE_ETIQUETAS);
         etiquetaID.setVisible(true);
-        etiquetaID.setBounds(445, 140, 300, 30);
+        etiquetaID.setBounds(445, 200, 300, 30);
         contenido.add(etiquetaID);
         campoID.setVisible(true);
-        campoID.setBounds(680, 140, 200, 30);
+        campoID.setBounds(680, 200, 200, 30);
         contenido.add(campoID);
 
         etiquetaConsumo.setFont(FUENTE_ETIQUETAS);
         etiquetaConsumo.setVisible(true);
-        etiquetaConsumo.setBounds(445, 180, 300, 30);
+        etiquetaConsumo.setBounds(445, 300, 300, 30);
         contenido.add(etiquetaConsumo);
         campoConsumo.setVisible(true);
-        campoConsumo.setBounds(680, 180, 200, 30);
+        campoConsumo.setBounds(680, 300, 200, 30);
         contenido.add(campoConsumo);
 
         registrar.setFont(FUENTE_ETIQUETAS);
