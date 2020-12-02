@@ -3,6 +3,8 @@ package src.vista;
 import java.awt.*;
 import javax.swing.*;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
