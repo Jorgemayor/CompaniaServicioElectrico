@@ -41,6 +41,7 @@ public class GestionLecturaApi {
         }
 
         resultado.put("code", "0");
+        resultado.put("lecturas", lecturas);
         return resultado.toString();
     }
 
@@ -76,6 +77,7 @@ public class GestionLecturaApi {
         }
 
         resultado.put("code", "0");
+        resultado.put("lectura", lectura);
         return resultado.toString();
     }
 
