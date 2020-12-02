@@ -1,27 +1,90 @@
 package src.vista;
 
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.Color;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class RegistrarLecturaIndividual extends Container {
+ 
+    private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
+    private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
+    private static final Color COLOR_FONDO = new Color(232,234,246);
 
-    private JLabel imagenBienvenida;
-    private ImageIcon laImagen;
-    private Icon imagenAjustada;
+    private JPanel contenido;
+    private JLabel titulo;
+    private JLabel etiquetaFecha;
+    private JTextField campoFecha;
+    private JLabel etiquetaID;
+    private JTextField campoID;
+    private JLabel etiquetaConsumo;
+    private JTextField campoConsumo;
 
-    public RegistrarLecturaIndividual() {
-        imagenBienvenida = new JLabel();
-        imagenBienvenida.setSize(new Dimension(1280, 575));
-        laImagen = new ImageIcon("src/assets/inicio.png");
-        imagenAjustada = new ImageIcon(laImagen.getImage().getScaledInstance(imagenBienvenida.getWidth(),imagenBienvenida.getHeight(),Image.SCALE_DEFAULT));
-        imagenBienvenida.setIcon(imagenAjustada);
-        imagenBienvenida.setVisible(true);
-        this.add(imagenBienvenida, BorderLayout.CENTER);
+    private JButton registrar;
+
+
+
+    public RegistrarLecturaIndividual(){
+        iniciarComponentes();
     }
+    
+    private void iniciarComponentes() {
+
+        contenido = new JPanel();
+        titulo = new JLabel("Registrar Lectura Individual");
+        etiquetaFecha = new JLabel("Fecha de Realización");
+        campoFecha = new JTextField();
+        etiquetaID = new JLabel("ID Cliente");
+        campoID = new JTextField();
+        etiquetaConsumo = new JLabel("Consumo en KWH");
+        campoConsumo = new JTextField();
+        registrar = new JButton("Registrar Lectura");
+
+        contenido.setLayout(null);
+        contenido.setVisible(true);
+        contenido.setBackground(COLOR_FONDO);
+
+        //Titulo
+        titulo.setFont(FUENTE_TITULO);
+        titulo.setVisible(true);
+        titulo.setBounds(450, 30, 400, 35);
+        contenido.add(titulo);
+
+        //Formulario
+        etiquetaFecha.setFont(FUENTE_ETIQUETAS);
+        etiquetaFecha.setVisible(true);
+        etiquetaFecha.setBounds(445, 100, 300, 30);
+        contenido.add(etiquetaFecha);
+        campoFecha.setVisible(true);
+        campoFecha.setBounds(680, 100, 200, 30);
+        contenido.add(campoFecha);
+
+        etiquetaID.setFont(FUENTE_ETIQUETAS);
+        etiquetaID.setVisible(true);
+        etiquetaID.setBounds(445, 140, 300, 30);
+        contenido.add(etiquetaID);
+        campoID.setVisible(true);
+        campoID.setBounds(680, 140, 200, 30);
+        contenido.add(campoID);
+
+        etiquetaConsumo.setFont(FUENTE_ETIQUETAS);
+        etiquetaConsumo.setVisible(true);
+        etiquetaConsumo.setBounds(445, 180, 300, 30);
+        contenido.add(etiquetaConsumo);
+        campoConsumo.setVisible(true);
+        campoConsumo.setBounds(680, 180, 200, 30);
+        contenido.add(campoConsumo);
+
+        registrar.setFont(FUENTE_ETIQUETAS);
+        registrar.setVisible(true);
+        registrar.setBounds(500, 400, 250, 30);
+        contenido.add(registrar);
+
+        this.add(contenido, BorderLayout.CENTER);
+    }  
 }
