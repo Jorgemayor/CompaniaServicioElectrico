@@ -43,7 +43,7 @@ public class RegistrarLecturaIndividual extends Container {
         titulo = new JLabel("Registrar Lectura Individual");
         etiquetaFecha = new JLabel("Fecha de Realización");
         selectorFecha = new JDateChooser();
-        etiquetaID = new JLabel("ID Cliente");
+        etiquetaID = new JLabel("Identificación del Cliente");
         campoID = new JTextField();
         etiquetaConsumo = new JLabel("Consumo en KWH");
         campoConsumo = new JTextField();
@@ -98,7 +98,7 @@ public class RegistrarLecturaIndividual extends Container {
 
         etiquetaID.setFont(FUENTE_ETIQUETAS);
         etiquetaID.setVisible(true);
-        etiquetaID.setBounds(445, 200, 300, 30);
+        etiquetaID.setBounds(420, 200, 300, 30);
         contenido.add(etiquetaID);
         campoID.setVisible(true);
         campoID.setBounds(680, 200, 200, 30);
