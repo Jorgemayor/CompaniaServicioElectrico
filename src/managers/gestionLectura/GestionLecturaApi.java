@@ -84,19 +84,19 @@ public class GestionLecturaApi {
      * Función encargada de registrar una lectura de consumo
      * realizada.
      * 
-     * @param idCliente identificador del cliente.
+     * @param identificacionCliente identificación del cliente.
      * @param fecha fecha de realización de la lectura.
      * @param consumo valor del consumo leído.
      * 
      * @return string con el código del resultado de la operación.
      */
-    public static String ingresarLectura(String idCliente, String fecha, String consumo) {
+    public static String ingresarLectura(String identificacionCliente, String fecha, String consumo) {
 
         JSONObject resultado = new JSONObject();
         String codigo = "";
 
         try {
-            if(idCliente.trim().equals("")) {
+            if(identificacionCliente.trim().equals("")) {
                 throw new Exception("-2");
             } else if(fecha.trim().equals("")) {
                 throw new Exception("-3");
@@ -105,12 +105,12 @@ public class GestionLecturaApi {
             }
             
             int valorConsumo = Integer.parseInt(consumo);
-            int valorIdCliente = Integer.parseInt(idCliente);
+            int valorIdentificacionCliente = Integer.parseInt(identificacionCliente);
 
             if(valorConsumo < 0) {
                 throw new Exception("-6");
             } else {
-                codigo = lib.ingresarLectura(valorIdCliente, fecha, valorConsumo);
+                codigo = lib.ingresarLectura(valorIdentificacionCliente, fecha, valorConsumo);
             }
 
             if(!codigo.equals("0")) {
