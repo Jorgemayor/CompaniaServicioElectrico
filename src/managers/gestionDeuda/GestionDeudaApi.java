@@ -8,7 +8,7 @@ public class GestionDeudaApi {
     
     private static GestionDeudaLib lib = new GestionDeudaLib();
 
-    public String registrarDeuda(String identificacionCliente) {
+    public String registrarDeudaPorReconexion(String identificacionCliente) {
 
         JSONObject resultado = new JSONObject();
         String codigo = "";
@@ -24,7 +24,7 @@ public class GestionDeudaApi {
                 throw new Exception("-3");
             }
 
-            codigo = lib.registrarDeuda(valorIdentificacionCliente);
+            codigo = lib.registrarDeudaPorReconexion(valorIdentificacionCliente);
 
             if(!codigo.equals("0")) {
                 return retornarError(codigo);
