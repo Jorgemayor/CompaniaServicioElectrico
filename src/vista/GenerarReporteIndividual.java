@@ -37,7 +37,7 @@ public class GenerarReporteIndividual extends Container {
     private JLabel etiquetaId;
     private JTextField campoId;
     private JButton botonGenerar;
-    private JButton botonFacturas;
+    private JButton botonLimpiar;
     private JScrollPane reporte;
     private DefaultCategoryDataset datos;
     private JFreeChart Grafica;
@@ -60,7 +60,7 @@ public class GenerarReporteIndividual extends Container {
         etiquetaId = new JLabel("ID Cliente");
         campoId = new JTextField();
         botonGenerar = new JButton("consumo");
-        botonFacturas = new JButton("factura");
+        botonLimpiar = new JButton("limpiar");
         reporte = new JScrollPane(panelDelPanel);
 
         panelContenido.setLayout(null);
@@ -101,20 +101,20 @@ public class GenerarReporteIndividual extends Container {
         
         panelContenido.add(botonGenerar);
 
-        botonFacturas.setFont(FUENTE_ETIQUETAS);
-        botonFacturas.setVisible(true);
-        botonFacturas.setBounds(920, 10, 150, 30);
-        botonFacturas.addActionListener(new ActionListener() {
+        botonLimpiar.setFont(FUENTE_ETIQUETAS);
+        botonLimpiar.setVisible(true);
+        botonLimpiar.setBounds(920, 10, 150, 30);
+        botonLimpiar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSONObject resultado = new JSONObject(GestionFacturaApi.obtenerFacturasPorCliente(campoId.getText()));
+                JSONObject resultado = new JSONObject(GestionLecturaApi.obtenerLecturasPorCliente(campoId.getText()));
                 if(resultado.getString("code").equals("0")){
                     JSONObject lecturas = new JSONObject(resultado.getString("lecturas"));
-                    JSONArray fecha = lecturas.getJSONArray("fecha_generacion");
-                    JSONArray valor = lecturas.getJSONArray("valor");
+                    JSONArray fecha = lecturas.getJSONArray("fecha");
+                    JSONArray consumo = lecturas.getJSONArray("consumo");
                     
                     for(int i=0;i<fecha.length();i++){
-                        datos.addValue(valor.getInt(i), campoId.getText(), fecha.getString(i));
+                        datos.removeValue(campoId.getText(), fecha.getString(i));
                     }   
                 }
                 else{
@@ -124,7 +124,7 @@ public class GenerarReporteIndividual extends Container {
             }
 
         });
-        panelContenido.add(botonFacturas);
+        panelContenido.add(botonLimpiar);
 
         //Contenedor Reporte
         reporte.setVisible(true);
