@@ -1,5 +1,8 @@
 package src.managers.gestionCiudad;
+
 import java.sql.SQLException;
+
+import org.json.JSONObject;
 
 public class GestionCiudadApi {
     private static GestionCiudadLib lib = new GestionCiudadLib();
@@ -9,42 +12,43 @@ public class GestionCiudadApi {
         try {
             resultado = lib.obtenerCiudades();
         } catch(SQLException excepcion) {
-            return excepcion.getMessage();
+            System.out.print(excepcion.getMessage());
+            return retornarError("-1");
         }
         return resultado;
-
     }
+
     public static String obtenerCiudadPorId(int id){
         String resultado  = "";
         try {
             resultado = lib.obtenerCiudadPorId(id);
         } catch(SQLException excepcion) {
-            return excepcion.getMessage();
+            System.out.print(excepcion.getMessage());
+            return retornarError("-1");
         }
         return resultado;
-
     }
 
-    private static String retornarError(String codigoExcepcion) {
-        String mensajeError = "{ \"code\": ";
-        int codigo;
+    public static String retornarError(String codigoExcepcion){
 
+        JSONObject mensajeError = new JSONObject();
+        mensajeError.put("code", codigoExcepcion);
+        int codigo;
+        
         try {
             codigo = Integer.parseInt(codigoExcepcion);
         } catch (NumberFormatException excepcion) {
-            return "Error inesperado: " + codigoExcepcion;
+            codigo = -99;
         }
-
-        mensajeError += codigoExcepcion + ",  \"mensaje\": ";
 
         switch(codigo) {
             case -1:
-                mensajeError += "Error al conectarse a la base de datos}";
+                mensajeError.put("mensaje", "Error en la base de datos");
                 break;
             default:
-                mensajeError += "El código de error " + codigo + " no ha sido identificado}";
+                mensajeError.put("mensaje", "El código de error " + codigo + " no ha sido identificado");
                 break;
         }
-        return mensajeError;
+        return mensajeError.toString();
     }
 }
