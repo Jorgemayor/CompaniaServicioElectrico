@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.awt.Color;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -31,6 +33,13 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import org.sebastian.utils.JSaveAs;
+
+import src.managers.gestionFactura.GestionFacturaApi;
+import src.managers.gestionLectura.GestionLecturaApi;
+import src.managers.*;
+import src.managers.gestionClientes.GestionClienteApi;
+
+
 
 public class GenerarFacturaIndividual extends Container {
 
@@ -113,6 +122,38 @@ public class GenerarFacturaIndividual extends Container {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                JSONObject resultado = new JSONObject(GestionFacturaApi.obtenerFacturasPorCliente(campoDocumentoIdentidad.getText()));
+                if(resultado.getString("code").equals("0")){
+                    JSONObject facturas = new JSONObject(resultado.getString("facturas"));
+                    JSONArray valor = facturas.getJSONArray("valor");
+                     
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
+                }
+
+                JSONObject resultado2 = new JSONObject(GestionClienteApi.obtenerClientePorId(campoDocumentoIdentidad.getText()));
+                if(resultado.getString("code").equals("0")){
+                    JSONObject cliente = new JSONObject(resultado.getString("cliente"));
+                    JSONArray nombre = cliente.getJSONArray("nombre");
+                     
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
+                }
+                JSONObject resultado3 = new JSONObject(GestionLecturaApi.obtenerLecturasPorCliente(campoDocumentoIdentidad.getText()));
+                if(resultado.getString("code").equals("0")){
+                    JSONObject lecturas = new JSONObject(resultado.getString("lecturas"));
+                    JSONArray consumo = lecturas.getJSONArray("consumo");
+                     
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
+                }
+
+                
+
+
                 DateTimeFormatter formatoLargo = DateTimeFormatter.ofPattern("dd' de 'MMMM' de 'YYYY' 'hh':'mm' 'a", new Locale("es", "CO"));
                 DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd' 'MMMM' 'YY", new Locale("es", "CO"));
                 LocalDateTime hoy = LocalDateTime.now();
