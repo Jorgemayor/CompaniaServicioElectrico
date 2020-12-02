@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
-
 import org.json.JSONObject;
 
 public class GestionUsuarioApi {
