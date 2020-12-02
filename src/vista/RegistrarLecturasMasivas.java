@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class GenerarFacturasMasivas extends Container {
+public class RegistrarLecturasMasivas extends Container {
 
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
@@ -19,18 +19,21 @@ public class GenerarFacturasMasivas extends Container {
 
     private JPanel contenido;
     private JLabel titulo;
-    private JButton generar;
+    private JTextField lecturas;
+    private JButton seleccionar;
+    private JButton registrar;
 
-
-    public GenerarFacturasMasivas(){
+    public RegistrarLecturasMasivas(){
         iniciarComponentes();
     }
     
     private void iniciarComponentes() {
 
         contenido = new JPanel();
-        titulo = new JLabel("Generar Todas las Facturas");
-        generar = new JButton("Generar");
+        titulo = new JLabel("Registrar Lecturas");
+        lecturas = new JTextField("Archivo de Lecturas");
+        seleccionar = new JButton("Seleccionar");
+        registrar = new JButton("Registrar");
         contenido.setLayout(null);
         contenido.setVisible(true);
         contenido.setOpaque(true);
@@ -39,13 +42,22 @@ public class GenerarFacturasMasivas extends Container {
         //Titulo
         titulo.setFont(FUENTE_TITULO);
         titulo.setVisible(true);
-        titulo.setBounds(450, 30, 400, 25);
+        titulo.setBounds(500, 30, 400, 35);
         contenido.add(titulo);
 
-        generar.setFont(FUENTE_ETIQUETAS);
-        generar.setVisible(true);
-        generar.setBounds(550, 250, 200, 30);
-        contenido.add(generar);
+        //Formulario
+        lecturas.setVisible(true);
+        lecturas.setBounds(370, 150, 250, 30);
+        contenido.add(lecturas);
+        seleccionar.setFont(FUENTE_ETIQUETAS);
+        seleccionar.setVisible(true);
+        seleccionar.setBounds(630, 150, 200, 30);
+        contenido.add(seleccionar);
+        
+        registrar.setFont(FUENTE_ETIQUETAS);
+        registrar.setVisible(true);
+        registrar.setBounds(550, 450, 200, 30);
+        contenido.add(registrar);
 
         this.add(contenido, BorderLayout.CENTER);
     }        

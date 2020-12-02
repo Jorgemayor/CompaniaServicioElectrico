@@ -49,7 +49,7 @@ public class DeshabilitarCliente extends Container {
 
         panelContenido = new JPanel();
         etiquetaTitulo = new JLabel("Deshabilitar/Habilitar Cliente");
-        etiquetaIdentificacion = new JLabel("ID");
+        etiquetaIdentificacion = new JLabel("Identificación");
         campoIdentificacion = new JTextField();
         botonVer = new JButton("ver");
         idClienteActual = -1;
@@ -70,7 +70,7 @@ public class DeshabilitarCliente extends Container {
 
         etiquetaIdentificacion.setFont(FUENTE_ETIQUETAS);
         etiquetaIdentificacion.setVisible(true);
-        etiquetaIdentificacion.setBounds(500, 130, 150, 30);
+        etiquetaIdentificacion.setBounds(385, 130, 150, 30);
         panelContenido.add(etiquetaIdentificacion);
         campoIdentificacion.setVisible(true);
         campoIdentificacion.setBounds(530, 130, 200, 30);

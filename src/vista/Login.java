@@ -70,7 +70,6 @@ public class Login extends JFrame {
         LAviso = new JLabel();
     
         attachListeners();
-
         setMinimumSize(new Dimension(640, 400));
         setUndecorated(true);
         setResizable(false);

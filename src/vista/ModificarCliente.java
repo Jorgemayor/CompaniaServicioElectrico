@@ -54,7 +54,7 @@ public class ModificarCliente extends Container {
         etiquetaTitulo = new JLabel("Modificar Cliente");
         etiquetaTipoId = new JLabel("Tipo de ID");
         selectorTipoIdentificacion = new JComboBox();
-        etiquetaIdentificacion = new JLabel("ID");
+        etiquetaIdentificacion = new JLabel("Documento Identidad");
         campoIdentificacion = new JTextField();
         botonVer = new JButton("ver");
         etiquetaNombre = new JLabel("Nombre");
@@ -76,23 +76,13 @@ public class ModificarCliente extends Container {
         panelContenido.add(etiquetaTitulo);
 
         //Formulario
-        etiquetaTipoId.setFont(FUENTE_ETIQUETAS);
-        etiquetaTipoId.setVisible(true);
-        etiquetaTipoId.setBounds(150, 150, 200, 30);
-        panelContenido.add(etiquetaTipoId);
-        selectorTipoIdentificacion.setVisible(true);
-        selectorTipoIdentificacion.setBounds(330, 150, 200, 30);
-        selectorTipoIdentificacion.addItem("RC");
-        selectorTipoIdentificacion.addItem("TI");
-        selectorTipoIdentificacion.addItem("CC");
-        panelContenido.add(selectorTipoIdentificacion);
 
         etiquetaIdentificacion.setFont(FUENTE_ETIQUETAS);
         etiquetaIdentificacion.setVisible(true);
-        etiquetaIdentificacion.setBounds(800, 150, 150, 30);
+        etiquetaIdentificacion.setBounds(100, 150, 250, 30);
         panelContenido.add(etiquetaIdentificacion);
         campoIdentificacion.setVisible(true);
-        campoIdentificacion.setBounds(830, 150, 200, 30);
+        campoIdentificacion.setBounds(330, 150, 200, 30);
         campoIdentificacion.addKeyListener(new KeyListener() {
 
             @Override
@@ -120,11 +110,12 @@ public class ModificarCliente extends Container {
 
             }
 
-        });;
+        });
         panelContenido.add(campoIdentificacion);
+
         botonVer.setFont(FUENTE_ETIQUETAS);
         botonVer.setVisible(true);
-        botonVer.setBounds(1035, 150, 70, 30);
+        botonVer.setBounds(540, 150, 70, 30);
         botonVer.addActionListener(new ActionListener() {
 
             @Override
@@ -163,6 +154,18 @@ public class ModificarCliente extends Container {
             
         });
         panelContenido.add(botonVer);
+
+        etiquetaTipoId.setFont(FUENTE_ETIQUETAS);
+        etiquetaTipoId.setVisible(true);
+        etiquetaTipoId.setBounds(720, 150, 200, 30);
+        panelContenido.add(etiquetaTipoId);
+        selectorTipoIdentificacion.setVisible(true);
+        selectorTipoIdentificacion.setBounds(830, 150, 200, 30);
+        selectorTipoIdentificacion.addItem("RC");
+        selectorTipoIdentificacion.addItem("TI");
+        selectorTipoIdentificacion.addItem("CC");
+        panelContenido.add(selectorTipoIdentificacion);
+
 
         etiquetaNombre.setFont(FUENTE_ETIQUETAS);
         etiquetaNombre.setVisible(true);
