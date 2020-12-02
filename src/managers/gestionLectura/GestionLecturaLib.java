@@ -16,9 +16,10 @@ public class GestionLecturaLib {
         
         Connection conexion = Conexion.conectar();
         String consultaSQL = ""
-            + "SELECT * "
+            + "SELECT L.fecha, L.consumo "
             + "FROM lectura AS L INNER JOIN cliente AS C ON L.id_cliente = C.id "
-            + "WHERE C.identificacion=? AND C.habilitado=?";
+            + "WHERE C.identificacion=? AND C.habilitado=? "
+            + "ORDER BY L.fecha ASC";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setInt(1, identificacionCliente);
