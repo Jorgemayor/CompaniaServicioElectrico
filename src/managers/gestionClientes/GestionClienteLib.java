@@ -51,7 +51,7 @@ public class GestionClienteLib {
     public String obtenerClientes() throws SQLException {
         Connection conexion = Conexion.conectar();
 
-        String consultaSQL = "SELECT * FROM cliente WHERE habilitado = ?";
+        String consultaSQL = "SELECT * FROM cliente INNER JOIN ciudad ON cliente.id_ciudad = ciudad.id WHERE habilitado = ?";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setBoolean(1, true);
@@ -64,7 +64,7 @@ public class GestionClienteLib {
                     resultado.append("identificacion", respuesta.getString(3));
                     resultado.append("nombre", respuesta.getString(4));
                     resultado.append("direccion", respuesta.getString(5));
-                    resultado.append("id_ciudad", respuesta.getString(6));
+                    resultado.append("ciudad", respuesta.getString(9));
                     resultado.append("habilitado", respuesta.getBoolean(7));
                 }
 
