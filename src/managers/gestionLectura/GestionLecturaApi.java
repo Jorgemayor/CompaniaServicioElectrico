@@ -45,6 +45,33 @@ public class GestionLecturaApi {
         return resultado.toString();
     }
 
+    public static String obtenerLecturas() {
+
+        JSONObject resultado = new JSONObject();
+        String lecturas = "";
+
+        try {
+            
+                lecturas = lib.obtenerLecturas();
+
+            if(lecturas.equals("{}")) {
+                throw new Exception("-7");
+            }
+        } catch(SQLException excepcion) {
+            System.out.println(excepcion.getMessage());
+            return retornarError("-1");
+        } catch (NumberFormatException excepcion) {
+            System.out.println(excepcion.getMessage());
+            return retornarError("-5");
+        } catch(Exception excepcion) {
+            return retornarError(excepcion.getMessage());
+        }
+
+        resultado.put("code", "0");
+        resultado.put("lecturas", lecturas);
+        return resultado.toString();
+    }
+
     public static String obtenerUltimaLecturaPorCliente(String identificacionCliente) {
 
         JSONObject resultado = new JSONObject();

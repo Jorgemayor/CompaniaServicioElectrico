@@ -19,11 +19,34 @@ public class GestionLecturaLib {
             + "SELECT L.fecha, L.consumo "
             + "FROM lectura AS L INNER JOIN cliente AS C ON L.id_cliente = C.id "
             + "WHERE C.identificacion=? AND C.habilitado=? "
-            + "ORDER BY L.fecha ASC";
+            + "ORDER BY L.fecha DESC";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setInt(1, identificacionCliente);
         consulta.setBoolean(2, true);
+        ResultSet respuestaConsulta = consulta.executeQuery();
+        JSONObject resultado = new JSONObject();
+
+        while(respuestaConsulta.next()) {
+            resultado.append("fecha", respuestaConsulta.getString(1));
+            resultado.append("consumo", respuestaConsulta.getString(2));
+        }
+
+        conexion.close();
+        return resultado.toString();
+    }
+
+    public String obtenerLecturas() throws SQLException {
+        
+        Connection conexion = Conexion.conectar();
+        String consultaSQL = ""
+            + "SELECT L.fecha, L.consumo "
+            + "FROM lectura AS L INNER JOIN cliente AS C ON L.id_cliente = C.id "
+            + "WHERE C.habilitado=? "
+            + "ORDER BY L.fecha DESC";
+
+        PreparedStatement consulta = conexion.prepareStatement(consultaSQL);;
+        consulta.setBoolean(1, true);
         ResultSet respuestaConsulta = consulta.executeQuery();
         JSONObject resultado = new JSONObject();
 
