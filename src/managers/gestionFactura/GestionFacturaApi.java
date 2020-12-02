@@ -15,13 +15,13 @@ public class GestionFacturaApi {
 
         try {
             if(identificacionCliente.trim().equals("")) {
-                throw new Exception("-3");
+                return retornarError("-3");
             }
 
             int valorIdentificacionCliente = Integer.parseInt(identificacionCliente);
             
             if(valorIdentificacionCliente < 0) {
-                throw new Exception("-6");
+                return retornarError("-6");
             }
 
             facturas = lib.obtenerFacturasPorCliente(valorIdentificacionCliente);
@@ -34,8 +34,10 @@ public class GestionFacturaApi {
                 return resultado.toString();
             }
         } catch(SQLException excepcion) {
+            System.out.println(excepcion.getMessage());
             return retornarError("-1");
         } catch(Exception excepcion) {
+            System.out.println(excepcion.getMessage());
             return retornarError("-99");
         }
     }
@@ -47,19 +49,19 @@ public class GestionFacturaApi {
 
         try {
             if(identificacionCliente.trim().equals("")) {
-                throw new Exception("-3");
+                return retornarError("-3");
             }
 
             int valorIdentificacionCliente = Integer.parseInt(identificacionCliente);
             
             if(valorIdentificacionCliente < 0) {
-                throw new Exception("-6");
+                return retornarError("-6");
             } else {
                 codigo = lib.generarFactura(valorIdentificacionCliente);
             }
 
             if(!codigo.equals("0")) {
-                throw new Exception(codigo);
+                return retornarError(codigo);
             }
         } catch(SQLException excepcion) {
             System.out.println(excepcion.getMessage());
@@ -103,11 +105,8 @@ public class GestionFacturaApi {
             case -6:
                 mensajeError.put("mensaje", "Cliente inválido");
                 break;
-            case -7:
-                mensajeError.put("mensaje","");
-                break;
             default:
-                mensajeError.put("mensaje", "El código de error " + codigo + " no ha sido identificado");
+                mensajeError.put("mensaje", "Error inesperado");
                 break;
         }
         return mensajeError.toString();
