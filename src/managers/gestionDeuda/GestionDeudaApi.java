@@ -39,7 +39,7 @@ public class GestionDeudaApi {
         }
     }
 
-    public String obtenerDeudasPorCliente(String identificacionCliente) {
+    public String obtenerSumaDeudasPorCliente(String identificacionCliente) {
 
         JSONObject resultado = new JSONObject();
         String deudas = "";
@@ -55,7 +55,7 @@ public class GestionDeudaApi {
                 return retornarError("-3");
             }
 
-            deudas = lib.obtenerDeudasPorCliente(valorIdentificacionCliente);
+            deudas = lib.obtenerSumaDeudasPorCliente(valorIdentificacionCliente);
 
             resultado.put("code", "0");
             resultado.put("deudas", deudas);

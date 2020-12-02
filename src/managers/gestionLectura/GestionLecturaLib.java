@@ -16,8 +16,8 @@ public class GestionLecturaLib {
         
         Connection conexion = Conexion.conectar();
         String consultaSQL = ""
-            + "SELECT *"
-            + "FROM lectura AS L INNER JOIN cliente AS C ON L.id_cliente = C.id"
+            + "SELECT * "
+            + "FROM lectura AS L INNER JOIN cliente AS C ON L.id_cliente = C.id "
             + "WHERE C.identificacion=? AND C.habilitado=?";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
@@ -39,11 +39,11 @@ public class GestionLecturaLib {
         
         Connection conexion = Conexion.conectar();
         String consultaSQL = ""
-            + "SELECT S.fecha, L.consumo" 
-            + "FROM (SELECT L.id_cliente as LIDC, MAX(L.fecha) AS fecha"
-                + "FROM lectura AS L INNER JOIN cliente AS C ON L.id_cliente = C.id"
-                + "WHERE C.identificacion=? AND C.habilitado=? GROUP BY LIDC)"
-            + "AS S JOIN lectura AS L ON L.id_cliente = S.LIDC AND S.fecha = L.fecha ";
+            + "SELECT S.fecha, L.consumo "
+            + "FROM (SELECT L.id_cliente as LIDC, MAX(L.fecha) AS fecha "
+                + "FROM lectura AS L INNER JOIN cliente AS C ON L.id_cliente = C.id "
+                + "WHERE C.identificacion=? AND C.habilitado=? GROUP BY LIDC) "
+            + "AS S JOIN lectura AS L ON L.id_cliente = S.LIDC AND S.fecha = L.fecha";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setInt(1, identificacionCliente);

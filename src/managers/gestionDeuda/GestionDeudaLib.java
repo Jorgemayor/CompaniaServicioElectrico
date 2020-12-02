@@ -46,24 +46,27 @@ public class GestionDeudaLib {
         return codigo;
     }
 
-    public String obtenerDeudasPorCliente(int identificacionCliente) throws SQLException {
+    public String obtenerSumaDeudasPorCliente(int identificacionCliente) throws SQLException {
 
         Connection conexion = Conexion.conectar();
         String consultaSQL = ""
-            + "SELECT *"
-            + "FROM deuda AS D"
-            + "INNER JOIN cliente AS C ON D.id_cliente = C.id"
-            + "WHERE C.identificacion=? AND C.habilitado=?";
+            + "SELECT S.total "
+            + "FROM ( "
+                + "SELECT D.id_cliente as DIDC, SUM(D.valor) AS total "
+                + "FROM deuda AS D INNER JOIN cliente AS C ON D.id_cliente = C.id "
+                + "WHERE C.identificacion=? AND C.habilitado=? AND D.pagada=? "
+                + "GROUP BY DIDC) AS S "
+            + "JOIN deuda AS D ON D.id_cliente = S.DIDC AND S.total = D.valor";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setInt(1, identificacionCliente);
         consulta.setBoolean(2, true);
+        consulta.setBoolean(3, false);
         ResultSet respuesta = consulta.executeQuery();
         
         JSONObject resultado = new JSONObject();
-        while(respuesta.next()) {
-            resultado.append("descripcion", respuesta.getString(3));
-            resultado.append("valor", respuesta.getInt(4));
+        if(respuesta.next()) {
+            resultado.append("valor", respuesta.getInt(1));
         }
         conexion.close();
         return resultado.toString();
