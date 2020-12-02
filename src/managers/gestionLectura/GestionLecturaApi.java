@@ -1,5 +1,6 @@
 package src.managers.gestionLectura;
 
+import java.sql.Date;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
@@ -90,7 +91,7 @@ public class GestionLecturaApi {
      * 
      * @return string con el código del resultado de la operación.
      */
-    public static String ingresarLectura(String identificacionCliente, String fecha, String consumo) {
+    public static String ingresarLectura(String identificacionCliente, Date fecha, String consumo) {
 
         JSONObject resultado = new JSONObject();
         String codigo = "";
@@ -98,8 +99,6 @@ public class GestionLecturaApi {
         try {
             if(identificacionCliente.trim().equals("")) {
                 throw new Exception("-2");
-            } else if(fecha.trim().equals("")) {
-                throw new Exception("-3");
             } else if(consumo.trim().equals("")) {
                 throw new Exception("-4");
             }

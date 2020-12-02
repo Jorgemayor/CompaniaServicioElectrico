@@ -1,6 +1,7 @@
 package src.managers.gestionLectura;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -59,7 +60,7 @@ public class GestionLecturaLib {
         return resultado.toString();
     }
 
-    public String ingresarLectura(int identificacionCliente, String fecha, int consumo) throws SQLException {
+    public String ingresarLectura(int identificacionCliente, Date fecha, int consumo) throws SQLException {
 
         Connection conexion = Conexion.conectar();
         String resultado = "";
@@ -78,7 +79,7 @@ public class GestionLecturaLib {
             String insercionSQL = "INSERT INTO lectura (id_cliente, fecha, consumo) VALUES (?, ?, ?)";
             PreparedStatement insercion = conexion.prepareStatement(insercionSQL);
             insercion.setInt(1, idCliente);
-            insercion.setString(2, fecha);
+            insercion.setDate(2, fecha);
             insercion.setInt(3, consumo);
             insercion.executeUpdate();
             
