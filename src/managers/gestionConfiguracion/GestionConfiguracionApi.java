@@ -8,26 +8,27 @@ public class GestionConfiguracionApi {
 
     private static GestionConfiguracionLib lib = new GestionConfiguracionLib();
 
-    public static String obtenerParametros(){
+    public String obtenerParametros() {
+
         JSONObject resultado = new JSONObject();
         String parametros = "";
+
         try {
             parametros = lib.obtenerParametros();
         } catch(SQLException excepcion) {
             return retornarError("-3");
         }
+
         if(parametros.equals("{}")){
             return retornarError("-1");
         }
-        else{
-            resultado.put("code", "0");
-            resultado.put("parametros", parametros);
-            return resultado.toString();
-        }
+        
+        resultado.put("code", "0");
+        resultado.put("parametros", parametros);
+        return resultado.toString();
     }
 
-
-    public static String actualizarParametros(int kwh, int reconexion) {
+    public String actualizarParametros(int kwh, int reconexion) {
         JSONObject resultado = new JSONObject();
         String codigo = "";
 
@@ -51,7 +52,7 @@ public class GestionConfiguracionApi {
     }
 
 
-    public static String retornarError(String codigoExcepcion){
+    public static String retornarError(String codigoExcepcion) {
         JSONObject mensajeError = new JSONObject();
         mensajeError.put("code", codigoExcepcion);
        
@@ -78,5 +79,4 @@ public class GestionConfiguracionApi {
         }
         return mensajeError.toString();
     }
-    
 }

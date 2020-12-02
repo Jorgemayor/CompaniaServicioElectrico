@@ -10,7 +10,6 @@ import java.awt.event.KeyListener;
 import java.awt.Color;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,16 +17,16 @@ import javax.swing.JTextField;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONString;
 
 import src.managers.gestionConfiguracion.GestionConfiguracionApi;
-import src.managers.gestionConfiguracion.GestionConfiguracionLib;
 
 public class Configurar extends Container {
 
     private static final Font FUENTE_TITULO = new Font(null, Font.BOLD, 28);
     private static final Font FUENTE_ETIQUETAS = new Font(null, Font.BOLD, 22);
     private static final Color COLOR_FONDO = new Color(232, 234, 246);
+
+    private GestionConfiguracionApi gestionConfiguracionApi;
 
     private JButton enviar;
     private JButton ver;
@@ -39,6 +38,7 @@ public class Configurar extends Container {
     private JLabel titulo;
 
     public Configurar() {
+        gestionConfiguracionApi = new GestionConfiguracionApi();
         iniciarComponentes();
     }
 
@@ -116,7 +116,7 @@ public class Configurar extends Container {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-                JSONObject resultado = new JSONObject(GestionConfiguracionApi.obtenerParametros());
+                JSONObject resultado = new JSONObject(gestionConfiguracionApi.obtenerParametros());
                 JSONObject parametros = new JSONObject(resultado.getString("parametros"));
                 JSONArray kwh = new JSONArray(parametros.getJSONArray("kwh")) ;
                 JSONArray reconexion = new JSONArray(parametros.getJSONArray("reconexion")) ;
@@ -134,7 +134,7 @@ public class Configurar extends Container {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSONObject resultado = new JSONObject(GestionConfiguracionApi.actualizarParametros(Integer.parseInt(kwhCampo.getText()), Integer.parseInt(reconexionCampo.getText())));
+                JSONObject resultado = new JSONObject(gestionConfiguracionApi.actualizarParametros(Integer.parseInt(kwhCampo.getText()), Integer.parseInt(reconexionCampo.getText())));
                 if(resultado.getString("code").equals("0")){
                     JOptionPane.showMessageDialog(null, "Configuración Actualizada");
                     kwhCampo.setText("");
