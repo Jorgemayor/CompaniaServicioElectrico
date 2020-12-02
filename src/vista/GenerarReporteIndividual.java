@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.JScrollPane;
+import javax.swing.JOptionPane;
 import org.jfree.chart.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -19,6 +20,11 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import src.managers.gestionLectura.GestionLecturaApi;
+import src.managers.gestionFactura.GestionFacturaApi;
 
 
 public class GenerarReporteIndividual extends Container {
@@ -31,7 +37,7 @@ public class GenerarReporteIndividual extends Container {
     private JLabel etiquetaId;
     private JTextField campoId;
     private JButton botonGenerar;
-    private JButton botonLimpiar;
+    private JButton botonFacturas;
     private JScrollPane reporte;
     private DefaultCategoryDataset datos;
     private JFreeChart Grafica;
@@ -46,15 +52,15 @@ public class GenerarReporteIndividual extends Container {
     private void iniciarComponentes() {
 
         datos = new DefaultCategoryDataset();
-        Grafica = ChartFactory.createLineChart("CONSUMO MENSUAL","Días", "Visitas", datos,PlotOrientation.VERTICAL, true, true, false);
+        Grafica = ChartFactory.createBarChart("CONSUMO MENSUAL","Días", "Consumo", datos,PlotOrientation.VERTICAL, true, true, false);
         panel = new ChartPanel(Grafica);
         panelDelPanel = new JPanel();
         panelDelPanel.add(panel);
         panelContenido = new JPanel();
         etiquetaId = new JLabel("ID Cliente");
         campoId = new JTextField();
-        botonGenerar = new JButton("Generar");
-        botonLimpiar = new JButton("Limpiar");
+        botonGenerar = new JButton("consumo");
+        botonFacturas = new JButton("factura");
         reporte = new JScrollPane(panelDelPanel);
 
         panelContenido.setLayout(null);
@@ -69,18 +75,25 @@ public class GenerarReporteIndividual extends Container {
         campoId.setVisible(true);
         campoId.setBounds(300, 10, 200, 30);
         panelContenido.add(campoId);
-        datos.addValue(100, "124563", "1/1/2020");
-        datos.addValue(25, "124563", "1/5/2020");
-        datos.addValue(36, "124563", "1/6/2020");
         botonGenerar.setFont(FUENTE_ETIQUETAS);
         botonGenerar.setVisible(true);
         botonGenerar.setBounds(750, 10, 150, 30);
         botonGenerar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                datos.removeValue("124563","1/1/2020");
-                datos.removeValue("124563","1/5/2020");
-                datos.removeValue("124563","1/6/2020");
+                JSONObject resultado = new JSONObject(GestionLecturaApi.obtenerLecturasPorCliente(campoId.getText()));
+                if(resultado.getString("code").equals("0")){
+                    JSONObject lecturas = new JSONObject(resultado.getString("lecturas"));
+                    JSONArray fecha = lecturas.getJSONArray("fecha");
+                    JSONArray consumo = lecturas.getJSONArray("consumo");
+                    
+                    for(int i=0;i<fecha.length();i++){
+                        datos.addValue(consumo.getInt(i), campoId.getText(), fecha.getString(i));
+                    }   
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
+                }
             
             }
 
@@ -88,10 +101,30 @@ public class GenerarReporteIndividual extends Container {
         
         panelContenido.add(botonGenerar);
 
-        botonLimpiar.setFont(FUENTE_ETIQUETAS);
-        botonLimpiar.setVisible(true);
-        botonLimpiar.setBounds(920, 10, 150, 30);
-        panelContenido.add(botonLimpiar);
+        botonFacturas.setFont(FUENTE_ETIQUETAS);
+        botonFacturas.setVisible(true);
+        botonFacturas.setBounds(920, 10, 150, 30);
+        botonFacturas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSONObject resultado = new JSONObject(GestionFacturaApi.obtenerFacturasPorCliente(campoId.getText()));
+                if(resultado.getString("code").equals("0")){
+                    JSONObject lecturas = new JSONObject(resultado.getString("lecturas"));
+                    JSONArray fecha = lecturas.getJSONArray("fecha_generacion");
+                    JSONArray valor = lecturas.getJSONArray("valor");
+                    
+                    for(int i=0;i<fecha.length();i++){
+                        datos.addValue(valor.getInt(i), campoId.getText(), fecha.getString(i));
+                    }   
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, resultado.getString("mensaje"));
+                }
+            
+            }
+
+        });
+        panelContenido.add(botonFacturas);
 
         //Contenedor Reporte
         reporte.setVisible(true);
