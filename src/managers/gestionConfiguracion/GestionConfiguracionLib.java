@@ -2,12 +2,11 @@ package src.managers.gestionConfiguracion;
 
 import java.sql.*;
 
+import java.lang.String;
+
 import org.json.JSONObject;
 
 import src.control.Conexion;
-
-
-import java.lang.String;
 
 public class GestionConfiguracionLib {
 
@@ -25,7 +24,7 @@ public class GestionConfiguracionLib {
     }
 
 
-    public String actualizarParametros(int khw, int reconexion)throws SQLException{
+    public String actualizarParametros(int khw, int reconexion) throws SQLException {
         Connection conexion = Conexion.conectar();
         String consultaSQL = "SELECT * FROM parametro";
         PreparedStatement consultaEstado = conexion.prepareStatement(consultaSQL);
@@ -38,8 +37,8 @@ public class GestionConfiguracionLib {
             actualizarEstado.setDouble(2, reconexion);
             actualizarEstado.executeUpdate();
         }
+
         conexion.close();
         return "0";
     }
-    
 }

@@ -1,5 +1,6 @@
 package src.managers.gestionLectura;
 
+import java.sql.Date;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
@@ -40,6 +41,34 @@ public class GestionLecturaApi {
         }
 
         resultado.put("code", "0");
+        resultado.put("lecturas", lecturas);
+        return resultado.toString();
+    }
+
+    public static String obtenerLecturas() {
+
+        JSONObject resultado = new JSONObject();
+        String lecturas = "";
+
+        try {
+            
+                lecturas = lib.obtenerLecturas();
+
+            if(lecturas.equals("{}")) {
+                throw new Exception("-7");
+            }
+        } catch(SQLException excepcion) {
+            System.out.println(excepcion.getMessage());
+            return retornarError("-1");
+        } catch (NumberFormatException excepcion) {
+            System.out.println(excepcion.getMessage());
+            return retornarError("-5");
+        } catch(Exception excepcion) {
+            return retornarError(excepcion.getMessage());
+        }
+
+        resultado.put("code", "0");
+        resultado.put("lecturas", lecturas);
         return resultado.toString();
     }
 
@@ -75,6 +104,7 @@ public class GestionLecturaApi {
         }
 
         resultado.put("code", "0");
+        resultado.put("lectura", lectura);
         return resultado.toString();
     }
 
@@ -90,7 +120,7 @@ public class GestionLecturaApi {
      * 
      * @return string con el código del resultado de la operación.
      */
-    public static String ingresarLectura(String identificacionCliente, String fecha, String consumo) {
+    public static String ingresarLectura(String identificacionCliente, Date fecha, String consumo) {
 
         JSONObject resultado = new JSONObject();
         String codigo = "";
@@ -98,8 +128,6 @@ public class GestionLecturaApi {
         try {
             if(identificacionCliente.trim().equals("")) {
                 throw new Exception("-2");
-            } else if(fecha.trim().equals("")) {
-                throw new Exception("-3");
             } else if(consumo.trim().equals("")) {
                 throw new Exception("-4");
             }

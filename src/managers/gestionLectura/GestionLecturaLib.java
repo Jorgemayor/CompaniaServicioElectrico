@@ -1,6 +1,7 @@
 package src.managers.gestionLectura;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,9 +16,10 @@ public class GestionLecturaLib {
         
         Connection conexion = Conexion.conectar();
         String consultaSQL = ""
-            + "SELECT *"
-            + "FROM lectura AS L INNER JOIN cliente AS C ON L.id_cliente = C.id"
-            + "WHERE C.identificacion=? AND C.habilitado=?";
+            + "SELECT L.fecha, L.consumo "
+            + "FROM lectura AS L INNER JOIN cliente AS C ON L.id_cliente = C.id "
+            + "WHERE C.identificacion=? AND C.habilitado=? "
+            + "ORDER BY L.fecha DESC";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setInt(1, identificacionCliente);
@@ -34,15 +36,38 @@ public class GestionLecturaLib {
         return resultado.toString();
     }
 
+    public String obtenerLecturas() throws SQLException {
+        
+        Connection conexion = Conexion.conectar();
+        String consultaSQL = ""
+            + "SELECT L.fecha, L.consumo "
+            + "FROM lectura AS L INNER JOIN cliente AS C ON L.id_cliente = C.id "
+            + "WHERE C.habilitado=? "
+            + "ORDER BY L.fecha DESC";
+
+        PreparedStatement consulta = conexion.prepareStatement(consultaSQL);;
+        consulta.setBoolean(1, true);
+        ResultSet respuestaConsulta = consulta.executeQuery();
+        JSONObject resultado = new JSONObject();
+
+        while(respuestaConsulta.next()) {
+            resultado.append("fecha", respuestaConsulta.getString(1));
+            resultado.append("consumo", respuestaConsulta.getString(2));
+        }
+
+        conexion.close();
+        return resultado.toString();
+    }
+
     public String obtenerUltimaLecturaPorCliente(int identificacionCliente) throws SQLException {
         
         Connection conexion = Conexion.conectar();
         String consultaSQL = ""
-            + "SELECT S.fecha, L.consumo" 
-            + "FROM (SELECT L.id_cliente as LIDC, MAX(L.fecha) AS fecha"
-                + "FROM lectura AS L INNER JOIN cliente AS C ON L.id_cliente = C.id"
-                + "WHERE C.identificacion=? AND C.habilitado=? GROUP BY LIDC)"
-            + "AS S JOIN lectura AS L ON L.id_cliente = S.LIDC AND S.fecha = L.fecha ";
+            + "SELECT S.fecha, L.consumo "
+            + "FROM (SELECT L.id_cliente as LIDC, MAX(L.fecha) AS fecha "
+                + "FROM lectura AS L INNER JOIN cliente AS C ON L.id_cliente = C.id "
+                + "WHERE C.identificacion=? AND C.habilitado=? GROUP BY LIDC) "
+            + "AS S JOIN lectura AS L ON L.id_cliente = S.LIDC AND S.fecha = L.fecha";
 
         PreparedStatement consulta = conexion.prepareStatement(consultaSQL);
         consulta.setInt(1, identificacionCliente);
@@ -59,7 +84,7 @@ public class GestionLecturaLib {
         return resultado.toString();
     }
 
-    public String ingresarLectura(int identificacionCliente, String fecha, int consumo) throws SQLException {
+    public String ingresarLectura(int identificacionCliente, Date fecha, int consumo) throws SQLException {
 
         Connection conexion = Conexion.conectar();
         String resultado = "";
@@ -78,7 +103,7 @@ public class GestionLecturaLib {
             String insercionSQL = "INSERT INTO lectura (id_cliente, fecha, consumo) VALUES (?, ?, ?)";
             PreparedStatement insercion = conexion.prepareStatement(insercionSQL);
             insercion.setInt(1, idCliente);
-            insercion.setString(2, fecha);
+            insercion.setDate(2, fecha);
             insercion.setInt(3, consumo);
             insercion.executeUpdate();
             

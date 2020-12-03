@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Date;
+
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,6 +17,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
+import org.json.JSONObject;
+
+import src.managers.gestionLectura.GestionLecturaApi;
 
 public class RegistrarLecturaIndividual extends Container {
 
@@ -121,6 +126,17 @@ public class RegistrarLecturaIndividual extends Container {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                Date fecha = selectorFecha.getDate();
+                java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime()); 
+                String resultado =  GestionLecturaApi.ingresarLectura(campoID.getText(), fechaSQL, campoConsumo.getText());
+                JSONObject jsonResultado = new JSONObject(resultado);
+                String codigo = jsonResultado.getString("code");
+                if (codigo.equals("0")) {
+                    JOptionPane.showMessageDialog(null, "Lectura Registrada");
+                } else {
+                    String mensaje = jsonResultado.getString("mensaje");
+                    JOptionPane.showMessageDialog(null, mensaje);
+                }
             }
             
         });
